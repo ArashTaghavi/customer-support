@@ -1,0 +1,43 @@
+.bubble {
+    border: 1px solid;
+    box-shadow:
+        0 8px 24px -12px rgb(0 0 0 / 35%),
+        inset 0 1px 0 rgb(255 255 255 / 45%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    overflow-wrap: anywhere;
+}
+
+.user {
+    border-color: rgb(139 92 246 / 28%);
+    background: linear-gradient(135deg, #ede3ff, #e5dbf5);
+}
+
+.assistant {
+    border-color: rgb(100 116 139 / 22%);
+    background: linear-gradient(135deg, #f3f5fa, #e8ecf3);
+}
+
+:global(.dark) .bubble {
+    box-shadow:
+        0 8px 24px -12px rgb(0 0 0 / 65%),
+        inset 0 1px 0 rgb(255 255 255 / 7%);
+}
+
+:global(.dark) .user {
+    border-color: rgb(167 139 250 / 32%);
+    background: linear-gradient(
+        135deg,
+        rgb(92 62 155 / 62%),
+        rgb(47 36 77 / 88%)
+    );
+}
+
+:global(.dark) .assistant {
+    border-color: rgb(186 210 245 / 19%);
+    background: linear-gradient(
+        135deg,
+        rgb(47 53 70 / 90%),
+        rgb(29 32 45 / 92%)
+    );
+}
