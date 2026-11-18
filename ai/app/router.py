@@ -1,15 +1,13 @@
 from core.database import DbSession
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from langchain_core.messages import HumanMessage
 
-from app.app import CustomerSupportAgent
 from app.schemas.requests import AskRequest, PolicyIngestRequest
 from app.services.policy_ingestion import PolicyIngestionService
 
 router = APIRouter(prefix="/ai")
 
 ingestion_service = PolicyIngestionService()
-app = CustomerSupportAgent()
 
 
 @router.post("/health")
@@ -32,15 +30,16 @@ def ingest(policy: PolicyIngestRequest):
 
 
 @router.post("/ask")
-def ask(request: AskRequest):
-    agent = app.agent
+def ask(request: AskRequest, http_request: Request):
+    agent = http_request.app.state.support_agent.agent
 
     response = agent.invoke(
         {
             "messages": [
                 HumanMessage(content=request.question),
             ]
-        }
+        },
+        config={"configurable": {"thread_id": request.conversation_id}},
     )
 
     return response["messages"][-1].content

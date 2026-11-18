@@ -4,6 +4,7 @@ from app.tools.search_policies import search_policies
 from core.config import settings
 from langchain.agents import create_agent
 from langchain.chat_models import init_chat_model
+from langgraph.checkpoint.base import BaseCheckpointSaver
 
 SYSTEM_PROMPT = """
 You are a professional customer support agent for an online store.
@@ -47,7 +48,7 @@ Response formatting:
 
 
 class CustomerSupportAgent:
-    def __init__(self) -> None:
+    def __init__(self, checkpointer: BaseCheckpointSaver) -> None:
         self.model = init_chat_model(
             model=settings.MODEL_NAME,
             model_provider=settings.MODEL_PROVIDER,
@@ -57,6 +58,7 @@ class CustomerSupportAgent:
         self.tools = [search_policies]
 
         self.agent = create_agent(
+            checkpointer=checkpointer,
             model=self.model,
             tools=self.tools,
             system_prompt=SYSTEM_PROMPT
