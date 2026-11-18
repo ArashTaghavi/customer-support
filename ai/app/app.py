@@ -3,6 +3,7 @@ from datetime import datetime, timedelta, timezone
 from app.tools.search_policies import search_policies
 from core.config import settings
 from langchain.agents import create_agent
+from langchain.agents.middleware import SummarizationMiddleware
 from langchain.chat_models import init_chat_model
 from langgraph.checkpoint.base import BaseCheckpointSaver
 
@@ -61,6 +62,20 @@ class CustomerSupportAgent:
             checkpointer=checkpointer,
             model=self.model,
             tools=self.tools,
+            middleware=[
+                SummarizationMiddleware(
+                    model=self.model,
+                    trigger=("tokens", 6000),
+                    keep=("messages", 10),
+                    summary_prompt=(
+                        "Summarize the conversation for continued customer support. "
+                        "Preserve user requests, order identifiers, relevant policy facts, "
+                        "tool results, completed actions, and pending issues. "
+                        "Distinguish confirmed facts from user claims and pending actions. "
+                        "Do not invent information.\n\n{messages}"
+                    ),
+                ),
+            ],
             system_prompt=SYSTEM_PROMPT
             + (
                 "\nCurrent local date in Asia/Tehran (UTC+03:30): "
