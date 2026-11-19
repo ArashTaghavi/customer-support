@@ -23,10 +23,12 @@
         "lucide-react": "^1.75.0",
         "react": "^19.2.0",
         "react-dom": "^19.2.0",
+        "react-hook-form": "^7.92.0",
         "tailwind-merge": "^3.0.1",
         "tailwindcss": "^4.0.0",
         "typescript": "^5.7.2",
-        "vite": "npm:@voidzero-dev/vite-plus-core@1.4.0"
+        "vite": "npm:@voidzero-dev/vite-plus-core@1.4.0",
+        "zod": "^4.6.7"
     },
     "devDependencies": {
         "@laravel/echo-react": "^2.6.3",
