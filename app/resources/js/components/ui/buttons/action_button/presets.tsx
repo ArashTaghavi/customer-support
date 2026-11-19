@@ -2,9 +2,9 @@
 
 import { Eye, Pencil, Trash2 } from "lucide-react";
 import { useContext, useRef, useState, type MouseEvent } from "react";
-import Confirm from "../../feedback/confirm";
+import { Confirm, Action, type ActionProps } from '@/components/ui';
 import { ActionContext } from "./context";
-import Action, { type ActionProps } from "./action";
+
 
 export type PresetActionProps = Omit<ActionProps, "icon" | "label" | "tone"> & { label?: string };
 

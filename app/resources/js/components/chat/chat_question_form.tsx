@@ -1,14 +1,14 @@
 import { Send } from 'lucide-react';
-import { Form, Input } from '@/Modules/Base/Components/Form';
-import { Button } from '@/Modules/Base/Components/UI';
-import type { AskRequest } from '@/Modules/Base/Types/Requests/AskRequest';
+import { Form, Input } from '@/components/form';
+import { Button } from '@/components/ui';
+type AskRequest = { question: string };
 import type { SubmitHandler, UseFormReturn } from 'react-hook-form';
 
 type Props = {
     questionForm: UseFormReturn<AskRequest>;
     sendQuestion: SubmitHandler<AskRequest>;
     asking: boolean;
-    isReady: boolean;
+    hasQuestion: boolean;
     placeholder: string;
 };
 
@@ -16,7 +16,7 @@ export default function ChatQuestionForm({
     questionForm,
     sendQuestion,
     asking,
-    isReady,
+    hasQuestion,
     placeholder,
 }: Props) {
     return (
@@ -34,9 +34,8 @@ export default function ChatQuestionForm({
             >
                 <Input<AskRequest>
                     name="question"
-                    label="Your question"
+                    label="پیام شما"
                     placeholder={placeholder}
-                    disabled={!isReady || asking}
                     autoComplete="off"
                     dir="auto"
                 />
@@ -44,9 +43,9 @@ export default function ChatQuestionForm({
                     type="submit"
                     size="icon"
                     className="mb-1.5"
-                    aria-label="Send question"
+                    aria-label="ارسال پیام"
                     loading={asking}
-                    disabled={!isReady}
+                    disabled={!hasQuestion}
                     startIcon={<Send size={16} />}
                 ></Button>
             </Form>

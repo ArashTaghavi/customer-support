@@ -1,6 +1,6 @@
 import { usePage } from '@inertiajs/react';
 import FileChatSidebar from './file_chat_sidebar';
-import ChatHeader from './chat_header';
+import { ChatHeader } from '@/components/chat';
 import FileUploadPanel from './file_upload_panel';
 import useFileUpload from '../../Hooks/useFileUpload';
 import useChatNavigation from '../../Hooks/useChatNavigation';

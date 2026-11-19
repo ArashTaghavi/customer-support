@@ -1,8 +1,7 @@
+import { Button } from '@/components/ui';
 import { useEcho } from '@laravel/echo-react';
 import { Bell, CircleCheck, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { ProcessingStatusEnum } from '../../Enums/ProcessingStatusEnum';
-import { UploadProgressEnum } from '../../Enums/UploadProgressEnum';
 import type {
     FileChatConfig,
     FileStatusEvent,
@@ -45,10 +44,7 @@ function ReadyListener({
         channel,
         `.${config.events.UploadProgress}`,
         (event) => {
-            if (
-                event.step === UploadProgressEnum.Result &&
-                event.status === ProcessingStatusEnum.Completed
-            )
+            if (event.step === 'result' && event.status === 'completed')
                 ready(event.data.id);
         },
         [config],
@@ -143,8 +139,10 @@ export default function FileNotifications({
                                             File #{notice.id} is ready to chat.
                                         </p>
                                     </div>
-                                    <button
+                                    <Button
                                         type="button"
+                                        variant="tab"
+                                        size="icon"
                                         aria-label="Dismiss notification"
                                         onClick={() =>
                                             setNotices((current) =>
@@ -157,7 +155,7 @@ export default function FileNotifications({
                                         className="text-zinc-400 hover:text-white"
                                     >
                                         <X size={16} />
-                                    </button>
+                                    </Button>
                                 </li>
                             ))}
                         </ul>

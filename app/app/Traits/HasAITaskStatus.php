@@ -24,6 +24,14 @@ trait HasAITaskStatus
         ]);
     }
 
+    public function markAsDone(string $answer): void
+    {
+        $this->update([
+            $this->statusField() => AITaskStatus::Completed,
+            'answer' => $answer,
+        ]);
+    }
+
     public function markAsFailed(string $error): void
     {
         $this->update([

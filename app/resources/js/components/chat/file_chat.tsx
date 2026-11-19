@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import type { FileConversationPageProps } from '@/Modules/Base/Types/FileChat';
 import FileChatEvents from './file_chat_events';
 import FileChatSidebar from './file_chat_sidebar';
-import ChatHeader from './chat_header';
+import { ChatHeader } from '@/components/chat';
 import FileConversation from './file_conversation';
 import useAutoScroll from '@/Modules/Base/Hooks/useAutoScroll';
 import useChatNavigation from '@/Modules/Base/Hooks/useChatNavigation';

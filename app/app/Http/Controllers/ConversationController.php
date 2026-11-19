@@ -1,0 +1,46 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Jobs\Ask;
+use App\Models\Conversation\Conversation;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+
+class ConversationController extends Controller
+{
+    public function store(Request $request)
+    {
+        $conversation = Conversation::create(['title' => 'چت جدید', 'user_id' => 1]);
+        if ($request->has('question')) {
+            $conversation->messages()->create(['question' => $request->input('question')]);
+        }
+
+        return to_route('conversations.show', [
+            'conversation' => $conversation->uuid,
+        ]);
+    }
+
+    public function show(Request $request, Conversation $conversation)
+    {
+        return Inertia::render('app/index', [
+            'selectedConversation' => $conversation,
+            'conversations' => Conversation::all(),
+            'messages' => $conversation->messages()->get(),
+        ]);
+    }
+
+    public function messages(Conversation $conversation)
+    {
+        return $conversation->messages()->get();
+    }
+
+    public function ask(Request $request, Conversation $conversation)
+    {
+        $message = $conversation->messages()->create([
+            'question' => $request->input('question'),
+        ]);
+
+        Ask::dispatch($message)->afterCommit();
+    }
+}

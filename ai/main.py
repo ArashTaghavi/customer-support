@@ -10,7 +10,7 @@ from core.config import settings
 from langgraph.checkpoint.postgres import PostgresSaver
 from sqlalchemy.engine import make_url
 
-from .app import CustomerSupportAgent
+from app import CustomerSupportAgent
 
 
 @asynccontextmanager

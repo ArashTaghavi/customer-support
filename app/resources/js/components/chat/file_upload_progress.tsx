@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui';
 import { FileChatConfig } from '@/Modules/Base/Types/FileChat';
 import {
     Check,
@@ -11,31 +12,26 @@ import {
     type LucideIcon,
 } from 'lucide-react';
 import { useEcho } from '@laravel/echo-react';
-import { UploadProgressEnum } from '@/Modules/Base/Enums/UploadProgressEnum';
-import { ProcessingStatusEnum } from '@/Modules/Base/Enums/ProcessingStatusEnum';
 import { useEffect, useState } from 'react';
 import { Link } from '@inertiajs/react';
 import { EmbeddableFileResponse } from '@/Modules/Base/Types/Responses';
 
 import type { FileUploadProgressEvent as UploadProgressEvent } from '@/Modules/Base/Types/FileChat';
 
-type UploadStep = UploadProgressEvent['step'];
-type StepStatus = UploadProgressEvent['status'];
+type UploadStep = 'upload' | 'embedding' | 'result';
+type StepStatus = 'processing' | 'completed' | 'failed';
 
 const statusLabels: Record<StepStatus, string> = {
-    [ProcessingStatusEnum.Processing]: ProcessingStatusEnum.Processing,
-    [ProcessingStatusEnum.Completed]: ProcessingStatusEnum.Completed,
-    [ProcessingStatusEnum.Failed]: ProcessingStatusEnum.Failed,
+    processing: 'processing',
+    completed: 'completed',
+    failed: 'failed',
 };
 
-const statusClasses: Record<ProcessingStatusEnum, string> = {
-    [ProcessingStatusEnum.Pending]: 'border-white/10 bg-white/5 text-ui-muted',
-    [ProcessingStatusEnum.Processing]:
-        'border-violet-400/30 bg-violet-400/10 text-violet-300',
-    [ProcessingStatusEnum.Completed]:
-        'border-emerald-400/30 bg-emerald-400/10 text-emerald-300',
-    [ProcessingStatusEnum.Failed]:
-        'border-red-400/30 bg-red-400/10 text-red-300',
+const statusClasses: Record<string, string> = {
+    pending: 'border-white/10 bg-white/5 text-ui-muted',
+    processing: 'border-violet-400/30 bg-violet-400/10 text-violet-300',
+    completed: 'border-emerald-400/30 bg-emerald-400/10 text-emerald-300',
+    failed: 'border-red-400/30 bg-red-400/10 text-red-300',
 };
 
 const steps: {
@@ -45,19 +41,19 @@ const steps: {
     icon: LucideIcon;
 }[] = [
     {
-        key: UploadProgressEnum.Upload,
+        key: 'upload',
         title: 'Upload & save',
         description: 'Store your file and its details.',
         icon: HardDriveUpload,
     },
     {
-        key: UploadProgressEnum.Embedding,
+        key: 'embedding',
         title: 'Generate embeddings',
         description: 'Prepare the contents for your questions.',
         icon: Layers,
     },
     {
-        key: UploadProgressEnum.Result,
+        key: 'result',
         title: 'Ready to chat',
         description: 'Your file will be available here.',
         icon: FileCheck2,
@@ -87,7 +83,7 @@ export default function FileUploadProgress({
     useEffect(() => {
         if (uploadAttempt > 0) {
             setStatuses({
-                [UploadProgressEnum.Upload]: ProcessingStatusEnum.Processing,
+                upload: 'processing',
             });
             setUploadedRecord(null);
         }
@@ -101,10 +97,10 @@ export default function FileUploadProgress({
 
         function update(snapshot: EmbeddableFileResponse) {
             const terminal =
-                snapshot.embedding_status === ProcessingStatusEnum.Completed
-                    ? ProcessingStatusEnum.Completed
-                    : snapshot.embedding_status === ProcessingStatusEnum.Failed
-                      ? ProcessingStatusEnum.Failed
+                snapshot.embedding_status === 'completed'
+                    ? 'completed'
+                    : snapshot.embedding_status === 'failed'
+                      ? 'failed'
                       : null;
             setUploadedRecord({
                 ...snapshot,
@@ -112,10 +108,9 @@ export default function FileUploadProgress({
                 embedding_error: null,
             });
             setStatuses({
-                [UploadProgressEnum.Upload]: ProcessingStatusEnum.Completed,
-                [UploadProgressEnum.Embedding]:
-                    terminal ?? ProcessingStatusEnum.Processing,
-                ...(terminal ? { [UploadProgressEnum.Result]: terminal } : {}),
+                upload: 'completed',
+                embedding: terminal ?? 'processing',
+                ...(terminal ? { result: terminal } : {}),
             });
             return terminal !== null;
         }
@@ -158,14 +153,14 @@ export default function FileUploadProgress({
             setStatuses((current) => {
                 const updated = { ...current, [event.step]: event.status };
 
-                if (event.status === ProcessingStatusEnum.Completed) {
+                if (event.status === 'completed') {
                     const stepIndex = steps.findIndex(
                         (step) => step.key === event.step,
                     );
                     const nextStep = steps[stepIndex + 1];
 
                     if (nextStep && !updated[nextStep.key]) {
-                        updated[nextStep.key] = ProcessingStatusEnum.Processing;
+                        updated[nextStep.key] = 'processing';
                     }
                 }
 
@@ -192,31 +187,32 @@ export default function FileUploadProgress({
                     >
                         Preparing your file
                     </h2>
-                    <p className="text-xs leading-5 text-ui-secondary">
+                    <p className="text-ui-secondary text-xs leading-5">
                         Just a few moments before your first question.
                     </p>
                 </div>
-                <button
+                <Button
                     type="button"
+                    variant="tab"
+                    size="icon"
                     onClick={onClose}
                     aria-label="Close upload progress"
-                    className="flex size-10 shrink-0 items-center justify-center rounded-xl text-ui-muted transition hover:bg-white/5 hover:text-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
+                    className="text-ui-muted flex size-10 shrink-0 items-center justify-center rounded-xl transition hover:bg-white/5 hover:text-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400"
                 >
                     <X size={18} aria-hidden="true" />
-                </button>
+                </Button>
             </div>
 
             <ol aria-live="polite" className="pt-4">
                 {steps.map((step) => {
                     const status = statuses[step.key];
-                    const colors =
-                        statusClasses[status ?? ProcessingStatusEnum.Pending];
+                    const colors = statusClasses[status ?? 'pending'];
                     const Icon =
-                        status === ProcessingStatusEnum.Completed
+                        status === 'completed'
                             ? Check
-                            : status === ProcessingStatusEnum.Failed
+                            : status === 'failed'
                               ? X
-                              : status === ProcessingStatusEnum.Processing
+                              : status === 'processing'
                                 ? LoaderCircle
                                 : step.icon;
 
@@ -224,22 +220,19 @@ export default function FileUploadProgress({
                         <li
                             key={step.key}
                             aria-current={
-                                status === ProcessingStatusEnum.Processing
-                                    ? 'step'
-                                    : undefined
+                                status === 'processing' ? 'step' : undefined
                             }
                             className={`group flex gap-3 transition-opacity ${!status ? 'opacity-40' : 'opacity-100'}`}
                         >
                             <div className="flex shrink-0 flex-col items-center">
                                 <div
-                                    className={`flex size-8 items-center justify-center rounded-lg border transition-colors ${colors} ${status === ProcessingStatusEnum.Processing ? 'ring-4 ring-violet-400/5' : ''}`}
+                                    className={`flex size-8 items-center justify-center rounded-lg border transition-colors ${colors} ${status === 'processing' ? 'ring-4 ring-violet-400/5' : ''}`}
                                 >
                                     <Icon
                                         size={15}
                                         aria-hidden="true"
                                         className={
-                                            status ===
-                                            ProcessingStatusEnum.Processing
+                                            status === 'processing'
                                                 ? 'motion-safe:animate-spin'
                                                 : undefined
                                         }
@@ -247,13 +240,13 @@ export default function FileUploadProgress({
                                 </div>
                                 <div
                                     aria-hidden="true"
-                                    className={`my-2 w-px flex-1 transition-colors group-last:hidden ${status === ProcessingStatusEnum.Completed ? 'bg-emerald-400/30' : 'bg-white/10'}`}
+                                    className={`my-2 w-px flex-1 transition-colors group-last:hidden ${status === 'completed' ? 'bg-emerald-400/30' : 'bg-white/10'}`}
                                 />
                             </div>
                             <div className="flex min-w-0 flex-1 flex-col gap-1 pb-5 group-last:pb-0">
                                 <div className="flex flex-wrap items-center justify-between gap-2">
                                     <h3
-                                        className={`text-sm font-medium ${status === ProcessingStatusEnum.Completed ? 'text-emerald-300' : status === ProcessingStatusEnum.Failed ? 'text-red-300' : 'text-zinc-200'}`}
+                                        className={`text-sm font-medium ${status === 'completed' ? 'text-emerald-300' : status === 'failed' ? 'text-red-300' : 'text-zinc-200'}`}
                                     >
                                         {step.title}
                                     </h3>
@@ -266,17 +259,17 @@ export default function FileUploadProgress({
                                     </span>
                                 </div>
                                 {!(
-                                    step.key === UploadProgressEnum.Result &&
-                                    status === ProcessingStatusEnum.Completed
+                                    step.key === 'result' &&
+                                    status === 'completed'
                                 ) && (
-                                    <p className="text-xs leading-5 text-ui-muted">
+                                    <p className="text-ui-muted text-xs leading-5">
                                         {step.description}
                                     </p>
                                 )}
-                                {step.key === UploadProgressEnum.Result &&
-                                    status === ProcessingStatusEnum.Completed &&
+                                {step.key === 'result' &&
+                                    status === 'completed' &&
                                     uploadedRecord?.embedding_status ===
-                                        ProcessingStatusEnum.Completed && (
+                                        'completed' && (
                                         <div className="mt-2 flex flex-col gap-3 overflow-hidden rounded-xl border border-emerald-400/20 bg-linear-to-br from-emerald-400/10 to-transparent p-3.5">
                                             <div className="flex items-center gap-2 text-emerald-300">
                                                 <FileCheck2
@@ -289,7 +282,7 @@ export default function FileUploadProgress({
                                             </div>
                                             <dl className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] gap-x-3 gap-y-2 text-sm">
                                                 <div className="col-span-2 min-w-0">
-                                                    <dt className="text-xs text-ui-muted">
+                                                    <dt className="text-ui-muted text-xs">
                                                         Title
                                                     </dt>
                                                     <dd
@@ -300,7 +293,7 @@ export default function FileUploadProgress({
                                                     </dd>
                                                 </div>
                                                 <div className="min-w-0">
-                                                    <dt className="text-xs text-ui-muted">
+                                                    <dt className="text-ui-muted text-xs">
                                                         File name
                                                     </dt>
                                                     <dd
@@ -313,7 +306,7 @@ export default function FileUploadProgress({
                                                     </dd>
                                                 </div>
                                                 <div>
-                                                    <dt className="text-xs text-ui-muted">
+                                                    <dt className="text-ui-muted text-xs">
                                                         File size
                                                     </dt>
                                                     <dd className="mt-0.5 text-xs whitespace-nowrap text-zinc-300">
@@ -323,7 +316,7 @@ export default function FileUploadProgress({
                                                     </dd>
                                                 </div>
                                             </dl>
-                                            <p className="border-t border-emerald-400/10 pt-3 text-xs leading-5 text-ui-secondary">
+                                            <p className="text-ui-secondary border-t border-emerald-400/10 pt-3 text-xs leading-5">
                                                 Everything is ready. Start a
                                                 conversation with your file.
                                             </p>
@@ -343,8 +336,8 @@ export default function FileUploadProgress({
                                             </Link>
                                         </div>
                                     )}
-                                {step.key === UploadProgressEnum.Result &&
-                                    status === ProcessingStatusEnum.Failed && (
+                                {step.key === 'result' &&
+                                    status === 'failed' && (
                                         <p
                                             role="alert"
                                             className="text-sm leading-6 text-red-300"

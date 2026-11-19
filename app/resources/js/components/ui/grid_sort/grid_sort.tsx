@@ -4,7 +4,7 @@ import {
     ArrowUpDown,
 } from 'lucide-react';
 import type { ReactNode } from 'react';
-import Button from '../buttons/button';
+import { Button } from '@/components/ui';
 
 export type SortDirection = 'asc' | 'desc';
 

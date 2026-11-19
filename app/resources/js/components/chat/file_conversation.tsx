@@ -2,16 +2,19 @@ import type { Ref } from 'react';
 import { FileText } from 'lucide-react';
 import type { ChatTurnResponse } from '@/Modules/Base/Types/Chat';
 import type useFileQuestion from '@/Modules/Base/Hooks/useFileQuestion';
-import { ChatMessages, MessageHistory } from '@/Modules/Base/Components/Chat';
-import ChatQuestionForm from './chat_question_form';
+import {
+    ChatMessages,
+    MessageHistory,
+    ChatQuestionForm,
+} from '@/components/chat';
+
 import type { EmbeddableFileResponse } from '@/Modules/Base/Types/Responses';
-import { ProcessingStatusEnum } from '@/Modules/Base/Enums/ProcessingStatusEnum';
 
 type Props = {
     file: EmbeddableFileResponse;
     messagesRef: Ref<HTMLDivElement>;
     turns: ChatTurnResponse[];
-    embeddingStatus: ProcessingStatusEnum | undefined;
+    embeddingStatus: string | undefined;
     isFileReady: boolean;
     questionState: ReturnType<typeof useFileQuestion>;
 };
@@ -44,8 +47,7 @@ export default function FileConversation({
                         <p className="mt-1 text-xs text-emerald-300">
                             {isFileReady
                                 ? 'File ready'
-                                : embeddingStatus ===
-                                    ProcessingStatusEnum.Failed
+                                : embeddingStatus === 'failed'
                                   ? 'File preparation failed'
                                   : 'Preparing file'}{' '}
                             · Locked to this conversation
@@ -55,10 +57,10 @@ export default function FileConversation({
             )}
             <ChatMessages messagesRef={messagesRef} label="File conversation">
                 {turns.length === 0 && (
-                    <p className="py-12 text-center text-sm text-ui-muted">
+                    <p className="text-ui-muted py-12 text-center text-sm">
                         {isFileReady
                             ? 'Your file is ready. Ask your first question below.'
-                            : embeddingStatus === ProcessingStatusEnum.Failed
+                            : embeddingStatus === 'failed'
                               ? 'We could not prepare this file.'
                               : 'Processing your file?'}
                     </p>

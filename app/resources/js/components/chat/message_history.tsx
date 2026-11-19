@@ -1,17 +1,13 @@
-import { ProcessingStatusEnum } from '@/Modules/Base/Enums/ProcessingStatusEnum';
-import type {
-    MessageHistoryProps,
-    MessageTimeProps,
-} from '@/Modules/Base/Types/Chat';
-import {
-    groupMessagesByDay,
-    messageDate,
-} from '@/Modules/Base/Utils/MessageDates';
+import { groupMessagesByDay, messageDate } from '@/utils/message_dates';
+
+type MessageHistoryProps = { turns: MessageResponse[] };
+type MessageTimeProps = { timestamp: string };
 import { UserRound } from 'lucide-react';
 import styles from './message_history.module.css';
-import TypingIndicator from './typing_indicator';
-import AssistantMessage from './assistant_message';
+import { TypingIndicator, AssistantMessage } from '@/components/chat';
+
 import DatabaseAnswer, { parseDatabaseAnswer } from './database_answer';
+import { MessageResponse } from '@/types/conversation';
 
 function AnswerContent({ answer }: { answer: string | null }) {
     const parsed = parseDatabaseAnswer(answer);
@@ -19,7 +15,7 @@ function AnswerContent({ answer }: { answer: string | null }) {
     return (
         <p
             dir="auto"
-            className="text-sm leading-7 break-words whitespace-pre-wrap text-zinc-200"
+            className="text-sm leading-7 wrap-break-word whitespace-pre-wrap text-zinc-200"
         >
             {answer}
         </p>
@@ -66,41 +62,19 @@ export default function MessageHistory({ turns }: MessageHistoryProps) {
                             <span className="flex size-6 items-center justify-center rounded-lg border border-violet-200/20 bg-violet-300/15">
                                 <UserRound size={13} aria-hidden="true" />
                             </span>
-                            You
+                            شما
                         </div>
                         <p
                             dir="auto"
-                            className="text-sm leading-7 break-words whitespace-pre-wrap text-zinc-100"
+                            className="text-sm leading-7 wrap-break-word whitespace-pre-wrap text-zinc-100"
                         >
                             {turn.question}
                         </p>
                         <MessageTime timestamp={turn.created_at} />
                     </div>
                     <AssistantMessage>
-                        {(turn.answer == null ||
-                            turn.answer.trimStart().startsWith('{')) &&
-                        (turn.answer_status === ProcessingStatusEnum.Pending ||
-                            turn.answer_status ===
-                                ProcessingStatusEnum.Processing) ? (
-                            <TypingIndicator />
-                        ) : (
-                            <AnswerContent
-                                answer={
-                                    turn.answer ??
-                                    (turn.answer_status ===
-                                    ProcessingStatusEnum.Failed
-                                        ? 'Could not prepare an answer. Please try again.'
-                                        : 'No answer was returned.')
-                                }
-                            />
-                        )}
-                        {(turn.answer != null ||
-                            turn.answer_status ===
-                                ProcessingStatusEnum.Failed ||
-                            turn.answer_status ===
-                                ProcessingStatusEnum.Completed) && (
-                            <MessageTime timestamp={turn.created_at} />
-                        )}
+                        {turn.answer === null && <TypingIndicator />}
+                        {turn.answer}
                     </AssistantMessage>
                 </div>
             ))}

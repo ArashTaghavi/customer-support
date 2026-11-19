@@ -1,8 +1,9 @@
+import { Button } from '@/components/ui';
 import { useId, useState, type InputHTMLAttributes } from 'react';
 import type { FieldPath, FieldValues } from 'react-hook-form';
 import { Eye, EyeOff } from 'lucide-react';
 
-import Input from './input';
+import { Input } from '@/components/form';
 
 type PasswordInputProps<T extends FieldValues> = Omit<
     InputHTMLAttributes<HTMLInputElement>,
@@ -38,8 +39,10 @@ export default function PasswordInput<T extends FieldValues>({
                 className={`pr-12 ${className}`}
             />
 
-            <button
+            <Button
                 type="button"
+                variant="tab"
+                size="icon"
                 onClick={() => setShowPassword((value) => !value)}
                 disabled={disabled}
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
@@ -52,7 +55,7 @@ export default function PasswordInput<T extends FieldValues>({
                 ) : (
                     <Eye size={18} aria-hidden="true" />
                 )}
-            </button>
+            </Button>
         </div>
     );
 }

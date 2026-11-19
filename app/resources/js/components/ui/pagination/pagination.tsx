@@ -4,8 +4,15 @@ import {
     ChevronsLeft,
     ChevronsRight,
 } from 'lucide-react';
-import Button from '../buttons/button';
-import { MetaResponse } from '@/Modules/Base/Types/Responses';
+import { Button } from '@/components/ui';
+type MetaResponse = {
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    from: number | null;
+    to: number | null;
+    total: number;
+};
 
 type PropsType = {
     pagination: MetaResponse;
@@ -21,7 +28,7 @@ export default function Pagination({
     changePage,
 }: PropsType) {
     return (
-        <div className="flex min-w-0 flex-1 flex-wrap items-center justify-center gap-3 text-xs text-ui-secondary">
+        <div className="text-ui-secondary flex min-w-0 flex-1 flex-wrap items-center justify-center gap-3 text-xs">
             <label className="flex items-center gap-2">
                 Items per page
                 <select

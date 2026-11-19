@@ -1,98 +1,114 @@
-import ChatBox from '../chat-box';
-import styles from './chat.module.css';
-
-const messages = [
-    {
-        id: 1,
-        message: 'سلام، می‌خوام وضعیت سفارشم رو بدونم.',
-        date: '۱۴:۳۰',
-        isUser: true,
-    },
-    {
-        id: 2,
-        message: 'سلام! شماره سفارشت رو می‌فرستی تا بررسی کنم؟',
-        date: '۱۴:۳۰',
-        isUser: false,
-    },
-    {
-        id: 3,
-        message: 'شماره سفارشم ۱۲۴۵۶ هست. دیروز ثبتش کردم.',
-        date: '۱۴:۳۱',
-        isUser: true,
-    },
-    {
-        id: 4,
-        message:
-            'این یک پاسخ نمونه برای نمایش چت است.\nسفارش ۱۲۴۵۶ در حال آماده‌سازی است و بعد از ارسال، کد رهگیری در جزئیات سفارش نمایش داده می‌شود.',
-        date: '۱۴:۳۱',
-        isUser: false,
-    },
-    {
-        id: 5,
-        message: 'ممنون، پس منتظر کد رهگیری می‌مونم.',
-        date: '۱۴:۳۲',
-        isUser: true,
-    },
-    {
-        id: 6,
-        message: 'خواهش می‌کنم! اگر سؤال دیگه‌ای داشتی، همین‌جا بپرس.',
-        date: '۱۴:۳۲',
-        isUser: false,
-    },
-    {
-        id: 6,
-        message: 'خواهش می‌کنم! اگر سؤال دیگه‌ای داشتی، همین‌جا بپرس.',
-        date: '۱۴:۳۲',
-        isUser: false,
-    },
-    {
-        id: 6,
-        message: 'خواهش می‌کنم! اگر سؤال دیگه‌ای داشتی، همین‌جا بپرس.',
-        date: '۱۴:۳۲',
-        isUser: false,
-    },
-    {
-        id: 6,
-        message: 'خواهش می‌کنم! اگر سؤال دیگه‌ای داشتی، همین‌جا بپرس.',
-        date: '۱۴:۳۲',
-        isUser: false,
-    },
-    {
-        id: 6,
-        message: 'خواهش می‌کنم! اگر سؤال دیگه‌ای داشتی، همین‌جا بپرس.',
-        date: '۱۴:۳۲',
-        isUser: false,
-    },
-    {
-        id: 6,
-        message: 'خواهش می‌کنم! اگر سؤال دیگه‌ای داشتی، همین‌جا بپرس.',
-        date: '۱۴:۳۲',
-        isUser: false,
-    },
-    {
-        id: 6,
-        message: 'خواهش می‌کنم! اگر سؤال دیگه‌ای داشتی، همین‌جا بپرس.',
-        date: '۱۴:۳۲',
-        isUser: false,
-    },
-];
+﻿import { router, useHttp, usePage } from '@inertiajs/react';
+import { useLayoutEffect, useRef } from 'react';
+import { useForm } from 'react-hook-form';
+import {
+    ChatHeader,
+    ChatMessages,
+    ChatQuestionForm,
+    ChatSidebar,
+    MessageHistory,
+} from '@/components/chat';
+import {
+    ConversationResponse,
+    MessagePayload,
+    MessageResponse,
+} from '@/types/conversation';
+import WelcomeMessage from '../welcome_message';
+import { useEcho } from '@laravel/echo-react';
 
 export default function Chat() {
+    const {
+        props: { conversations, messages, selectedConversation },
+    } = usePage<{
+        conversations: ConversationResponse[];
+        messages: MessageResponse[];
+        selectedConversation: ConversationResponse | null;
+    }>();
+
+    const questionForm = useForm<MessagePayload>({
+        defaultValues: { question: '' },
+    });
+
+    const messagesRef = useRef<HTMLDivElement>(null);
+
+    const http = useHttp<MessagePayload, MessageResponse>({
+        question: '',
+    });
+
+    useEcho<{ message: MessageResponse }>(
+        `conversations.${selectedConversation?.uuid}`,
+        'MessageAnswered',
+        (event) => {
+            console.log(event.message);
+        },
+    );
+
+    useLayoutEffect(() => {
+        const container = messagesRef.current;
+
+        if (container) {
+            container.scrollTop = container.scrollHeight;
+        }
+    }, [selectedConversation?.uuid, messages?.length]);
+
+    function newChat() {
+        router.post(
+            '/conversations',
+            {},
+            {
+                onSuccess: () => {
+                    questionForm.reset();
+                },
+            },
+        );
+    }
+
+    function sendQuestion({ question }: MessagePayload) {
+        const url = selectedConversation
+            ? `/conversations/${selectedConversation.uuid}`
+            : '/conversations';
+
+        router.post(
+            url,
+            { question },
+            {
+                preserveScroll: true,
+                onSuccess: () => questionForm.reset(),
+            },
+        );
+    }
+
+    const hasQuestion = !!questionForm.watch('question')?.trim();
+
     return (
         <div
-            className={`${styles.chat} flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden`}
+            dir="rtl"
+            className="flex min-h-0 min-w-0 flex-1 overflow-hidden text-zinc-100"
         >
-            <span className={styles.edgeShine} />
-            <div className="min-h-0 flex-1 overflow-y-auto p-4 sm:p-6">
-                <div className="mx-auto flex flex-col gap-6">
-                    {messages.map(({ id, ...message }) => (
-                        <ChatBox key={id} {...message} />
-                    ))}
-                </div>
-            </div>
-            <div className="flex w-full">
-                <input className="flex-1 rounded-b-md bg-amber-50 p-2" />
-            </div>
+            <ChatSidebar conversations={conversations} newChat={newChat} />
+
+            <section className="flex min-h-0 min-w-0 flex-1 flex-col">
+                <ChatHeader
+                    title={selectedConversation?.title ?? 'گفتگوی جدید'}
+                    subtitle="پشتیبانی مشتریان · نمایش آزمایشی"
+                />
+
+                <ChatMessages messagesRef={messagesRef} label="پیام‌های گفتگو">
+                    {selectedConversation && messages?.length > 0 ? (
+                        <MessageHistory turns={messages} />
+                    ) : (
+                        <WelcomeMessage />
+                    )}
+                </ChatMessages>
+
+                <ChatQuestionForm
+                    questionForm={questionForm}
+                    sendQuestion={sendQuestion}
+                    asking={http.processing}
+                    hasQuestion={hasQuestion}
+                    placeholder="پیام خود را بنویسید…"
+                />
+            </section>
         </div>
     );
 }

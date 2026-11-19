@@ -1,6 +1,5 @@
 import { useConnectionStatus, useEcho } from '@laravel/echo-react';
 import { useEffect, useRef } from 'react';
-import type { ProcessingStatusEnum } from '../../Enums/ProcessingStatusEnum';
 import type {
     FileChatConfig,
     FileStatusEvent,
@@ -12,7 +11,7 @@ type Props = {
     userId: number;
     fileId: number;
     onAnswerUpdate: () => Promise<void>;
-    onEmbeddingUpdate: (id: number, status: ProcessingStatusEnum) => void;
+    onEmbeddingUpdate: (id: number, status: string) => void;
 };
 
 export default function FileChatEvents({

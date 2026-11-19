@@ -18,7 +18,7 @@ export default function ChatBox({ message, date, isUser }: ChatBoxProps) {
             >
                 <p
                     dir="auto"
-                    className="text-start text-sm leading-7 [overflow-wrap:anywhere] whitespace-pre-wrap"
+                    className="text-start text-sm leading-7 wrap-anywhere whitespace-pre-wrap"
                 >
                     {message}
                 </p>

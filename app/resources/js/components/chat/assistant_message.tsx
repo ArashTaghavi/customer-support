@@ -15,7 +15,7 @@ export default function AssistantMessage({
                 <span className="flex size-6 items-center justify-center rounded-lg border border-sky-200/20 bg-sky-300/10">
                     <Sparkles size={13} aria-hidden="true" />
                 </span>
-                Assistant
+                پشتیبان
             </div>
             {children}
         </div>

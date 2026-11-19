@@ -1,7 +1,7 @@
 import { FileChatConfig } from '@/Modules/Base/Types/FileChat';
 import { FileText, Upload } from 'lucide-react';
-import { FileInput, Form, Input } from '@/Modules/Base/Components/Form';
-import { Button } from '@/Modules/Base/Components/UI';
+import { FileInput, Form, Input } from '@/components/form';
+import { Button } from '@/components/ui';
 import type { FileUploadValues } from '@/Modules/Base/Types/FileChat';
 import type useFileUpload from '@/Modules/Base/Hooks/useFileUpload';
 import FileUploadProgress from './file_upload_progress';
@@ -41,7 +41,7 @@ export default function FileUploadPanel({
                 <div className="space-y-2 text-center">
                     <FileText size={40} className="mx-auto text-violet-300" />
                     <h2 className="text-xl font-semibold">{config.title}</h2>
-                    <p className="text-sm text-ui-secondary">
+                    <p className="text-ui-secondary text-sm">
                         Upload once, then ask questions about its contents.
                     </p>
                 </div>
@@ -68,7 +68,7 @@ export default function FileUploadPanel({
                     Upload file
                 </Button>
                 {uploading && (
-                    <p role="status" className="text-sm text-ui-secondary">
+                    <p role="status" className="text-ui-secondary text-sm">
                         Uploading and preparing your fileâ€¦
                     </p>
                 )}
