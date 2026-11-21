@@ -15,6 +15,7 @@ import {
 } from '@/types/conversation';
 import WelcomeMessage from '../welcome_message';
 import { useEcho } from '@laravel/echo-react';
+import { Events } from '@/types/events';
 
 export default function Chat() {
     const {
@@ -37,9 +38,9 @@ export default function Chat() {
 
     useEcho<{ message: MessageResponse }>(
         `conversations.${selectedConversation?.uuid}`,
-        'MessageAnswered',
+        Events.MessageAnswered,
         (event) => {
-            console.log(event.message);
+            console.log(event);
         },
     );
 

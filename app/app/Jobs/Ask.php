@@ -27,12 +27,15 @@ class Ask implements ShouldQueue
     public function handle(AIClient $aiClient): void
     {
         $this->message->markAsProcessing();
+
         $response = $aiClient->post('/ai/ask', [
             'conversation_id' => $this->message->conversation->uuid,
             'question' => $this->message->question,
         ]);
 
-        $this->message->markAsDone(answer: $response->json());
+        $answer = $response->json();
+
+        $this->message->markAsDone(answer: $answer);
         MessageAnswered::dispatch($this->message->fresh());
     }
 

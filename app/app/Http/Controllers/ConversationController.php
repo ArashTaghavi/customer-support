@@ -13,7 +13,11 @@ class ConversationController extends Controller
     {
         $conversation = Conversation::create(['title' => 'چت جدید', 'user_id' => 1]);
         if ($request->has('question')) {
-            $conversation->messages()->create(['question' => $request->input('question')]);
+            $message = $conversation->messages()
+                ->create([
+                    'question' => $request->input('question'),
+                ]);
+            Ask::dispatch($message);
         }
 
         return to_route('conversations.show', [
@@ -37,10 +41,11 @@ class ConversationController extends Controller
 
     public function ask(Request $request, Conversation $conversation)
     {
-        $message = $conversation->messages()->create([
-            'question' => $request->input('question'),
-        ]);
+        $message = $conversation->messages()
+            ->create([
+                'question' => $request->input('question'),
+            ]);
 
-        Ask::dispatch($message)->afterCommit();
+        Ask::dispatch($message);
     }
 }

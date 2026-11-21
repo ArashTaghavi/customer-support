@@ -1,10 +1,10 @@
+import { AITaskStatus } from '../status';
+
 export type ConversationResponse = {
     uuid: string;
     title: string;
     created_at: string;
 };
-
-export type AITaskStatus = 'pending' | 'processing' | 'completed' | 'failed';
 
 export type MessageResponse = {
     id: number;
