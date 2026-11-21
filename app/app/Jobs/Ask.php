@@ -37,9 +37,21 @@ class Ask implements ShouldQueue
         $answer = $response->json();
 
         $this->message->markAsDone(answer: $answer);
-        // $this->message->conversation->update(['title' => $answer]);
 
-        MessageAnswered::dispatch($this->message->fresh());
+        $message = $this->message->fresh();
+        $broadcastAnswer = $message->answer;
+
+        foreach ($broadcastAnswer['blocks'] ?? [] as $index => $block) {
+            if (in_array($block['type'], ['products', 'orders'], true)) {
+                $broadcastAnswer['blocks'][$index]['data'] = array_column($block['data'], 'id');
+            } elseif ($block['type'] === 'order') {
+                $broadcastAnswer['blocks'][$index]['data'] = [$block['data']['id']];
+            }
+        }
+
+        $message->answer = $broadcastAnswer;
+
+        MessageAnswered::dispatch($message);
     }
 
     public function failed(?Throwable $exception): void

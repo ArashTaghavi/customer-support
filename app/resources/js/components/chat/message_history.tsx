@@ -10,6 +10,7 @@ import styles from './message_history.module.css';
 import { TypingIndicator, AssistantMessage } from '@/components/chat';
 
 import ChatResponse from '@/pages/app/components/chat_response';
+import { parseChatResponse } from '@/pages/app/components/chat_response/parse_response';
 import { ConversationResponse, MessageResponse } from '@/types/conversation';
 import { useEcho } from '@laravel/echo-react';
 import { Events } from '@/types/events';
@@ -66,9 +67,12 @@ export default function MessageHistory({
             </div>
             {group.turns.map((turn) => {
                 const answer = receivedAnswers[turn.id] ?? turn.answer;
+                const hasBlocks =
+                    answer != null &&
+                    (parseChatResponse(answer)?.blocks.length ?? 0) > 0;
 
                 return (
-                    <div key={turn.id} className="space-y-3">
+                    <div key={turn.id} className="min-w-0 space-y-3">
                         <div
                             className={`${styles.bubble} ${styles.user} ml-auto w-fit max-w-[92%] rounded-3xl rounded-tr-md px-3 py-2.5 sm:max-w-[82%]`}
                         >
@@ -86,7 +90,7 @@ export default function MessageHistory({
                             </p>
                             <MessageTime timestamp={turn.created_at} />
                         </div>
-                        <AssistantMessage>
+                        <AssistantMessage fullWidth={hasBlocks}>
                             {answer != null ? (
                                 <ChatResponse answer={answer} />
                             ) : (

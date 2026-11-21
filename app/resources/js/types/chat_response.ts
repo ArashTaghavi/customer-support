@@ -5,14 +5,16 @@ export type ProductData = {
     price: number;
     stock: number;
     image: string;
+    image_url: string;
 };
 
 export type ProductsBlock = {
     type: 'products';
-    data: ProductData[];
+    data: number[];
 };
 
 export type OrderItemData = {
+    product?: ProductData | null;
     id: number;
     order_id: number;
     product_id: number;
@@ -33,7 +35,6 @@ export type PaymentData = {
     refunded_at: string | null;
     failure_reason: string | null;
     created_at: string | null;
-    updated_at: string | null;
 };
 
 export type OrderData = {
@@ -51,14 +52,13 @@ export type OrderData = {
     cancelled_at: string | null;
     cancellation_reason: string | null;
     created_at: string | null;
-    updated_at: string | null;
     items: OrderItemData[];
     payments: PaymentData[];
 };
 
 export type OrderBlock = {
-    type: 'order';
-    data: OrderData;
+    type: 'order' | 'orders';
+    data: number[];
 };
 
 export type ChatBlock = ProductsBlock | OrderBlock;

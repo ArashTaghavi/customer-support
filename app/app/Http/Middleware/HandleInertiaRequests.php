@@ -41,7 +41,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'conversations' => $request->user()->conversations()->latest()->get(),
+            'conversations' => $request->user()?->conversations()->latest()->get() ?? [],
         ];
     }
 }

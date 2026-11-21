@@ -39,19 +39,41 @@ export default function AppLayout({ children }: AppLayoutProps) {
 
         scrollToBottom();
 
-        const mutationObserver = new MutationObserver(scrollToBottom);
+        let followOutput = true;
+        const trackScroll = () => {
+            followOutput =
+                container.scrollHeight -
+                    container.scrollTop -
+                    container.clientHeight <
+                80;
+        };
+        container.addEventListener('scroll', trackScroll, { passive: true });
+
+        const mutationObserver = new MutationObserver((records) => {
+            const hasMessageChanges = records.some((record) => {
+                const element =
+                    record.target instanceof Element
+                        ? record.target
+                        : record.target.parentElement;
+                return !element?.closest('[data-chat-pagination]');
+            });
+            if (followOutput && hasMessageChanges) scrollToBottom();
+        });
         mutationObserver.observe(container, {
             childList: true,
             characterData: true,
             subtree: true,
         });
 
-        const resizeObserver = new ResizeObserver(scrollToBottom);
+        const resizeObserver = new ResizeObserver(() => {
+            if (followOutput) scrollToBottom();
+        });
         resizeObserver.observe(container);
 
         return () => {
             mutationObserver.disconnect();
             resizeObserver.disconnect();
+            container.removeEventListener('scroll', trackScroll);
         };
     }, []);
 

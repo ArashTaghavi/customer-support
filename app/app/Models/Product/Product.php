@@ -41,7 +41,7 @@ class Product extends Model
     protected function imageUrl(): Attribute
     {
         return Attribute::make(
-            get: fn () => asset("uploads/{$this->image}"),
+            get: fn () => asset("{$this->image}"),
         );
     }
 }
