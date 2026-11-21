@@ -71,12 +71,7 @@ export default function ChatSidebar() {
                                 <span className="block truncate text-sm text-zinc-200">
                                     {conversation.title}
                                 </span>
-                                <span
-                                    dir="auto"
-                                    className="text-ui-secondary mt-1 block truncate text-xs"
-                                >
-                                    {true && 'هنوز پیامی ثبت نشده'}
-                                </span>
+
                                 {conversation.created_at && (
                                     <time
                                         dateTime={conversation.created_at}

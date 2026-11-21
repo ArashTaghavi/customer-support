@@ -36,6 +36,8 @@ class Ask implements ShouldQueue
         $answer = $response->json();
 
         $this->message->markAsDone(answer: $answer);
+        // $this->message->conversation->update(['title' => $answer]);
+
         MessageAnswered::dispatch($this->message->fresh());
     }
 

@@ -1,13 +1,13 @@
 import { Button } from '@/components/ui';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './header.module.css';
 
 export default function Header() {
-    const [isDark, setIsDark] = useState(() =>
-        typeof document !== 'undefined'
-            ? document.documentElement.classList.contains('dark')
-            : false,
-    );
+    const [isDark, setIsDark] = useState(false);
+
+    useEffect(() => {
+        setIsDark(document.documentElement.classList.contains('dark'));
+    }, []);
 
     function toggleTheme() {
         const nextIsDark = !isDark;

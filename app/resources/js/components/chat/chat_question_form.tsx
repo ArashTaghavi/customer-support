@@ -43,7 +43,6 @@ export default function ChatQuestionForm({
                     type="submit"
                     size="icon"
                     className="mb-1.5"
-                    aria-label="ارسال پیام"
                     loading={asking}
                     disabled={!hasQuestion || asking}
                     startIcon={<Send size={16} />}

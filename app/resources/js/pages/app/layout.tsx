@@ -20,6 +20,12 @@ type AppLayoutProps = {
     children: ReactNode;
 };
 
+type ChatPageProps = {
+    messages?: MessageResponse[];
+    selectedConversation?: ConversationResponse;
+    conversations: ConversationResponse[];
+};
+
 export default function AppLayout({ children }: AppLayoutProps) {
     const messagesRef = useRef<HTMLDivElement>(null);
 
@@ -49,10 +55,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
         };
     }, []);
 
-    const { messages = [], selectedConversation } = usePage<{
-        messages?: MessageResponse[];
-        selectedConversation?: ConversationResponse;
-    }>().props;
+    const { messages = [], selectedConversation } =
+        usePage<ChatPageProps>().props;
 
     const [asking, setAsking] = useState(false);
 
@@ -96,6 +100,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                     >
                         {selectedConversation && messages.length > 0 ? (
                             <MessageHistory
+                                key={selectedConversation.uuid}
                                 turns={messages}
                                 selectedConversation={selectedConversation}
                             />

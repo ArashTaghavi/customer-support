@@ -4,22 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Jobs\Ask;
 use App\Models\Conversation\Conversation;
+use App\Models\Conversation\Message;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ConversationController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-
         $conversation = Conversation::create(['title' => 'چت جدید', 'user_id' => 1]);
         if ($request->has('question')) {
-            $message = $conversation->messages()
-                ->create([
-                    'question' => $request->input('question'),
-                ]);
-            Ask::dispatch($message);
+            $this->_ask(conversation: $conversation, question: $request->input('question'));
         }
 
         return to_route('conversations.show', [
@@ -42,13 +38,20 @@ class ConversationController extends Controller
 
     public function ask(Request $request, Conversation $conversation): RedirectResponse
     {
+        $message = $this->_ask(conversation: $conversation, question: $request->input('question'));
+
+        return back()->with('newMessage', $message);
+    }
+
+    private function _ask(Conversation $conversation, string $question): Message
+    {
         $message = $conversation->messages()
-            ->create([
-                'question' => $request->input('question'),
-            ]);
+            ->create(compact('question'));
+
+        $message->conversation->update(['title' => $question]);
 
         Ask::dispatch($message);
 
-        return back()->with('newMessage', $message);
+        return $message;
     }
 }
