@@ -1,5 +1,5 @@
-import { useHttp } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
+import { useHttp, usePage } from '@inertiajs/react';
+import { useEffect, useRef, useState } from 'react';
 import { z } from 'zod';
 import { Button } from '@/components/ui';
 import { RotateCcw } from 'lucide-react';
@@ -8,6 +8,7 @@ import type { ChatBlock, OrderData, ProductData } from '@/types/chat_response';
 import OrderResponse from './order_response';
 import ProductsResponse from './products_response';
 import { orderSchema, productSchema } from './parse_response';
+import { cachedRequest } from '@/utils/request_cache';
 
 const paginationSchema = z.object({
     current_page: z.number().int(),
@@ -24,6 +25,11 @@ type PageResult = {
 };
 
 export default function PaginatedResponse({ type, data: ids }: ChatBlock) {
+    const sectionRef = useRef<HTMLElement>(null);
+    const [visible, setVisible] = useState(false);
+    const userId =
+        usePage<{ auth: { user: { id: number } | null } }>().props.auth?.user
+            ?.id ?? null;
     const [page, setPage] = useState(1);
     const [expandedOrder, setExpandedOrder] = useState<{
         page: number;
@@ -31,44 +37,72 @@ export default function PaginatedResponse({ type, data: ids }: ChatBlock) {
     } | null>(null);
     const [retry, setRetry] = useState(0);
     const [result, setResult] = useState<PageResult | null>(null);
-    const { post, cancel, processing } = useHttp({ ids });
+    const { post } = useHttp({ ids });
+    const requestKey = JSON.stringify([
+        userId,
+        type === 'products' ? 'products' : 'orders',
+        [...new Set(ids)].sort((first, second) => first - second),
+        page,
+    ]);
 
     useEffect(() => {
-        if (ids.length === 0) return;
+        const section = sectionRef.current;
+        if (!section) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries.some((entry) => entry.isIntersecting)) {
+                    setVisible(true);
+                    observer.disconnect();
+                }
+            },
+            { root: section.closest('[role="log"]'), rootMargin: '200px 0px' },
+        );
+
+        observer.observe(section);
+        return () => observer.disconnect();
+    }, []);
+
+    useEffect(() => {
+        if (!visible || ids.length === 0) return;
 
         let active = true;
         const route = type === 'products' ? products : orders;
 
         async function loadPage() {
             try {
-                const response = await post(route.url({ query: { page } }));
-                const nextResult: PageResult = {
-                    page,
-                    products: [],
-                    orders: [],
-                    meta: null,
-                    error: false,
-                };
+                const nextResult = await cachedRequest(requestKey, async () => {
+                    const response = await post(route.url({ query: { page } }));
+                    const nextResult: PageResult = {
+                        page,
+                        products: [],
+                        orders: [],
+                        meta: null,
+                        error: false,
+                    };
 
-                if (type === 'products') {
-                    const parsed = z
-                        .object({
-                            data: z.array(productSchema),
-                            meta: paginationSchema,
-                        })
-                        .parse(response);
-                    nextResult.products = parsed.data;
-                    nextResult.meta = parsed.meta;
-                } else {
-                    const parsed = z
-                        .object({
-                            data: z.array(orderSchema),
-                            meta: paginationSchema,
-                        })
-                        .parse(response);
-                    nextResult.orders = parsed.data;
-                    nextResult.meta = parsed.meta;
-                }
+                    if (type === 'products') {
+                        const parsed = z
+                            .object({
+                                data: z.array(productSchema),
+                                meta: paginationSchema,
+                            })
+                            .parse(response);
+                        nextResult.products = parsed.data;
+                        nextResult.meta = parsed.meta;
+                    } else {
+                        const parsed = z
+                            .object({
+                                data: z.array(orderSchema),
+                                meta: paginationSchema,
+                            })
+                            .parse(response);
+                        nextResult.orders = parsed.data;
+                        nextResult.meta = parsed.meta;
+                    }
+
+                    return nextResult;
+                });
 
                 if (active) setResult(nextResult);
             } catch {
@@ -88,11 +122,10 @@ export default function PaginatedResponse({ type, data: ids }: ChatBlock) {
 
         return () => {
             active = false;
-            cancel();
         };
-    }, [type, ids.length, page, retry, post, cancel]);
+    }, [visible, requestKey, type, ids.length, page, retry, post]);
 
-    const loading = ids.length > 0 && (processing || result?.page !== page);
+    const loading = visible && ids.length > 0 && result?.page !== page;
     const current = result?.page === page ? result : null;
     const pagination = result?.meta;
     const pageNumbers = pagination
@@ -109,11 +142,16 @@ export default function PaginatedResponse({ type, data: ids }: ChatBlock) {
 
     return (
         <section
+            ref={sectionRef}
             data-chat-pagination
             className="relative min-w-0 space-y-3"
             aria-busy={loading}
         >
-            {loading && !result ? (
+            {!visible && ids.length > 0 ? (
+                <div className="flex min-h-40 items-center justify-center rounded-xl border border-white/8 bg-white/3 text-xs text-zinc-500">
+                    اطلاعات هنگام مشاهده پیام دریافت می‌شود.
+                </div>
+            ) : loading && !result ? (
                 <div
                     role="status"
                     className="animate-pulse rounded-xl border border-border p-4 text-sm text-muted"
@@ -129,7 +167,10 @@ export default function PaginatedResponse({ type, data: ids }: ChatBlock) {
                         startIcon={<RotateCcw size={14} aria-hidden="true" />}
                         type="button"
                         className="rounded-lg border border-border px-3 py-2"
-                        onClick={() => setRetry((value) => value + 1)}
+                        onClick={() => {
+                            setResult(null);
+                            setRetry((value) => value + 1);
+                        }}
                     >
                         تلاش دوباره
                     </Button>
