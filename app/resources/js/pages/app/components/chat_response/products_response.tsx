@@ -7,7 +7,7 @@ type ProductsResponseProps = {
 
 export default function ProductsResponse({ products }: ProductsResponseProps) {
     return (
-        <div className="grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="grid min-w-0 grid-cols-1 gap-2 sm:gap-3 @min-[22rem]:grid-cols-2 @min-[36rem]:grid-cols-3 @min-[48rem]:grid-cols-4 @min-[60rem]:grid-cols-5">
             {products.map((product) => {
                 const available = product.stock > 0;
 

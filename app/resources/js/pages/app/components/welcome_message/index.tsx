@@ -33,12 +33,12 @@ export default function WelcomeMessage() {
     return (
         <div
             dir="rtl"
-            className="@container flex h-full min-h-0 w-full items-center justify-center px-3 py-3 sm:px-6 [@media(max-height:700px)]:py-1"
+            className="@container flex min-h-full w-full items-center justify-center px-1 py-3 sm:px-6 [@media(max-height:700px)]:py-1"
         >
             <div className="w-full max-w-2xl">
                 <Greeting />
 
-                <div className="mt-5 grid grid-cols-2 gap-3 [@media(max-height:700px)]:mt-3 [@media(max-height:700px)]:gap-2">
+                <div className="mt-5 grid grid-cols-1 gap-3 min-[400px]:grid-cols-2 [@media(max-height:700px)]:mt-3 [@media(max-height:700px)]:gap-2">
                     {capabilities.map(
                         ({ icon: Icon, title, description, color }) => (
                             <Capability

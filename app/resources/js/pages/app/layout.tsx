@@ -81,6 +81,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
         usePage<ChatPageProps>().props;
 
     const [asking, setAsking] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const questionForm = useForm<MessagePayload>({
         defaultValues: { question: '' },
@@ -104,17 +105,25 @@ export default function AppLayout({ children }: AppLayoutProps) {
     const hasQuestion = !!questionForm.watch('question')?.trim();
 
     return (
-        <div dir="rtl" className="flex h-dvh w-full flex-col overflow-hidden">
+        <div
+            dir="rtl"
+            className="flex h-dvh min-h-0 w-full min-w-0 flex-col overflow-hidden"
+        >
             <Header />
             <div className="flex min-h-0 min-w-0 flex-1 overflow-hidden">
-                <ChatSidebar />
+                <ChatSidebar
+                    open={sidebarOpen}
+                    onClose={() => setSidebarOpen(false)}
+                />
                 <main
                     className={`${styles.chat} flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden text-zinc-100`}
                 >
                     <div className={styles.edgeShine} aria-hidden="true" />
                     <ChatHeader
-                        title="گفتگوی جدید"
+                        title={selectedConversation?.title ?? 'گفتگوی جدید'}
                         subtitle="پشتیبانی مشتریان · نمایش آزمایشی"
+                        sidebarOpen={sidebarOpen}
+                        onOpenSidebar={() => setSidebarOpen(true)}
                     />
                     <ChatMessages
                         messagesRef={messagesRef}

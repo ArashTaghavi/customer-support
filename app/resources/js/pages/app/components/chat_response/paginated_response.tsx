@@ -144,7 +144,7 @@ export default function PaginatedResponse({ type, data: ids }: ChatBlock) {
         <section
             ref={sectionRef}
             data-chat-pagination
-            className="relative min-w-0 space-y-3"
+            className="@container relative min-w-0 space-y-3"
             aria-busy={loading}
         >
             {!visible && ids.length > 0 ? (
