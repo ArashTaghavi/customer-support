@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\Ask;
 use App\Models\Conversation\Conversation;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -39,7 +40,7 @@ class ConversationController extends Controller
         return $conversation->messages()->get();
     }
 
-    public function ask(Request $request, Conversation $conversation)
+    public function ask(Request $request, Conversation $conversation): RedirectResponse
     {
         $message = $conversation->messages()
             ->create([
@@ -47,5 +48,9 @@ class ConversationController extends Controller
             ]);
 
         Ask::dispatch($message);
+
+        return to_route('conversations.show', [
+            'conversation' => $conversation->uuid,
+        ]);
     }
 }

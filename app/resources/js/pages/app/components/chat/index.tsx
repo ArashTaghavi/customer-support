@@ -1,4 +1,4 @@
-﻿import { router, useHttp, usePage } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
@@ -14,8 +14,6 @@ import {
     MessageResponse,
 } from '@/types/conversation';
 import WelcomeMessage from '../welcome_message';
-import { useEcho } from '@laravel/echo-react';
-import { Events } from '@/types/events';
 
 export default function Chat() {
     const {
@@ -55,7 +53,6 @@ export default function Chat() {
     }
 
     function sendQuestion({ question }: MessagePayload) {
-        setAIAnswerMessage(null);
         const url = selectedConversation
             ? `/conversations/${selectedConversation.uuid}`
             : '/conversations';
@@ -74,17 +71,6 @@ export default function Chat() {
 
     const hasQuestion = !!questionForm.watch('question')?.trim();
 
-    const [aiAnswerMessage, setAIAnswerMessage] =
-        useState<MessageResponse | null>(null);
-
-    useEcho<{ message: MessageResponse }>(
-        `conversations.${selectedConversation?.uuid}`,
-        Events.MessageAnswered,
-        ({ message }) => {
-            setAIAnswerMessage(message);
-        },
-    );
-
     return (
         <div
             dir="rtl"
@@ -102,7 +88,7 @@ export default function Chat() {
                     {selectedConversation && messages?.length > 0 ? (
                         <MessageHistory
                             turns={messages}
-                            aiAnswerMessage={aiAnswerMessage}
+                            selectedConversation={selectedConversation}
                         />
                     ) : (
                         <WelcomeMessage />
