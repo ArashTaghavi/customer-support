@@ -39,6 +39,7 @@ class Message extends Model
     {
         return [
             'status' => AITaskStatus::class,
+            'answer' => 'array',
             'answered_at' => 'datetime',
             'is_read' => 'boolean',
         ];

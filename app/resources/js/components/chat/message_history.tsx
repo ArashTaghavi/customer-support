@@ -9,24 +9,11 @@ import { UserRound } from 'lucide-react';
 import styles from './message_history.module.css';
 import { TypingIndicator, AssistantMessage } from '@/components/chat';
 
-import DatabaseAnswer, { parseDatabaseAnswer } from './database_answer';
+import ChatResponse from '@/pages/app/components/chat_response';
 import { ConversationResponse, MessageResponse } from '@/types/conversation';
 import { useEcho } from '@laravel/echo-react';
 import { Events } from '@/types/events';
 import { useState } from 'react';
-
-function AnswerContent({ answer }: { answer: string | null }) {
-    const parsed = parseDatabaseAnswer(answer);
-    if (parsed) return <DatabaseAnswer answer={parsed} />;
-    return (
-        <p
-            dir="auto"
-            className="text-sm leading-7 wrap-break-word whitespace-pre-wrap text-zinc-200"
-        >
-            {answer}
-        </p>
-    );
-}
 
 function MessageTime({ timestamp }: MessageTimeProps) {
     const date = messageDate(timestamp);
@@ -49,7 +36,7 @@ export default function MessageHistory({
     selectedConversation,
 }: MessageHistoryProps) {
     const [receivedAnswers, setReceivedAnswers] = useState<
-        Record<number, string | null>
+        Record<number, MessageResponse['answer']>
     >({});
 
     useEcho<{ message: MessageResponse }>(
@@ -78,8 +65,7 @@ export default function MessageHistory({
                 </span>
             </div>
             {group.turns.map((turn) => {
-                const answer =
-                    receivedAnswers[turn.id] ?? turn.answer;
+                const answer = receivedAnswers[turn.id] ?? turn.answer;
 
                 return (
                     <div key={turn.id} className="space-y-3">
@@ -102,7 +88,7 @@ export default function MessageHistory({
                         </div>
                         <AssistantMessage>
                             {answer != null ? (
-                                <AnswerContent answer={answer} />
+                                <ChatResponse answer={answer} />
                             ) : (
                                 <TypingIndicator />
                             )}

@@ -40,6 +40,7 @@ def ask(request: AskRequest, http_request: Request):
             ]
         },
         config={"configurable": {"thread_id": request.conversation_id}},
+        context={"user_id": request.user_id},
     )
 
     return response["structured_response"]

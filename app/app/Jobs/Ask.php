@@ -31,6 +31,7 @@ class Ask implements ShouldQueue
         $response = $aiClient->post('/ai/ask', [
             'conversation_id' => $this->message->conversation->uuid,
             'question' => $this->message->question,
+            'user_id' => auth()->id(),
         ]);
 
         $answer = $response->json();

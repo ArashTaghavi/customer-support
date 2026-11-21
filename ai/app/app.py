@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta, timezone
-from typing import TypedDict
 
 from core.config import settings
 from langchain.agents import create_agent
@@ -8,7 +7,15 @@ from langchain.chat_models import init_chat_model
 from langgraph.checkpoint.base import BaseCheckpointSaver
 
 from app.schemas.responses import ChatResponse
-from app.tools import search_policies, search_product
+from app.tools import (
+    cancel_order,
+    get_customer_order,
+    get_customer_order_stats,
+    search_policies,
+    search_product,
+)
+
+from .context import CustomerSupportContext
 
 SYSTEM_PROMPT = """
 You are a professional customer support agent for an online store.
@@ -51,10 +58,6 @@ Response formatting:
 """
 
 
-class CustomerSupportContext(TypedDict):
-    user_id: int
-
-
 class CustomerSupportAgent:
     def __init__(self, checkpointer: BaseCheckpointSaver) -> None:
         self.model = init_chat_model(
@@ -63,7 +66,13 @@ class CustomerSupportAgent:
             temperature=settings.TEMPERATURE,
         )
 
-        self.tools = [search_policies, search_product]
+        self.tools = [
+            search_policies,
+            search_product,
+            get_customer_order,
+            get_customer_order_stats,
+            cancel_order,
+        ]
 
         self.agent = create_agent(
             checkpointer=checkpointer,
