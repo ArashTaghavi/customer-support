@@ -1,11 +1,14 @@
 from datetime import datetime, timedelta, timezone
+from typing import TypedDict
 
-from app.tools.search_policies import search_policies
 from core.config import settings
 from langchain.agents import create_agent
 from langchain.agents.middleware import SummarizationMiddleware
 from langchain.chat_models import init_chat_model
 from langgraph.checkpoint.base import BaseCheckpointSaver
+
+from app.schemas.responses import ChatResponse
+from app.tools import search_policies, search_product
 
 SYSTEM_PROMPT = """
 You are a professional customer support agent for an online store.
@@ -48,6 +51,10 @@ Response formatting:
 """
 
 
+class CustomerSupportContext(TypedDict):
+    user_id: int
+
+
 class CustomerSupportAgent:
     def __init__(self, checkpointer: BaseCheckpointSaver) -> None:
         self.model = init_chat_model(
@@ -56,7 +63,7 @@ class CustomerSupportAgent:
             temperature=settings.TEMPERATURE,
         )
 
-        self.tools = [search_policies]
+        self.tools = [search_policies, search_product]
 
         self.agent = create_agent(
             checkpointer=checkpointer,
@@ -85,4 +92,6 @@ class CustomerSupportAgent:
                 "For Persian requests, weeks begin on Saturday. "
                 "If no period is requested, omit date filters.\n"
             ),
+            response_format=ChatResponse,
+            context_schema=CustomerSupportContext,
         )

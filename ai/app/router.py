@@ -42,7 +42,7 @@ def ask(request: AskRequest, http_request: Request):
         config={"configurable": {"thread_id": request.conversation_id}},
     )
 
-    return response["messages"][-1].content
+    return response["structured_response"]
 
 
 @router.get("/conversations/{conversation_id}/messages")
