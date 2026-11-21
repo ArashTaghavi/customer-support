@@ -3,9 +3,13 @@
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\ChatResponseController;
 use App\Http\Controllers\ConversationController;
+use App\Http\Controllers\OrderCancellationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AppController::class, 'index'])->name('app.index');
+
+Route::post('messages/{message}/confirm-cancel-order', OrderCancellationController::class)
+    ->name('messages.confirm-cancel-order');
 
 Route::prefix('conversations')
     ->name('conversations.')

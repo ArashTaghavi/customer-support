@@ -20,6 +20,7 @@ async def lifespan(app: FastAPI):
         database_url.render_as_string(hide_password=False)
     ) as checkpointer:
         checkpointer.setup()
+        app.state.checkpointer = checkpointer
         app.state.support_agent = CustomerSupportAgent(checkpointer=checkpointer)
         yield
 

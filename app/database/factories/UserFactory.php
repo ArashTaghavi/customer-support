@@ -2,8 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Enums\OrderStatusEnum;
+use App\Enums\PaymentStatusEnum;
+use App\Models\Order\Order;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -41,5 +45,23 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    public function withOrders(int $count = 20): static
+    {
+        return $this->has(Order::factory()->count($count)->sequence(function (Sequence $sequence): array {
+            $statuses = OrderStatusEnum::cases();
+            $status = $statuses[$sequence->index % count($statuses)];
+            $alternate = intdiv($sequence->index, count($statuses)) % 2 === 0;
+
+            return [
+                'order_status' => $status,
+                'payment_status' => match ($status) {
+                    OrderStatusEnum::Pending => $alternate ? PaymentStatusEnum::Unpaid : PaymentStatusEnum::Failed,
+                    OrderStatusEnum::Cancelled => $alternate ? PaymentStatusEnum::Refunded : PaymentStatusEnum::Unpaid,
+                    default => PaymentStatusEnum::Paid,
+                },
+            ];
+        }), 'orders');
     }
 }

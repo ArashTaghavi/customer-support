@@ -103,7 +103,7 @@ function SidebarContent({
             </div>
             <nav
                 aria-label="تاریخچه گفتگوها"
-                className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-3"
+                className="min-h-0 flex-1 [scrollbar-width:thin] [scrollbar-color:rgba(167,139,250,0.2)_transparent] overflow-y-auto overscroll-contain p-3"
             >
                 <div className="mb-2 flex items-center justify-between px-2 text-[10px] text-zinc-500">
                     <span>گفتگوهای اخیر</span>

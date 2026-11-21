@@ -3,6 +3,7 @@ from datetime import datetime, timedelta, timezone
 from core.config import settings
 from langchain.agents import create_agent
 from langchain.agents.middleware import SummarizationMiddleware
+from langchain.agents.structured_output import ToolStrategy
 from langchain.chat_models import init_chat_model
 from langgraph.checkpoint.base import BaseCheckpointSaver
 
@@ -47,8 +48,14 @@ Response formatting:
 - For product search results, include a products block.
 - Only supported block types are products and order.
 - Never emit an orders block.
-- For complete details of a single order, include an order block.
-- For multiple complete orders, include a separate order block for each order.
+- For an order, include an order block with data={"id": the exact tool-returned ID}.
+- For multiple orders, include a separate order block for each order ID.
+- Products blocks always contain a list: data=[{"id": product ID}, ...],
+  even when only one product matches.
+- The frontend retrieves full details from the backend using these IDs.
+- Never copy prices, statuses, addresses, items, payments, or dates into blocks.
+- Cancellation tools return summaries, not full orders; include only the ID
+  from a successful tool result, or use blocks=[] if no order ID is returned.
 - For general questions, return an empty blocks list.
 - For aggregate order statistics, use get_customer_order_stats if available
   and return an empty blocks list.
@@ -101,6 +108,18 @@ class CustomerSupportAgent:
                 "For Persian requests, weeks begin on Saturday. "
                 "If no period is requested, omit date filters.\n"
             ),
-            response_format=ChatResponse,
+            response_format=ToolStrategy(
+                schema=ChatResponse,
+                handle_errors=(
+                    "Return a valid ChatResponse. Blocks contain only tool-returned "
+                    'positive IDs: order data={"id": 123}, products '
+                    'data=[{"id": 123}]. Never invent an ID or fill unavailable '
+                    "order fields. Product data is always a list, even for one product. "
+                    "This is only a formatting error: tool results remain valid. "
+                    "Keep the answer and IDs from those results; do not claim "
+                    "information is unavailable or drop matching products. "
+                    "Use blocks=[] only when tools actually returned no matching IDs."
+                ),
+            ),
             context_schema=CustomerSupportContext,
         )

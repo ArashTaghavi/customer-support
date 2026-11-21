@@ -36,6 +36,7 @@ export default function PaginatedResponse({ type, data: ids }: ChatBlock) {
         id: number;
     } | null>(null);
     const [retry, setRetry] = useState(0);
+    const [settledKey, setSettledKey] = useState('');
     const [result, setResult] = useState<PageResult | null>(null);
     const { post } = useHttp({ ids });
     const requestKey = JSON.stringify([
@@ -44,6 +45,13 @@ export default function PaginatedResponse({ type, data: ids }: ChatBlock) {
         [...new Set(ids)].sort((first, second) => first - second),
         page,
     ]);
+
+    useEffect(() => {
+        if (type === 'products') return;
+        const refresh = () => setRetry((current) => current + 1);
+        window.addEventListener('chat-orders-changed', refresh);
+        return () => window.removeEventListener('chat-orders-changed', refresh);
+    }, [type]);
 
     useEffect(() => {
         const section = sectionRef.current;
@@ -104,9 +112,13 @@ export default function PaginatedResponse({ type, data: ids }: ChatBlock) {
                     return nextResult;
                 });
 
-                if (active) setResult(nextResult);
+                if (active) {
+                    setResult(nextResult);
+                    setSettledKey(`${requestKey}:${retry}`);
+                }
             } catch {
                 if (active) {
+                    setSettledKey(`${requestKey}:${retry}`);
                     setResult((previous) => ({
                         page,
                         products: [],
@@ -125,7 +137,8 @@ export default function PaginatedResponse({ type, data: ids }: ChatBlock) {
         };
     }, [visible, requestKey, type, ids.length, page, retry, post]);
 
-    const loading = visible && ids.length > 0 && result?.page !== page;
+    const loading =
+        visible && ids.length > 0 && settledKey !== `${requestKey}:${retry}`;
     const current = result?.page === page ? result : null;
     const pagination = result?.meta;
     const pageNumbers = pagination

@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Events\MessageAnswered;
 use App\Models\Conversation\Message;
 use App\Services\AIClient;
+use App\Services\ChatResponsePayload;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Throwable;
@@ -31,7 +32,7 @@ class Ask implements ShouldQueue
         $response = $aiClient->post('/ai/ask', [
             'conversation_id' => $this->message->conversation->uuid,
             'question' => $this->message->question,
-            'user_id' => auth()->id(),
+            'user_id' => $this->message->conversation->user_id,
         ]);
 
         $answer = $response->json();
@@ -39,17 +40,7 @@ class Ask implements ShouldQueue
         $this->message->markAsDone(answer: $answer);
 
         $message = $this->message->fresh();
-        $broadcastAnswer = $message->answer;
-
-        foreach ($broadcastAnswer['blocks'] ?? [] as $index => $block) {
-            if (in_array($block['type'], ['products', 'orders'], true)) {
-                $broadcastAnswer['blocks'][$index]['data'] = array_column($block['data'], 'id');
-            } elseif ($block['type'] === 'order') {
-                $broadcastAnswer['blocks'][$index]['data'] = [$block['data']['id']];
-            }
-        }
-
-        $message->answer = $broadcastAnswer;
+        $message->answer = ChatResponsePayload::forBroadcast($answer);
 
         MessageAnswered::dispatch($message);
     }

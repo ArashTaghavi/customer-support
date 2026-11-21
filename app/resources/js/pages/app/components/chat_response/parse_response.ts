@@ -82,6 +82,17 @@ const orderIdsSchema = z.union([
 
 const chatResponseSchema = z.object({
     message: z.string(),
+    confirmation: z
+        .object({
+            type: z.literal('order_cancellation_confirmation'),
+            thread_id: z.string(),
+            interrupt_id: z.string(),
+            order_id: idSchema,
+            order_number: z.string(),
+            total_amount: z.number(),
+            message: z.string(),
+        })
+        .optional(),
     blocks: z
         .array(
             z.discriminatedUnion('type', [

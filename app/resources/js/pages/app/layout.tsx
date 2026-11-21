@@ -34,6 +34,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
         if (!container) return;
 
         const scrollToBottom = () => {
+            if (!container.querySelector('[data-chat-message]')) return;
             container.scrollTop = container.scrollHeight;
         };
 

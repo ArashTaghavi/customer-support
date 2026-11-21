@@ -22,8 +22,13 @@ export function cachedRequest<T>(
                 if (entry.expiresAt <= Date.now()) results.delete(entryKey);
             }
 
-            results.delete(key);
-            results.set(key, { value, expiresAt: Date.now() + cacheLifetime });
+            if (pending.get(key) === request) {
+                results.delete(key);
+                results.set(key, {
+                    value,
+                    expiresAt: Date.now() + cacheLifetime,
+                });
+            }
             while (results.size > maximumEntries) {
                 const oldest = results.keys().next().value;
                 if (oldest !== undefined) results.delete(oldest);
@@ -32,9 +37,20 @@ export function cachedRequest<T>(
             return value;
         })
         .finally(() => {
-            pending.delete(key);
+            if (pending.get(key) === request) pending.delete(key);
         });
 
     pending.set(key, request);
     return request;
+}
+
+export function invalidateCachedRequests(
+    matches: (key: string) => boolean,
+): void {
+    for (const key of results.keys()) {
+        if (matches(key)) results.delete(key);
+    }
+    for (const key of pending.keys()) {
+        if (matches(key)) pending.delete(key);
+    }
 }

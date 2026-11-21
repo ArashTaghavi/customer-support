@@ -34,12 +34,12 @@ def get_customer_order(
     The tool returns all available order information, including order
     status, shipping details, purchased products, prices, and payments.
 
-    Present the information comprehensively and in a well-organized format.
-    Include all relevant details from the returned data.
+    Use the returned information to answer accurately. The frontend fetches
+    and displays complete details; response blocks contain only the order ID.
 
     Use get_customer_order_stats for counts, total spending, averages,
     refunds, or other aggregate statistics instead of calculating them
-    from this list. For multiple orders, return one order block per order.
+    from this list. For multiple orders, return one order ID block per order.
 
     Resolve relative periods using the current local date in the system
     prompt. For Persian requests, weeks begin on Saturday. This week ends

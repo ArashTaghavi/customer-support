@@ -72,7 +72,11 @@ export default function MessageHistory({
                     (parseChatResponse(answer)?.blocks.length ?? 0) > 0;
 
                 return (
-                    <div key={turn.id} className="min-w-0 space-y-3">
+                    <div
+                        key={turn.id}
+                        data-chat-message
+                        className="min-w-0 space-y-3"
+                    >
                         <div
                             className={`${styles.bubble} ${styles.user} ml-auto w-fit max-w-[92%] rounded-3xl rounded-tr-md px-3 py-2.5 sm:max-w-[82%]`}
                         >
@@ -92,7 +96,16 @@ export default function MessageHistory({
                         </div>
                         <AssistantMessage fullWidth={hasBlocks}>
                             {answer != null ? (
-                                <ChatResponse answer={answer} />
+                                <ChatResponse
+                                    answer={answer}
+                                    messageId={turn.id}
+                                    onAnswer={(nextAnswer) =>
+                                        setReceivedAnswers((current) => ({
+                                            ...current,
+                                            [turn.id]: nextAnswer,
+                                        }))
+                                    }
+                                />
                             ) : (
                                 <TypingIndicator />
                             )}

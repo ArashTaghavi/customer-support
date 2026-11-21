@@ -111,3 +111,43 @@ test('evicts older entries when the cache reaches its limit', async () => {
         'fetched again',
     );
 });
+
+test('invalidates order results without clearing product results', async () => {
+    const { cachedRequest, invalidateCachedRequests } = await freshCache();
+    await cachedRequest('orders', async () => 'pending');
+    await cachedRequest('products', async () => 'phone');
+
+    invalidateCachedRequests((key) => key === 'orders');
+
+    assert.equal(
+        await cachedRequest('orders', async () => 'cancelled'),
+        'cancelled',
+    );
+    assert.equal(
+        await cachedRequest('products', async () => 'unexpected request'),
+        'phone',
+    );
+});
+
+test('an invalidated in-flight request cannot restore stale cached data', async () => {
+    const { cachedRequest, invalidateCachedRequests } = await freshCache();
+    let finishOld;
+    const oldRequest = cachedRequest(
+        'orders',
+        () =>
+            new Promise((resolve) => {
+                finishOld = resolve;
+            }),
+    );
+    await Promise.resolve();
+
+    invalidateCachedRequests((key) => key === 'orders');
+    await cachedRequest('orders', async () => 'cancelled');
+    finishOld('pending');
+    await oldRequest;
+
+    assert.equal(
+        await cachedRequest('orders', async () => 'unexpected request'),
+        'cancelled',
+    );
+});

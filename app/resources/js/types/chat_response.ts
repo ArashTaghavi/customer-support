@@ -66,4 +66,13 @@ export type ChatBlock = ProductsBlock | OrderBlock;
 export type ChatResponse = {
     message: string;
     blocks: ChatBlock[];
+    confirmation?: {
+        type: 'order_cancellation_confirmation';
+        thread_id: string;
+        interrupt_id: string;
+        order_id: number;
+        order_number: string;
+        total_amount: number;
+        message: string;
+    };
 };
