@@ -38,6 +38,7 @@ export default function ChatQuestionForm({
                     placeholder={placeholder}
                     autoComplete="off"
                     dir="auto"
+                    disabled={asking}
                 />
                 <Button
                     type="submit"
@@ -45,7 +46,7 @@ export default function ChatQuestionForm({
                     className="mb-1.5"
                     aria-label="ارسال پیام"
                     loading={asking}
-                    disabled={!hasQuestion}
+                    disabled={!hasQuestion || asking}
                     startIcon={<Send size={16} />}
                 ></Button>
             </Form>

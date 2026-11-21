@@ -1,6 +1,9 @@
 import { groupMessagesByDay, messageDate } from '@/utils/message_dates';
 
-type MessageHistoryProps = { turns: MessageResponse[] };
+type MessageHistoryProps = {
+    turns: MessageResponse[];
+    aiAnswerMessage: MessageResponse | null;
+};
 type MessageTimeProps = { timestamp: string };
 import { UserRound } from 'lucide-react';
 import styles from './message_history.module.css';
@@ -38,7 +41,10 @@ function MessageTime({ timestamp }: MessageTimeProps) {
     );
 }
 
-export default function MessageHistory({ turns }: MessageHistoryProps) {
+export default function MessageHistory({
+    turns,
+    aiAnswerMessage,
+}: MessageHistoryProps) {
     return groupMessagesByDay(turns).map((group) => (
         <section
             key={group.day}
@@ -73,8 +79,11 @@ export default function MessageHistory({ turns }: MessageHistoryProps) {
                         <MessageTime timestamp={turn.created_at} />
                     </div>
                     <AssistantMessage>
-                        {turn.answer === null && <TypingIndicator />}
-                        {turn.answer}
+                        {aiAnswerMessage?.answer === null ? (
+                            <TypingIndicator />
+                        ) : (
+                            aiAnswerMessage?.answer
+                        )}
                     </AssistantMessage>
                 </div>
             ))}

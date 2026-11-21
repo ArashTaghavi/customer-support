@@ -1,5 +1,5 @@
 ﻿import { router, useHttp, usePage } from '@inertiajs/react';
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
     ChatHeader,
@@ -26,23 +26,13 @@ export default function Chat() {
         selectedConversation: ConversationResponse | null;
     }>();
 
+    const [asking, setAsking] = useState(false);
+
     const questionForm = useForm<MessagePayload>({
         defaultValues: { question: '' },
     });
 
     const messagesRef = useRef<HTMLDivElement>(null);
-
-    const http = useHttp<MessagePayload, MessageResponse>({
-        question: '',
-    });
-
-    useEcho<{ message: MessageResponse }>(
-        `conversations.${selectedConversation?.uuid}`,
-        Events.MessageAnswered,
-        (event) => {
-            console.log(event);
-        },
-    );
 
     useLayoutEffect(() => {
         const container = messagesRef.current;
@@ -65,6 +55,7 @@ export default function Chat() {
     }
 
     function sendQuestion({ question }: MessagePayload) {
+        setAIAnswerMessage(null);
         const url = selectedConversation
             ? `/conversations/${selectedConversation.uuid}`
             : '/conversations';
@@ -74,12 +65,25 @@ export default function Chat() {
             { question },
             {
                 preserveScroll: true,
+                onStart: () => setAsking(true),
                 onSuccess: () => questionForm.reset(),
+                onFinish: () => setAsking(false),
             },
         );
     }
 
     const hasQuestion = !!questionForm.watch('question')?.trim();
+
+    const [aiAnswerMessage, setAIAnswerMessage] =
+        useState<MessageResponse | null>(null);
+
+    useEcho<{ message: MessageResponse }>(
+        `conversations.${selectedConversation?.uuid}`,
+        Events.MessageAnswered,
+        ({ message }) => {
+            setAIAnswerMessage(message);
+        },
+    );
 
     return (
         <div
@@ -96,7 +100,10 @@ export default function Chat() {
 
                 <ChatMessages messagesRef={messagesRef} label="پیام‌های گفتگو">
                     {selectedConversation && messages?.length > 0 ? (
-                        <MessageHistory turns={messages} />
+                        <MessageHistory
+                            turns={messages}
+                            aiAnswerMessage={aiAnswerMessage}
+                        />
                     ) : (
                         <WelcomeMessage />
                     )}
@@ -105,7 +112,7 @@ export default function Chat() {
                 <ChatQuestionForm
                     questionForm={questionForm}
                     sendQuestion={sendQuestion}
-                    asking={http.processing}
+                    asking={asking}
                     hasQuestion={hasQuestion}
                     placeholder="پیام خود را بنویسید…"
                 />
