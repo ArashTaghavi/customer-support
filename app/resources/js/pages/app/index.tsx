@@ -1,9 +1,8 @@
-import type { ReactNode } from "react";
-import { Chat } from "./components";
-import AppLayout from "./layout";
+import type { ReactNode } from 'react';
+import AppLayout from './layout';
 
 export default function App() {
-    return <Chat />;
+    return null;
 }
 
 App.layout = (page: ReactNode) => <AppLayout>{page}</AppLayout>;

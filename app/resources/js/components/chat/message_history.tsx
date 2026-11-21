@@ -48,14 +48,18 @@ export default function MessageHistory({
     turns,
     selectedConversation,
 }: MessageHistoryProps) {
-    const [receivedMessage, setReceivedMessage] =
-        useState<MessageResponse | null>(null);
+    const [receivedAnswers, setReceivedAnswers] = useState<
+        Record<number, string | null>
+    >({});
 
     useEcho<{ message: MessageResponse }>(
         `conversations.${selectedConversation.uuid}`,
         Events.MessageAnswered,
         ({ message }) => {
-            setReceivedMessage(message);
+            setReceivedAnswers((current) => ({
+                ...current,
+                [message.id]: message.answer,
+            }));
         },
     );
 
@@ -75,10 +79,8 @@ export default function MessageHistory({
             </div>
             {group.turns.map((turn) => {
                 const answer =
-                    turn.id === receivedMessage?.id
-                        ? receivedMessage.answer
-                        : turn.answer;
-                        
+                    receivedAnswers[turn.id] ?? turn.answer;
+
                 return (
                     <div key={turn.id} className="space-y-3">
                         <div
@@ -99,7 +101,7 @@ export default function MessageHistory({
                             <MessageTime timestamp={turn.created_at} />
                         </div>
                         <AssistantMessage>
-                            {answer !== null ? (
+                            {answer != null ? (
                                 <AnswerContent answer={answer} />
                             ) : (
                                 <TypingIndicator />

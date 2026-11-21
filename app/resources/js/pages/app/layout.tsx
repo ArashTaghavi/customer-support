@@ -1,17 +1,116 @@
-import type { ReactNode } from 'react';
-import { Header } from './components';
+import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import { useForm } from 'react-hook-form';
+import { Header, WelcomeMessage } from './components';
+import {
+    ChatHeader,
+    ChatMessages,
+    ChatQuestionForm,
+    ChatSidebar,
+    MessageHistory,
+} from '@/components/chat';
+import styles from './index.module.css';
+import { router, usePage } from '@inertiajs/react';
+import type {
+    ConversationResponse,
+    MessagePayload,
+    MessageResponse,
+} from '@/types/conversation';
 
 type AppLayoutProps = {
     children: ReactNode;
 };
 
 export default function AppLayout({ children }: AppLayoutProps) {
+    const messagesRef = useRef<HTMLDivElement>(null);
+
+    useLayoutEffect(() => {
+        const container = messagesRef.current;
+        if (!container) return;
+
+        const scrollToBottom = () => {
+            container.scrollTop = container.scrollHeight;
+        };
+
+        scrollToBottom();
+
+        const mutationObserver = new MutationObserver(scrollToBottom);
+        mutationObserver.observe(container, {
+            childList: true,
+            characterData: true,
+            subtree: true,
+        });
+
+        const resizeObserver = new ResizeObserver(scrollToBottom);
+        resizeObserver.observe(container);
+
+        return () => {
+            mutationObserver.disconnect();
+            resizeObserver.disconnect();
+        };
+    }, []);
+
+    const { messages = [], selectedConversation } = usePage<{
+        messages?: MessageResponse[];
+        selectedConversation?: ConversationResponse;
+    }>().props;
+
+    const [asking, setAsking] = useState(false);
+
+    const questionForm = useForm<MessagePayload>({
+        defaultValues: { question: '' },
+    });
+
+    function sendQuestion({ question }: MessagePayload) {
+        router.post(
+            selectedConversation
+                ? `/conversations/${selectedConversation.uuid}`
+                : '/conversations',
+            { question },
+            {
+                preserveScroll: true,
+                onStart: () => setAsking(true),
+                onSuccess: () => questionForm.reset(),
+                onFinish: () => setAsking(false),
+            },
+        );
+    }
+
+    const hasQuestion = !!questionForm.watch('question')?.trim();
+
     return (
-        <div className="flex h-dvh w-full flex-col overflow-hidden">
+        <div dir="rtl" className="flex h-dvh w-full flex-col overflow-hidden">
             <Header />
             <div className="flex min-h-0 min-w-0 flex-1 overflow-hidden">
-                <main className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
+                <ChatSidebar />
+                <main
+                    className={`${styles.chat} flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden text-zinc-100`}
+                >
+                    <div className={styles.edgeShine} aria-hidden="true" />
+                    <ChatHeader
+                        title="گفتگوی جدید"
+                        subtitle="پشتیبانی مشتریان · نمایش آزمایشی"
+                    />
+                    <ChatMessages
+                        messagesRef={messagesRef}
+                        label="پیام‌های گفتگو"
+                    >
+                        {selectedConversation && messages.length > 0 ? (
+                            <MessageHistory
+                                turns={messages}
+                                selectedConversation={selectedConversation}
+                            />
+                        ) : (
+                            <WelcomeMessage />
+                        )}
+                    </ChatMessages>
                     {children}
+                    <ChatQuestionForm
+                        questionForm={questionForm}
+                        sendQuestion={sendQuestion}
+                        asking={asking}
+                        hasQuestion={hasQuestion}
+                        placeholder="پیام خود را بنویسید…"
+                    />
                 </main>
             </div>
         </div>

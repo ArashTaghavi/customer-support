@@ -12,6 +12,7 @@ class ConversationController extends Controller
 {
     public function store(Request $request)
     {
+
         $conversation = Conversation::create(['title' => 'چت جدید', 'user_id' => 1]);
         if ($request->has('question')) {
             $message = $conversation->messages()
@@ -26,12 +27,11 @@ class ConversationController extends Controller
         ]);
     }
 
-    public function show(Request $request, Conversation $conversation)
+    public function show(Conversation $conversation)
     {
-        return Inertia::render('app/index', [
+        return Inertia::render('app/conversation/index', [
             'selectedConversation' => $conversation,
-            'conversations' => Conversation::all(),
-            'messages' => $conversation->messages()->get(),
+            'messages' => $conversation->messages()->oldest()->orderBy('created_at')->get(),
         ]);
     }
 
@@ -49,8 +49,6 @@ class ConversationController extends Controller
 
         Ask::dispatch($message);
 
-        return to_route('conversations.show', [
-            'conversation' => $conversation->uuid,
-        ]);
+        return back()->with('newMessage', $message);
     }
 }

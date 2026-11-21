@@ -37,7 +37,6 @@ export default function ChatQuestionForm({
                     label="پیام شما"
                     placeholder={placeholder}
                     autoComplete="off"
-                    dir="auto"
                     disabled={asking}
                 />
                 <Button
