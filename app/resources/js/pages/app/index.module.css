@@ -1,57 +1,82 @@
+.shell {
+    background: #050505;
+    color: #e4e4e7;
+    color-scheme: dark;
+}
+
+.sidebar {
+    z-index: 1;
+    border-inline-end-color: rgb(167 139 250 / 20%);
+    box-shadow:
+        -12px 0 40px -16px rgb(139 92 246 / 32%),
+        -1px 0 0 rgb(196 181 253 / 8%);
+}
+
+.sidebar:not(dialog) {
+    position: relative;
+}
+
+.sidebar::after {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: -1px;
+    width: 1px;
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        rgb(167 139 250 / 18%) 20%,
+        rgb(196 181 253 / 65%) 50%,
+        rgb(167 139 250 / 18%) 80%,
+        transparent
+    );
+    content: '';
+    pointer-events: none;
+}
+
 .chat {
     position: relative;
     isolation: isolate;
-    border: 1px solid color-mix(in srgb, var(--brand) 10%, transparent);
-}
-
-/* A subtle animated shine across the full top edge */
-.edgeShine {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    overflow: hidden;
-    pointer-events: none;
-    background: linear-gradient(90deg, transparent, var(--brand), transparent);
-    box-shadow: 0 3px 12px 1px color-mix(in srgb, var(--brand) 30%, transparent);
-}
-
-.edgeShine::after {
-    content: '';
-    position: absolute;
-    inset-block: 0;
-    left: 0;
-    width: 35%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        var(--brand),
-        color-mix(in srgb, var(--brand) 20%, white),
-        transparent
+    background-image: radial-gradient(
+        ellipse 76% 54% at 50% 50%,
+        rgb(139 92 246 / 25%) 0%,
+        rgb(124 58 237 / 15%) 28%,
+        rgb(109 40 217 / 5%) 60%,
+        transparent 90%
     );
-    opacity: 0;
-    animation: edge-shine 6s ease-in-out infinite;
+    background-repeat: no-repeat;
 }
 
-@keyframes edge-shine {
-    0% {
-        opacity: 0;
-        transform: translateX(-100%);
-    }
-    15%,
-    55% {
-        opacity: 0.9;
-    }
-    75%,
-    100% {
-        opacity: 0;
-        transform: translateX(390%);
+@media (max-width: 767px) {
+    .chat {
+        background-image: radial-gradient(
+            ellipse 110% 48% at 50% 50%,
+            rgb(139 92 246 / 24%) 0%,
+            rgb(124 58 237 / 12%) 38%,
+            transparent 90%
+        );
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .edgeShine::after {
-        animation: none;
+@media (max-width: 374px) {
+    .shell {
+        --chat-gutter: 0.5rem;
+    }
+}
+
+@media (min-width: 375px) {
+    .shell {
+        --chat-gutter: 0.75rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .shell {
+        --chat-gutter: 1.25rem;
+    }
+}
+
+@media (min-width: 1280px) {
+    .shell {
+        --chat-gutter: 2rem;
     }
 }

@@ -15,11 +15,11 @@ export default function ChatHeader({
     onOpenSidebar,
 }: Props) {
     return (
-        <header className="flex min-w-0 shrink-0 items-center gap-2 border-b border-white/6 bg-[#101012] bg-[radial-gradient(ellipse_at_top_right,rgba(139,92,246,0.08),transparent_75%)] px-3 py-2.5 sm:gap-3 sm:px-5 sm:py-3">
+        <header className="flex min-w-0 shrink-0 items-center gap-2 border-b border-white/6 bg-[#080808] px-3 py-2.5 sm:gap-3 sm:px-5 sm:py-3">
             <Button
                 variant="secondary"
                 size="icon"
-                className="lg:hidden"
+                className="size-11! lg:hidden"
                 onClick={onOpenSidebar}
                 aria-label="باز کردن فهرست گفتگوها"
                 aria-expanded={sidebarOpen}
@@ -36,7 +36,7 @@ export default function ChatHeader({
                 <h2 className="truncate text-sm font-medium" title={title}>
                     {title ?? 'گفتگوی جدید'}
                 </h2>
-                <p className="mt-0.5 truncate text-[10px] text-zinc-500 sm:text-xs">
+                <p className="mt-0.5 truncate text-[10px] text-muted sm:text-xs">
                     {subtitle}
                 </p>
             </div>

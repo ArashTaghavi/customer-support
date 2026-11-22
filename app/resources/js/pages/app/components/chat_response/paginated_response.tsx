@@ -161,7 +161,7 @@ export default function PaginatedResponse({ type, data: ids }: ChatBlock) {
             aria-busy={loading}
         >
             {!visible && ids.length > 0 ? (
-                <div className="flex min-h-40 items-center justify-center rounded-xl border border-white/8 bg-white/3 text-xs text-zinc-500">
+                <div className="flex min-h-40 items-center justify-center rounded-xl border border-white/8 bg-white/3 text-xs text-muted">
                     اطلاعات هنگام مشاهده پیام دریافت می‌شود.
                 </div>
             ) : loading && !result ? (
@@ -230,7 +230,7 @@ export default function PaginatedResponse({ type, data: ids }: ChatBlock) {
                                 {index > 0 &&
                                     pageNumber - pageNumbers[index - 1] > 1 && (
                                         <span
-                                            className="px-1 text-zinc-500"
+                                            className="px-1 text-muted"
                                             aria-hidden="true"
                                         >
                                             …
@@ -250,7 +250,7 @@ export default function PaginatedResponse({ type, data: ids }: ChatBlock) {
                                     }
                                     disabled={loading}
                                     onClick={() => setPage(pageNumber)}
-                                    className={`flex size-7! items-center justify-center rounded-lg border text-[11px]! transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${page === pageNumber ? 'border-violet-300/50 bg-violet-400/20 font-semibold text-violet-100 shadow-[0_0_12px_rgba(139,92,246,0.15)]' : 'border-white/8 bg-white/3 text-zinc-400 hover:border-violet-300/30 hover:text-zinc-100'}`}
+                                    className={`flex size-7! items-center justify-center rounded-lg border text-[11px]! transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${page === pageNumber ? 'border-violet-300/50 bg-violet-400/20 font-semibold text-violet-100 shadow-[0_0_12px_rgba(139,92,246,0.15)]' : 'border-white/8 bg-white/3 text-muted hover:border-violet-300/30 hover:text-zinc-100'}`}
                                 >
                                     {pageNumber.toLocaleString('fa-IR')}
                                 </Button>

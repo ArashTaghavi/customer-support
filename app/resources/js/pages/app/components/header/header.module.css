@@ -2,25 +2,6 @@
     position: relative;
     z-index: 1;
     isolation: isolate;
-    background:
-        radial-gradient(
-            ellipse at 25% 0%,
-            rgb(139 92 246 / 16%),
-            transparent 60%
-        ),
-        linear-gradient(110deg, #211631, #291b3d 50%, #20152f);
+    background: linear-gradient(rgb(139 92 246 / 20%), rgb(139 92 246 / 20%)), #0c0c11;
 }
 
-.header::after {
-    position: absolute;
-    inset: auto 0 0;
-    height: 1px;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgb(167 139 250 / 30%),
-        transparent
-    );
-    content: '';
-    pointer-events: none;
-}

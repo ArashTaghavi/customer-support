@@ -14,7 +14,7 @@ export default function EmptyCart() {
                 <p className="text-xs font-medium text-zinc-200">
                     سبد خریدت هنوز خالیه
                 </p>
-                <p className="text-[11px] leading-6 text-zinc-500">
+                <p className="text-[11px] leading-6 text-muted">
                     محصولاتی که انتخاب می‌کنی، اینجا نمایش داده می‌شن.
                 </p>
             </div>

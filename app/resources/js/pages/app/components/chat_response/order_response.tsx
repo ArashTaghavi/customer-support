@@ -71,7 +71,7 @@ function DetailRow({
 }) {
     return (
         <div className="grid min-w-0 grid-cols-[6rem_minmax(0,1fr)] items-baseline gap-x-2 py-1.5 text-xs leading-6">
-            <dt className="text-zinc-400">{label}:</dt>
+            <dt className="text-muted">{label}:</dt>
             <dd className="min-w-0 wrap-anywhere text-zinc-100">{children}</dd>
         </div>
     );
@@ -143,14 +143,14 @@ export default function OrderResponse({
                             <span className="block text-xs font-semibold wrap-anywhere text-zinc-100">
                                 سفارش <bdi>{order.order_number}</bdi>
                             </span>
-                            <span className="block text-[11px] font-normal text-zinc-400">
+                            <span className="block text-[11px] font-normal text-muted">
                                 {open ? 'بستن جزئیات' : 'مشاهده جزئیات'}
                             </span>
                         </span>
                         <span className="flex flex-wrap items-center gap-2">
                             <span className="text-sm font-semibold whitespace-nowrap text-violet-200 tabular-nums">
                                 {order.total_amount.toLocaleString('fa-IR')}{' '}
-                                <span className="text-[10px] font-normal text-zinc-400">
+                                <span className="text-[10px] font-normal text-muted">
                                     تومان
                                 </span>
                             </span>
@@ -383,7 +383,7 @@ export default function OrderResponse({
                                         <caption className="sr-only">
                                             اقلام سفارش {order.order_number}
                                         </caption>
-                                        <thead className="bg-white/4 text-zinc-400">
+                                        <thead className="bg-white/4 text-muted">
                                             <tr>
                                                 {[
                                                     'محصول',
@@ -418,7 +418,7 @@ export default function OrderResponse({
                                                                         size={
                                                                             17
                                                                         }
-                                                                        className="text-zinc-400"
+                                                                        className="text-muted"
                                                                         aria-hidden="true"
                                                                     />
                                                                     {image && (

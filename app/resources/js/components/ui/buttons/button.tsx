@@ -18,7 +18,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 const variants: Record<ButtonVariant, string> = {
     tab: 'border-transparent bg-transparent text-ui-secondary hover:bg-white/5 hover:text-white aria-selected:bg-violet-400/10 aria-selected:text-violet-300 aria-selected:ring-1 aria-selected:ring-violet-400/20',
     primary:
-        'border-violet-300/20 bg-violet-600 text-white hover:bg-violet-500',
+        'button-primary',
     secondary: 'border-ui-border bg-white/5 text-zinc-200 hover:bg-white/10',
     danger: 'border-red-400/20 bg-red-600 text-white hover:bg-red-500',
     'outline-danger':
@@ -56,7 +56,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                 disabled={disabled || loading}
                 aria-busy={loading}
                 className={[
-                    'inline-flex items-center justify-center border transition',
+                    'inline-flex items-center justify-center border-0 transition',
                     sizes[size],
                     'focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-400',
                     'cursor-pointer disabled:cursor-not-allowed disabled:opacity-60',

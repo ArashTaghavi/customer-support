@@ -65,13 +65,13 @@ export default function CancellationConfirmation({
             <p className="text-xs leading-7 wrap-anywhere text-zinc-200">
                 {confirmation.message}
             </p>
-            <p className="text-xs text-zinc-400">
+            <p className="text-xs text-muted">
                 مبلغ سفارش:{' '}
                 <span className="tabular-nums">
                     {confirmation.total_amount.toLocaleString('fa-IR')} تومان
                 </span>
             </p>
-            <p className="text-[11px] leading-6 text-zinc-500">
+            <p className="text-[11px] leading-6 text-muted">
                 تا تأیید نکنید، سفارش لغو نمی‌شود. بازگشت وجه فرایند جداگانه‌ای
                 دارد.
             </p>

@@ -51,7 +51,7 @@ export default function WelcomeMessage() {
                     )}
                 </div>
 
-                <p className="mt-4 text-center text-xs leading-5 text-zinc-400 [@media(max-height:700px)]:mt-2 [@media(max-height:700px)]:text-[11px]">
+                <p className="mt-4 text-center text-xs leading-5 text-muted [@media(max-height:700px)]:mt-2 [@media(max-height:700px)]:text-[11px]">
                     مثلاً بنویس:
                     <span className="mr-1 text-violet-300">
                         «یه هدفون بی‌سیم می‌خوام»

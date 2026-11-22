@@ -47,7 +47,7 @@ export default function Greeting() {
                 </span>
             </h2>
 
-            <p className="mt-1 text-xs leading-6 text-zinc-400 sm:text-sm [@media(max-height:700px)]:text-xs">
+            <p className="mt-1 text-xs leading-6 text-muted sm:text-sm [@media(max-height:700px)]:text-xs">
                 از پیگیری سفارش تا پیدا کردن خرید بعدی، همین‌جا کنارتم.
             </p>
         </div>

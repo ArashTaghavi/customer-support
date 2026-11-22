@@ -26,7 +26,7 @@ export default function Cart() {
                 type="button"
                 onClick={() => dialogRef.current?.showModal()}
                 aria-haspopup="dialog"
-                className="group flex h-12 w-full cursor-pointer items-center gap-3 rounded-2xl border border-violet-300/35 bg-linear-to-br from-violet-500/30 via-violet-500/15 to-indigo-500/20 px-3 py-1 text-start text-white shadow-[0_6px_24px_rgba(124,58,237,0.18),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-xl transition-colors hover:border-violet-200/50 hover:from-violet-500/40 hover:to-indigo-500/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-300 active:from-white/10"
+                className="group flex h-12 w-full cursor-pointer items-center gap-3 rounded-2xl border border-violet-300/35 bg-linear-to-br from-violet-500/15 via-violet-500/8 to-white/3 px-3 py-1 text-start text-white shadow-[0_6px_24px_rgba(124,58,237,0.18),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-xl transition-colors hover:border-violet-200/50 hover:from-violet-500/25 hover:to-violet-500/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-300 active:from-white/10"
             >
                 <span className="flex size-8 shrink-0 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-violet-100 shadow-sm transition-colors group-hover:bg-white/20">
                     <ShoppingBag size={19} aria-hidden="true" />
@@ -75,16 +75,14 @@ export default function Cart() {
                     position: 'fixed',
                     inset: 0,
                     margin: 'auto',
-                    width: 'min(48rem, calc(100vw - 2rem))',
-                    maxHeight: '90dvh',
                 }}
-                className="overflow-y-auto rounded-3xl border border-white/15 bg-[#141416]/85 p-0 text-zinc-100 shadow-[0_24px_100px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-2xl backdrop:bg-black/55 backdrop:backdrop-blur-sm"
+                className="max-h-[calc(100dvh-1rem)] w-[calc(100vw-1rem)] max-w-3xl overflow-x-hidden overflow-y-auto rounded-2xl border border-white/15 bg-[#0d0d0f]/85 p-0 text-zinc-100 shadow-[0_24px_100px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-2xl backdrop:bg-black/55 backdrop:backdrop-blur-sm sm:max-h-[85dvh] sm:w-[calc(100vw-3rem)] sm:rounded-3xl [@media(max-height:500px)]:max-h-[calc(100dvh-0.5rem)]"
             >
                 <div
                     className="pointer-events-none absolute inset-x-0 top-0 h-48 rounded-t-3xl bg-[radial-gradient(ellipse_at_top_right,rgba(139,92,246,0.10),transparent_70%)]"
                     aria-hidden="true"
                 />
-                <div className="sticky top-0 z-10 flex items-center gap-3 border-b border-white/8 bg-[#141416]/90 p-5 backdrop-blur-xl sm:p-6">
+                <div className="sticky top-0 z-10 flex items-center gap-3 border-b border-white/8 bg-[#0d0d0f]/90 p-3 backdrop-blur-xl sm:p-5">
                     <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl border border-violet-300/20 bg-violet-400/10 text-violet-300">
                         <ShoppingBag size={22} aria-hidden="true" />
                     </span>
@@ -95,12 +93,12 @@ export default function Cart() {
                         type="button"
                         onClick={close}
                         aria-label="بستن سبد خرید"
-                        className="flex size-9 cursor-pointer items-center justify-center rounded-xl border border-white/8 bg-white/5 text-zinc-400 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:outline-violet-400"
+                        className="flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-white/8 bg-white/5 text-muted transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:outline-violet-400"
                     >
                         <X size={18} aria-hidden="true" />
                     </button>
                 </div>
-                <div className="relative p-5 sm:p-6">
+                <div className="relative p-3 sm:p-5">
                     {cart.length > 0 ? (
                         <ul className="space-y-3">
                             {cart.map((item) => (
@@ -111,7 +109,7 @@ export default function Cart() {
                         <EmptyCart />
                     )}
                 </div>
-                <div className="sticky bottom-0 z-10 border-t border-white/8 bg-[#141416]/95 p-4 backdrop-blur-xl sm:px-6">
+                <div className="sticky bottom-0 z-10 border-t border-white/8 bg-[#0d0d0f]/95 p-4 backdrop-blur-xl sm:px-6">
                     {cart.length > 0 && (
                         <CartSummary itemCount={itemCount} total={total} />
                     )}

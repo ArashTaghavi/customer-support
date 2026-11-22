@@ -109,7 +109,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
     return (
         <div
             dir="rtl"
-            className="flex h-dvh min-h-0 w-full min-w-0 flex-col overflow-hidden"
+            className={`${styles.shell} flex h-dvh min-h-0 w-full min-w-0 flex-col overflow-hidden`}
         >
             <Header />
             <div className="flex min-h-0 min-w-0 flex-1 overflow-hidden">
@@ -118,9 +118,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
                     onClose={() => setSidebarOpen(false)}
                 />
                 <main
-                    className={`${styles.chat} flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-[#0c0c0e] bg-[radial-gradient(ellipse_at_top_right,rgba(139,92,246,0.045),transparent_60%)] text-zinc-100`}
+                    className={`${styles.chat} flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-[#050505] text-zinc-100`}
                 >
-                    <div className={styles.edgeShine} aria-hidden="true" />
                     <ChatHeader
                         title={selectedConversation?.title ?? 'گفتگوی جدید'}
                         subtitle="پشتیبانی مشتریان · نمایش آزمایشی"

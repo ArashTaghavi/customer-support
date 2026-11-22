@@ -26,7 +26,7 @@ function MessageTime({ timestamp }: MessageTimeProps) {
             title={date.full}
             aria-label={date.full}
             dir="ltr"
-            className="mt-2 block text-right text-[10px] text-zinc-400 tabular-nums"
+            className="mt-2 block text-right text-[10px] text-muted tabular-nums"
         >
             {date.time}
         </time>

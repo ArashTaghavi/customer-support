@@ -25,7 +25,7 @@ export default function ProductsResponse({ products }: ProductsResponseProps) {
                     <article
                         key={product.id}
                         dir="rtl"
-                        className="group flex min-w-0 flex-col gap-3 rounded-2xl border border-border bg-linear-to-br from-surface-secondary to-brand/5 p-3 transition-colors hover:border-brand/30"
+                        className="group flex min-w-0 flex-col gap-3 rounded-2xl border border-border bg-surface-secondary p-3 transition-colors hover:border-brand/30"
                     >
                         <div className="relative flex aspect-4/3 w-full shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white">
                             <Package
