@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Cart\CartItem;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -41,7 +42,27 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'conversations' => $request->user()?->conversations()->latest()->get() ?? [],
+            'conversations' => $request->user()
+                ?->conversations()
+                ->latest()
+                ->get() ?? [],
+            'cart' => fn () => $request->user()
+                ? CartItem::query()
+                    ->with('product')
+                    ->whereRelation('cart', 'user_id', $request->user()->id)
+                    ->latest()
+                    ->get()
+                    ->map(fn (CartItem $cartItem) => [
+                        'id' => $cartItem->id,
+                        'product' => [
+                            'id' => $cartItem->product_id,
+                            'title' => $cartItem->product->title,
+                            'price' => $cartItem->product->price,
+                            'image' => $cartItem->product->image_url,
+                        ],
+                        'quantity' => $cartItem->quantity,
+                    ])
+                : [],
         ];
     }
 }

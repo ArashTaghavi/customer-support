@@ -1,4 +1,6 @@
-﻿import { Package } from 'lucide-react';
+import { Package } from 'lucide-react';
+import AddToCart from '../cart/add_to_cart';
+import { useState } from 'react';
 import type { ProductData } from '@/types/chat_response';
 
 type ProductsResponseProps = {
@@ -6,10 +8,17 @@ type ProductsResponseProps = {
 };
 
 export default function ProductsResponse({ products }: ProductsResponseProps) {
+    const [quantities, setQuantities] = useState<Record<number, number>>({});
+
     return (
         <div className="grid min-w-0 grid-cols-1 gap-2 sm:gap-3 @min-[22rem]:grid-cols-2 @min-[36rem]:grid-cols-3 @min-[48rem]:grid-cols-4 @min-[60rem]:grid-cols-5">
             {products.map((product) => {
-                const available = product.stock > 0;
+                const quantity = Math.min(
+                    quantities[product.id] ?? 0,
+                    product.stock,
+                );
+                const remainingStock = Math.max(0, product.stock - quantity);
+                const available = remainingStock > 0;
 
                 return (
                     <article
@@ -17,7 +26,7 @@ export default function ProductsResponse({ products }: ProductsResponseProps) {
                         dir="rtl"
                         className="group flex min-w-0 flex-col gap-3 rounded-2xl border border-border bg-linear-to-br from-surface-secondary to-brand/5 p-3 transition-colors hover:border-brand/30"
                     >
-                        <div className="relative flex aspect-[4/3] w-full shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white">
+                        <div className="relative flex aspect-4/3 w-full shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white">
                             <Package
                                 size={32}
                                 className="text-zinc-300"
@@ -49,13 +58,22 @@ export default function ProductsResponse({ products }: ProductsResponseProps) {
                                     className={`size-1.5 shrink-0 rounded-full ${available ? 'bg-emerald-500' : 'bg-zinc-500'}`}
                                 />
                                 {available
-                                    ? `${product.stock.toLocaleString('fa-IR')} عدد موجود`
+                                    ? `${remainingStock.toLocaleString('fa-IR')} عدد موجود`
                                     : 'ناموجود'}
                             </span>
                         </div>
 
                         <div className="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-border pt-3">
-                            <span className="text-xs text-muted">قیمت</span>
+                            <AddToCart
+                                product={product}
+                                quantity={quantity}
+                                onQuantityChange={(nextQuantity) =>
+                                    setQuantities((current) => ({
+                                        ...current,
+                                        [product.id]: nextQuantity,
+                                    }))
+                                }
+                            />
                             <span className="text-base font-semibold text-brand tabular-nums">
                                 {product.price.toLocaleString('fa-IR')}
                                 <span className="ms-1 text-[10px] font-normal text-muted">

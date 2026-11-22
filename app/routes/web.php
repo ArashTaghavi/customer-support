@@ -36,4 +36,9 @@ Route::prefix('cart')
     ->controller(CartController::class)
     ->group(function () {
         Route::post('', 'index')->name('index');
+        Route::prefix('{product}')->group(function () {
+            Route::post('add', 'add')->name('add');
+            Route::post('remove', 'remove')->name('remove');
+        });
+
     });

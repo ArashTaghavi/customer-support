@@ -13,6 +13,7 @@ import { Button } from '@/components/ui';
 import { show, store } from '@/routes/conversations';
 import { messageDate } from '@/utils/message_dates';
 import type { ConversationResponse } from '@/types/conversation';
+import Cart from '../cart';
 
 type SidebarProps = { open: boolean; onClose: () => void };
 
@@ -23,10 +24,11 @@ function SidebarContent({
     onNavigate: () => void;
     mobile?: boolean;
 }) {
-    const { conversations, selectedConversation } = usePage<{
+    const { conversations, selectedConversation, cart } = usePage<{
         conversations: ConversationResponse[];
         selectedConversation?: ConversationResponse;
     }>().props;
+
     const [search, setSearch] = useState('');
     const [creating, setCreating] = useState(false);
     const searchId = useId();
@@ -103,7 +105,7 @@ function SidebarContent({
             </div>
             <nav
                 aria-label="تاریخچه گفتگوها"
-                className="min-h-0 flex-1 [scrollbar-width:thin] [scrollbar-color:rgba(167,139,250,0.2)_transparent] overflow-y-auto overscroll-contain p-3"
+                className="min-h-0 flex-1 scrollbar-thin [scrollbar-color:rgba(167,139,250,0.2)_transparent] overflow-y-auto overscroll-contain p-3"
             >
                 <div className="mb-2 flex items-center justify-between px-2 text-[10px] text-zinc-500">
                     <span>گفتگوهای اخیر</span>
@@ -126,7 +128,7 @@ function SidebarContent({
                             >
                                 {active && (
                                     <span
-                                        className="absolute inset-y-3 start-0 w-0.5 rounded-full bg-violet-300 shadow-[0_0_8px_rgba(167,139,250,0.6)]"
+                                        className="absolute inset-y-3 inset-s-0 w-0.5 rounded-full bg-violet-300 shadow-[0_0_8px_rgba(167,139,250,0.6)]"
                                         aria-hidden="true"
                                     />
                                 )}
@@ -189,13 +191,8 @@ function SidebarContent({
                     </div>
                 )}
             </nav>
-            <div className="flex shrink-0 items-center gap-2 border-t border-white/6 px-5 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] text-[10px] text-zinc-500">
-                <span
-                    className="size-1.5 rounded-full bg-violet-400"
-                    aria-hidden="true"
-                />
-                پشتیبانی مشتریان
-                <span className="ms-auto text-violet-300/60">AI</span>
+            <div className="mt-auto shrink-0 border-t border-white/6 bg-[#11111c] p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+                <Cart />
             </div>
         </div>
     );
