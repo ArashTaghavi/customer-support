@@ -7,10 +7,11 @@ type MessageHistoryProps = {
 type MessageTimeProps = { timestamp: string };
 import { UserRound } from 'lucide-react';
 import styles from './message_history.module.css';
-import { TypingIndicator, AssistantMessage } from '@/components/chat';
+import TypingIndicator from '../typing_indicator';
+import AssistantMessage from '../assistant_message';
 
-import ChatResponse from '@/pages/app/components/chat_response';
-import { parseChatResponse } from '@/pages/app/components/chat_response/parse_response';
+import ChatResponse from '../chat_response';
+import { parseChatResponse } from '../chat_response/parse_response';
 import { ConversationResponse, MessageResponse } from '@/types/conversation';
 import { useEcho } from '@laravel/echo-react';
 import { Events } from '@/types/events';

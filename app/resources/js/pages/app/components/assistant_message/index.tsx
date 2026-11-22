@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { Sparkles } from 'lucide-react';
-import styles from './message_history.module.css';
+import styles from '../message_history/message_history.module.css';
 
 export default function AssistantMessage({
     children,

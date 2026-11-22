@@ -17,8 +17,6 @@ class OrderCancellationController extends Controller
     public function __invoke(Request $request, Message $message, AIClient $aiClient): JsonResponse
     {
         $user = $request->user();
-        abort_unless($user !== null, 401);
-        abort_unless((int) $message->conversation->user_id === $user->id, 404);
 
         $validated = $request->validate([
             'confirmed' => ['required', 'boolean'],

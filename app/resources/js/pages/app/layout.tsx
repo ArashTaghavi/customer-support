@@ -1,13 +1,14 @@
 import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
-import { Header, WelcomeMessage } from './components';
 import {
+    Header,
+    WelcomeMessage,
     ChatHeader,
     ChatMessages,
     ChatQuestionForm,
     ChatSidebar,
     MessageHistory,
-} from '@/components/chat';
+} from './components';
 import styles from './index.module.css';
 import { router, usePage } from '@inertiajs/react';
 import type {

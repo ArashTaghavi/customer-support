@@ -12,8 +12,6 @@ class ChatResponseController extends Controller
 {
     public function orders(Request $request): AnonymousResourceCollection
     {
-        abort_unless($request->user(), 401);
-
         $validated = $request->validate([
             'ids' => ['present', 'array'],
             'ids.*' => ['required', 'integer', 'min:1'],
@@ -21,7 +19,12 @@ class ChatResponseController extends Controller
         ]);
 
         $orders = $request->user()->orders()
-            ->with(['orderItems.product.productCategory', 'payments'])
+            ->with([
+                'orderItems' => [
+                    'product' => [
+                        'productCategory',
+                    ],
+                ], 'payments'])
             ->whereIn('id', $validated['ids'])
             ->orderBy('id')
             ->paginate(5)
