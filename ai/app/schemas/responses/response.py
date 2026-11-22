@@ -23,3 +23,8 @@ class NotFoundResponse(BaseModel):
 class ErrorResponse(BaseModel):
     status: str = "error"
     message: str
+
+
+class UnauthorizedUser(BaseModel):
+    status: str = "unauthorized"
+    message: str = "User is not authenticated."
