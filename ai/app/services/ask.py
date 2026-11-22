@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from langchain_core.runnables import RunnableConfig
 
-from ai.app.schemas.enums import AgentInterruptEnum
+from app.schemas.enums import AgentInterruptEnum
 
 
 class AskService:

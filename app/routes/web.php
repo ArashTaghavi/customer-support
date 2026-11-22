@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ChatResponseController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\OrderCancellationController;
@@ -28,4 +29,11 @@ Route::prefix('chat-response')
     ->group(function () {
         Route::post('orders', 'orders')->name('orders');
         Route::post('products', 'products')->name('products');
+    });
+
+Route::prefix('cart')
+    ->name('cart.')
+    ->controller(CartController::class)
+    ->group(function () {
+        Route::post('', 'index')->name('index');
     });
