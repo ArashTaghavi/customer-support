@@ -1,6 +1,7 @@
-import { Package } from 'lucide-react';
+import { Check, Package } from 'lucide-react';
 import AddToCart from '../cart/add_to_cart';
-import { useState } from 'react';
+import { usePage } from '@inertiajs/react';
+import type { CartResponse } from '@/types/cart';
 import type { ProductData } from '@/types/chat_response';
 
 type ProductsResponseProps = {
@@ -8,15 +9,15 @@ type ProductsResponseProps = {
 };
 
 export default function ProductsResponse({ products }: ProductsResponseProps) {
-    const [quantities, setQuantities] = useState<Record<number, number>>({});
+    const { cart = [] } = usePage<{ cart: CartResponse[] }>().props;
+    const quantities = new Map(
+        cart.map((item) => [item.product.id, item.quantity]),
+    );
 
     return (
         <div className="grid min-w-0 grid-cols-1 gap-2 sm:gap-3 @min-[22rem]:grid-cols-2 @min-[36rem]:grid-cols-3 @min-[48rem]:grid-cols-4 @min-[60rem]:grid-cols-5">
             {products.map((product) => {
-                const quantity = Math.min(
-                    quantities[product.id] ?? 0,
-                    product.stock,
-                );
+                const quantity = quantities.get(product.id) ?? 0;
                 const remainingStock = Math.max(0, product.stock - quantity);
                 const available = remainingStock > 0;
 
@@ -61,19 +62,17 @@ export default function ProductsResponse({ products }: ProductsResponseProps) {
                                     ? `${remainingStock.toLocaleString('fa-IR')} عدد موجود`
                                     : 'ناموجود'}
                             </span>
+                            {quantity > 0 && (
+                                <span className="inline-flex items-center gap-1.5 self-start rounded-lg border border-brand/20 bg-brand/10 px-2 py-1 text-[11px] font-medium text-brand">
+                                    <Check size={13} aria-hidden="true" />
+                                    {quantity.toLocaleString('fa-IR')} عدد در
+                                    سبد خرید
+                                </span>
+                            )}
                         </div>
 
                         <div className="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-border pt-3">
-                            <AddToCart
-                                product={product}
-                                quantity={quantity}
-                                onQuantityChange={(nextQuantity) =>
-                                    setQuantities((current) => ({
-                                        ...current,
-                                        [product.id]: nextQuantity,
-                                    }))
-                                }
-                            />
+                            <AddToCart product={product} quantity={quantity} />
                             <span className="text-base font-semibold text-brand tabular-nums">
                                 {product.price.toLocaleString('fa-IR')}
                                 <span className="ms-1 text-[10px] font-normal text-muted">

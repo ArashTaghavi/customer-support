@@ -7,27 +7,21 @@ import { add, remove } from '@/routes/cart';
 type AddToCartProps = {
     product: ProductData;
     quantity: number;
-    onQuantityChange: (quantity: number) => void;
 };
 
-export default function AddToCart({
-    product,
-    quantity,
-    onQuantityChange,
-}: AddToCartProps) {
+export default function AddToCart({ product, quantity }: AddToCartProps) {
     const available = quantity < product.stock;
 
     const [processing, setProcessing] = useState(false);
     const requestPending = useRef(false);
 
     function updateCart(action: 'add' | 'remove') {
-        const delta = action === 'add' ? 1 : -1;
-        const nextQuantity = Math.max(
-            0,
-            Math.min(product.stock, quantity + delta),
-        );
-
-        if (requestPending.current || nextQuantity === quantity) return;
+        if (
+            requestPending.current ||
+            (action === 'add' && !available) ||
+            (action === 'remove' && quantity <= 0)
+        )
+            return;
 
         requestPending.current = true;
         setProcessing(true);
@@ -38,7 +32,6 @@ export default function AddToCart({
             {
                 preserveScroll: true,
                 preserveState: true,
-                onSuccess: () => onQuantityChange(nextQuantity),
                 onFinish: () => {
                     requestPending.current = false;
                     setProcessing(false);
