@@ -25,7 +25,7 @@ export default function ProductsResponse({ products }: ProductsResponseProps) {
                     <article
                         key={product.id}
                         dir="rtl"
-                        className="group flex min-w-0 flex-col gap-3 rounded-2xl border border-border bg-surface-secondary p-3 transition-colors hover:border-brand/30"
+                        className="group relative isolate flex min-w-0 flex-col gap-3 overflow-hidden rounded-2xl border border-violet-300/30 bg-[#141322] bg-[radial-gradient(ellipse_at_top_right,rgba(139,92,246,0.18),transparent_65%)] p-3 text-zinc-100 shadow-[0_12px_32px_-12px_rgba(0,0,0,0.65)] transition-colors hover:border-violet-300/45"
                     >
                         <div className="relative flex aspect-4/3 w-full shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white">
                             <Package
@@ -47,7 +47,7 @@ export default function ProductsResponse({ products }: ProductsResponseProps) {
                         <div className="flex min-w-0 flex-1 flex-col gap-2">
                             <h3
                                 dir="auto"
-                                className="line-clamp-2 min-h-12 text-start text-sm leading-6 font-semibold wrap-anywhere text-foreground"
+                                className="line-clamp-2 min-h-12 text-start text-sm leading-6 font-semibold wrap-anywhere text-zinc-100"
                             >
                                 {product.title}
                             </h3>
@@ -63,7 +63,7 @@ export default function ProductsResponse({ products }: ProductsResponseProps) {
                                     : 'ناموجود'}
                             </span>
                             {quantity > 0 && (
-                                <span className="inline-flex items-center gap-1.5 self-start rounded-lg border border-brand/20 bg-brand/10 px-2 py-1 text-[11px] font-medium text-brand">
+                                <span className="inline-flex items-center gap-1.5 self-start rounded-lg border border-violet-300/20 bg-violet-400/10 px-2 py-1 text-[11px] font-medium text-violet-300">
                                     <Check size={13} aria-hidden="true" />
                                     {quantity.toLocaleString('fa-IR')} عدد در
                                     سبد خرید
@@ -71,9 +71,9 @@ export default function ProductsResponse({ products }: ProductsResponseProps) {
                             )}
                         </div>
 
-                        <div className="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-border pt-3">
+                        <div className="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-violet-300/15 pt-3">
                             <AddToCart product={product} quantity={quantity} />
-                            <span className="text-base font-semibold text-brand tabular-nums">
+                            <span className="text-base font-semibold text-violet-200 tabular-nums">
                                 {product.price.toLocaleString('fa-IR')}
                                 <span className="ms-1 text-[10px] font-normal text-muted">
                                     تومان

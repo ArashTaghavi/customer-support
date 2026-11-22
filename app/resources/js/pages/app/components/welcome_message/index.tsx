@@ -1,6 +1,7 @@
 import { Headset, PackageSearch, ShoppingCart, XCircle } from 'lucide-react';
 import Greeting from './greeting';
 import Capability from './capability';
+import PublicBackground from '@/components/PublicBackground';
 
 const capabilities = [
     {
@@ -29,19 +30,26 @@ const capabilities = [
     },
 ];
 
-export default function WelcomeMessage() {
+export default function WelcomeMessage({
+    animated = false,
+}: {
+    animated?: boolean;
+}) {
     return (
         <div
             dir="rtl"
-            className="@container flex min-h-full w-full items-center justify-center px-1 py-3 sm:px-6 [@media(max-height:700px)]:py-1"
+            data-chat-welcome="true"
+            className="@container relative isolate flex min-h-full w-full items-center justify-center overflow-hidden px-1 py-3 sm:px-6 [@media(max-height:700px)]:py-1"
         >
+            <PublicBackground />
             <div className="w-full max-w-2xl">
-                <Greeting />
+                <Greeting animated={animated} />
 
                 <div className="mt-5 grid grid-cols-1 gap-3 min-[400px]:grid-cols-2 [@media(max-height:700px)]:mt-3 [@media(max-height:700px)]:gap-2">
                     {capabilities.map(
                         ({ icon: Icon, title, description, color }) => (
                             <Capability
+                                key={title}
                                 Icon={Icon}
                                 title={title}
                                 description={description}

@@ -30,7 +30,7 @@ export default function ChatQuestionForm({
                 methods={questionForm}
                 onSubmit={sendQuestion}
                 isPending={asking}
-                className="relative mx-auto flex w-full max-w-3xl min-w-0 shrink-0 items-center bg-transparent px-[var(--chat-gutter)] pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] [&>div]:min-w-0 [&>div]:flex-1 [&>div]:space-y-0 [&>div>label]:sr-only"
+                className="relative mx-auto flex w-full max-w-4xl min-w-0 shrink-0 items-center bg-transparent px-[var(--chat-gutter)] pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] [&>div]:min-w-0 [&>div]:flex-1 [&>div]:space-y-0 [&>div>label]:sr-only"
             >
                 <Input<AskRequest>
                     name="question"
@@ -38,12 +38,12 @@ export default function ChatQuestionForm({
                     placeholder={placeholder}
                     autoComplete="off"
                     disabled={asking}
-                    className="h-12! w-full! rounded-xl! border-0! bg-[#131315]! ps-4! pe-14! text-base! shadow-none! placeholder:text-zinc-300! focus:bg-[#19191c]! focus:ring-0! sm:text-sm!"
+                    className="h-14! w-full! rounded-xl! border-0! bg-white/6! ps-4! pe-16! text-base! text-zinc-100! shadow-[0_8px_32px_rgba(0,0,0,0.2)]! backdrop-blur-2xl backdrop-saturate-150 placeholder:text-zinc-300! hover:bg-white/8! focus:bg-white/10! focus:ring-0! sm:text-sm!"
                 />
                 <Button
                     type="submit"
                     size="icon"
-                    className="absolute! end-[calc(var(--chat-gutter)+0.25rem)] top-4 h-10! w-10! shrink-0 rounded-lg!"
+                    className="absolute! end-[calc(var(--chat-gutter)+0.375rem)] top-[1.125rem] h-11! w-11! shrink-0 rounded-lg!"
                     loading={asking}
                     disabled={!hasQuestion || asking}
                     startIcon={<Send size={16} />}

@@ -6,10 +6,10 @@ export default function PublicBackground() {
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 -z-10"
         >
-            <div className="absolute -top-48 left-1/2 h-[600px] w-[800px] -translate-x-1/2 rounded-full bg-violet-600/25 blur-[120px]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(124,58,237,0.25),transparent_70%)]" />
             <div className="absolute inset-0 bg-[radial-gradient(#ffffff0c_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)] bg-size-[28px_28px]" />
-            <div className="absolute -right-48 -bottom-64 size-[600px] rounded-full border border-white/4" />
-            <div className="absolute -right-32 -bottom-48 size-[480px] rounded-full border border-white/4" />
+            <div className="absolute top-1/2 left-1/2 size-[600px] -translate-1/2 rounded-full border border-white/4" />
+            <div className="absolute top-1/2 left-1/2 size-[480px] -translate-1/2 rounded-full border border-white/4" />
             <svg
                 viewBox="0 0 1440 900"
                 preserveAspectRatio="xMidYMid slice"

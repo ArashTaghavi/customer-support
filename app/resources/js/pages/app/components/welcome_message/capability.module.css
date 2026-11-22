@@ -1,0 +1,27 @@
+.card {
+    border: 1px solid transparent;
+    background:
+        radial-gradient(ellipse at top right, rgb(139 92 246 / 22%), transparent 70%) padding-box,
+        linear-gradient(135deg, rgb(33 25 47 / 45%), rgb(18 16 22 / 35%)) padding-box,
+        linear-gradient(135deg, rgb(216 180 254 / 38%), rgb(167 139 250 / 8%) 50%, rgb(196 181 253 / 20%)) border-box;
+    backdrop-filter: blur(6px) saturate(140%);
+    box-shadow:
+        0 10px 28px -14px rgb(0 0 0 / 65%),
+        0 0 24px -12px rgb(139 92 246 / 25%),
+        inset 0 1px 0 rgb(255 255 255 / 5%);
+    transition: box-shadow 200ms ease;
+}
+
+.card:hover {
+    box-shadow:
+        0 12px 30px -14px rgb(0 0 0 / 65%),
+        0 0 30px -10px rgb(139 92 246 / 40%),
+        inset 0 1px 0 rgb(255 255 255 / 8%);
+}
+
+.icon {
+    background: linear-gradient(145deg, rgb(167 139 250 / 25%), rgb(124 58 237 / 12%));
+    box-shadow:
+        inset 0 1px 0 rgb(221 214 254 / 20%),
+        0 4px 16px rgb(139 92 246 / 18%);
+}

@@ -1,4 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
+import styles from './capability.module.css';
 
 type PropsType = {
     Icon: LucideIcon;
@@ -15,8 +16,7 @@ export default function Capability({
 }: PropsType) {
     return (
         <div
-            key={title}
-            className="group relative isolate overflow-hidden rounded-2xl border border-white/8 bg-[#0e0e10] p-3.5 transition-colors hover:border-violet-300/25 hover:bg-[#121014] sm:p-4 [@media(max-height:700px)]:p-2.5"
+            className={`${styles.card} group relative isolate overflow-hidden rounded-2xl p-4 sm:p-5 [@media(max-height:700px)]:p-3`}
         >
             <span
                 aria-hidden="true"
@@ -28,7 +28,7 @@ export default function Capability({
             />
             <div className="flex items-center gap-2">
                 <span
-                    className={`flex size-9 shrink-0 items-center justify-center rounded-xl ring-1 ring-white/10 ring-inset [@media(max-height:700px)]:size-7 ${color}`}
+                    className={`${styles.icon} flex size-10 shrink-0 items-center justify-center rounded-xl ring-1 ring-violet-200/15 ring-inset [@media(max-height:700px)]:size-8 ${color}`}
                 >
                     <Icon size={18} aria-hidden="true" />
                 </span>
@@ -38,7 +38,7 @@ export default function Capability({
                 </h3>
             </div>
 
-            <p className="mt-2 text-xs leading-6 text-zinc-300/80 [@media(max-height:700px)]:mt-1 [@media(max-height:700px)]:text-[11px] [@media(max-height:700px)]:leading-5">
+            <p className="mt-3 text-xs leading-6 text-zinc-300 [@media(max-height:700px)]:mt-1 [@media(max-height:700px)]:text-[11px] [@media(max-height:700px)]:leading-5">
                 {description}
             </p>
         </div>

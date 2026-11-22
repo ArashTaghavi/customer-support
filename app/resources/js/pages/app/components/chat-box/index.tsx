@@ -14,7 +14,7 @@ export default function ChatBox({ message, date, isUser }: ChatBoxProps) {
         >
             <article
                 aria-label={isUser ? 'پیام شما' : 'پاسخ هوش مصنوعی'}
-                className={`${styles.bubble} ${isUser ? `${styles.user} rounded-tr-md` : `${styles.assistant} rounded-tl-md`} flex w-fit max-w-[95%] min-w-0 flex-col gap-2 rounded-3xl px-3 py-2.5 text-foreground sm:max-w-[90%]`}
+                className={`${styles.bubble} ${isUser ? styles.user : styles.assistant} flex w-fit max-w-[95%] min-w-0 flex-col gap-2 px-3 py-2.5 text-foreground sm:max-w-[90%]`}
             >
                 <p
                     dir="auto"

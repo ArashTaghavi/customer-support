@@ -1,55 +1,32 @@
-import { useState, useEffect } from 'react';
+import Typewriter from '@/components/Typewriter';
+import { typingText, type TypingSegment } from '@/components/TypingTimeline';
 
-export default function Greeting() {
-    const greeting = 'سلام! چطوری می‌تونم کمکت کنم؟';
-    const [length, setLength] = useState(0);
+const title = 'سلام! چطوری می‌تونم کمکت کنم؟';
+const description: readonly TypingSegment[] = [
+    {
+        text: 'من اینجام تا خریدت راحت‌تر پیش بره. می‌خوای سفراشت',
+        correction: 'من اینجام تا خریدت راحت‌تر پیش بره. می‌خوای سفارشت',
+    },
+    {
+        text: ' رو پیگیری کنی، یه محصول پیدا کنی یا قبل از خرید بیشتر بدونی؟ هر سؤالی داری بنویس؛ با هم برسی',
+        correction:
+            ' رو پیگیری کنی، یه محصول پیدا کنی یا قبل از خرید بیشتر بدونی؟ هر سؤالی داری بنویس؛ با هم بررسی',
+    },
+    { text: ' می‌کنیم و قدم‌به‌قدم جلو می‌ریم.' },
+];
 
-    useEffect(() => {
-        const timer = window.setInterval(() => {
-            setLength((current) => Math.min(current + 1, greeting.length));
-        }, 60);
-
-        const timeout = window.setTimeout(
-            () => {
-                window.clearInterval(timer);
-            },
-            greeting.length * 60 + 100,
+export default function Greeting({ animated = false }: { animated?: boolean }) {
+    if (!animated) {
+        return (
+            <div className="text-center">
+                <h2 className="text-xl leading-9 font-semibold text-zinc-100 sm:text-2xl [@media(max-height:700px)]:text-lg [@media(max-height:700px)]:leading-7">
+                    {title}
+                </h2>
+                <p className="mt-1 text-xs leading-6 text-muted sm:text-sm [@media(max-height:700px)]:text-xs">
+                    {typingText(description)}
+                </p>
+            </div>
         );
-
-        return () => {
-            window.clearInterval(timer);
-            window.clearTimeout(timeout);
-        };
-    }, []);
-    return (
-        <div className="text-center">
-            <span
-                aria-hidden="true"
-                className="mb-3 inline-flex size-14 items-center justify-center rounded-2xl border border-violet-200/25 bg-linear-to-br from-violet-300/20 to-indigo-500/5 text-3xl shadow-[inset_0_1px_0_rgba(255,255,255,0.15),0_8px_32px_rgba(139,92,246,0.15)] backdrop-blur-xl [@media(max-height:700px)]:mb-2 [@media(max-height:700px)]:size-10 [@media(max-height:700px)]:text-2xl"
-            >
-                👋
-            </span>
-
-            <h2
-                aria-label={greeting}
-                className="relative text-xl leading-9 font-semibold text-zinc-100 sm:text-2xl [@media(max-height:700px)]:text-lg [@media(max-height:700px)]:leading-7"
-            >
-                {/* فضای عنوان ثابت می‌ماند تا محتوا نپرد. */}
-                <span aria-hidden="true" className="invisible">
-                    {greeting}
-                </span>
-
-                <span aria-hidden="true" className="absolute inset-0">
-                    {greeting.slice(0, length)}
-                    {length < greeting.length && (
-                        <span className="ms-1 inline-block h-5 w-0.5 animate-pulse bg-violet-400 align-middle" />
-                    )}
-                </span>
-            </h2>
-
-            <p className="mt-1 text-xs leading-6 text-muted sm:text-sm [@media(max-height:700px)]:text-xs">
-                از پیگیری سفارش تا پیدا کردن خرید بعدی، همین‌جا کنارتم.
-            </p>
-        </div>
-    );
+    }
+    return <Typewriter title={title} description={description} />;
 }

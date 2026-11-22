@@ -1,9 +1,9 @@
 import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
+import { PanelRightOpen } from 'lucide-react';
+import { Button } from '@/components/ui';
 import {
-    Header,
     WelcomeMessage,
-    ChatHeader,
     ChatMessages,
     ChatQuestionForm,
     ChatSidebar,
@@ -79,8 +79,9 @@ export default function AppLayout({ children }: AppLayoutProps) {
         };
     }, []);
 
-    const { messages = [], selectedConversation } =
-        usePage<ChatPageProps>().props;
+    const page = usePage<ChatPageProps>();
+    const { messages = [], selectedConversation } = page.props;
+    const isHomePage = page.url.split(/[?#]/)[0] === '/';
 
     const [asking, setAsking] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -111,7 +112,6 @@ export default function AppLayout({ children }: AppLayoutProps) {
             dir="rtl"
             className={`${styles.shell} flex h-dvh min-h-0 w-full min-w-0 flex-col overflow-hidden`}
         >
-            <Header />
             <div className="flex min-h-0 min-w-0 flex-1 overflow-hidden">
                 <ChatSidebar
                     open={sidebarOpen}
@@ -120,12 +120,18 @@ export default function AppLayout({ children }: AppLayoutProps) {
                 <main
                     className={`${styles.chat} flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-[#050505] text-zinc-100`}
                 >
-                    <ChatHeader
-                        title={selectedConversation?.title ?? 'گفتگوی جدید'}
-                        subtitle="پشتیبانی مشتریان · نمایش آزمایشی"
-                        sidebarOpen={sidebarOpen}
-                        onOpenSidebar={() => setSidebarOpen(true)}
-                    />
+                    <Button
+                        type="button"
+                        variant="secondary"
+                        size="icon"
+                        className="absolute start-3 top-3 z-10 size-11! lg:hidden"
+                        onClick={() => setSidebarOpen(true)}
+                        aria-label="باز کردن فهرست گفتگوها"
+                        aria-expanded={sidebarOpen}
+                        aria-controls="mobile-chat-sidebar"
+                    >
+                        <PanelRightOpen size={18} aria-hidden="true" />
+                    </Button>
                     <ChatMessages
                         messagesRef={messagesRef}
                         label="پیام‌های گفتگو"
@@ -137,7 +143,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                                 selectedConversation={selectedConversation}
                             />
                         ) : (
-                            <WelcomeMessage />
+                            <WelcomeMessage animated={isHomePage} />
                         )}
                     </ChatMessages>
                     {children}

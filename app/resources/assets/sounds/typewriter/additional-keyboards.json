@@ -1,0 +1,379 @@
+[
+  {
+    "name": "cherry-red",
+    "author": "handygaber",
+    "source": "https://freesound.org/people/handygaber/sounds/499773/",
+    "preview": "https://cdn.freesound.org/previews/499/499773_3236898-hq.mp3",
+    "license": "CC0-1.0",
+    "file": "cherry-red-source.mp3",
+    "samples": [
+      {
+        "file": "cherry-red-key-1.wav",
+        "start_seconds": 29.56274,
+        "duration_seconds": 0.34
+      },
+      {
+        "file": "cherry-red-key-2.wav",
+        "start_seconds": 65.07204,
+        "duration_seconds": 0.34
+      },
+      {
+        "file": "cherry-red-key-3.wav",
+        "start_seconds": 84.37317,
+        "duration_seconds": 0.34
+      },
+      {
+        "file": "cherry-red-key-4.wav",
+        "start_seconds": 110.04982,
+        "duration_seconds": 0.34
+      }
+    ],
+    "processing": "Mono 44.1 kHz PCM; one shared gain per recording; original pitch/speed; short edge fades; isolated strikes"
+  },
+  {
+    "name": "gateron-red",
+    "author": "IRF1010N",
+    "source": "https://freesound.org/people/IRF1010N/sounds/583085/",
+    "preview": "https://cdn.freesound.org/previews/583/583085_10081667-hq.mp3",
+    "license": "CC0-1.0",
+    "file": "gateron-red-source.mp3",
+    "samples": [
+      {
+        "file": "gateron-red-key-1.wav",
+        "start_seconds": 5.05844,
+        "duration_seconds": 0.34
+      },
+      {
+        "file": "gateron-red-key-2.wav",
+        "start_seconds": 11.52873,
+        "duration_seconds": 0.34
+      },
+      {
+        "file": "gateron-red-key-3.wav",
+        "start_seconds": 22.26433,
+        "duration_seconds": 0.34
+      },
+      {
+        "file": "gateron-red-key-4.wav",
+        "start_seconds": 28.19086,
+        "duration_seconds": 0.34
+      }
+    ],
+    "processing": "Mono 44.1 kHz PCM; one shared gain per recording; original pitch/speed; short edge fades; isolated strikes"
+  },
+  {
+    "name": "ibm-model-f",
+    "author": "Fractal_",
+    "source": "https://freesound.org/people/Fractal_/sounds/500430/",
+    "preview": "https://cdn.freesound.org/previews/500/500430_5800121-hq.mp3",
+    "license": "CC0-1.0",
+    "file": "ibm-model-f-source.mp3",
+    "samples": [
+      {
+        "file": "ibm-model-f-key-1.wav",
+        "start_seconds": 5.13825,
+        "duration_seconds": 0.25
+      },
+      {
+        "file": "ibm-model-f-key-2.wav",
+        "start_seconds": 7.87204,
+        "duration_seconds": 0.25499
+      },
+      {
+        "file": "ibm-model-f-key-3.wav",
+        "start_seconds": 11.28429,
+        "duration_seconds": 0.34
+      },
+      {
+        "file": "ibm-model-f-key-4.wav",
+        "start_seconds": 14.25254,
+        "duration_seconds": 0.34
+      }
+    ],
+    "processing": "Mono 44.1 kHz PCM; one shared gain per recording; original pitch/speed; short edge fades; isolated strikes"
+  },
+  {
+    "name": "tactile-1",
+    "author": "StavSounds",
+    "source": "https://freesound.org/people/StavSounds/sounds/766633/",
+    "preview": "https://cdn.freesound.org/previews/766/766633_7862587-hq.mp3",
+    "license": "CC0-1.0",
+    "file": "tactile-1-source.mp3",
+    "samples": [
+      {
+        "file": "tactile-1.wav",
+        "start_seconds": 0.0,
+        "duration_seconds": 0.21252
+      }
+    ],
+    "processing": "Mono 44.1 kHz PCM; one shared gain per recording; original pitch/speed; short edge fades; isolated strikes"
+  },
+  {
+    "name": "tactile-2",
+    "author": "StavSounds",
+    "source": "https://freesound.org/people/StavSounds/sounds/766634/",
+    "preview": "https://cdn.freesound.org/previews/766/766634_7862587-hq.mp3",
+    "license": "CC0-1.0",
+    "file": "tactile-2-source.mp3",
+    "samples": [
+      {
+        "file": "tactile-2.wav",
+        "start_seconds": 0.0,
+        "duration_seconds": 0.19574
+      }
+    ],
+    "processing": "Mono 44.1 kHz PCM; one shared gain per recording; original pitch/speed; short edge fades; isolated strikes"
+  },
+  {
+    "name": "tactile-3",
+    "author": "StavSounds",
+    "source": "https://freesound.org/people/StavSounds/sounds/766635/",
+    "preview": "https://cdn.freesound.org/previews/766/766635_7862587-hq.mp3",
+    "license": "CC0-1.0",
+    "file": "tactile-3-source.mp3",
+    "samples": [
+      {
+        "file": "tactile-3.wav",
+        "start_seconds": 0.0,
+        "duration_seconds": 0.25615
+      }
+    ],
+    "processing": "Mono 44.1 kHz PCM; one shared gain per recording; original pitch/speed; short edge fades; isolated strikes"
+  },
+  {
+    "name": "tactile-4",
+    "author": "StavSounds",
+    "source": "https://freesound.org/people/StavSounds/sounds/766637/",
+    "preview": "https://cdn.freesound.org/previews/766/766637_7862587-hq.mp3",
+    "license": "CC0-1.0",
+    "file": "tactile-4-source.mp3",
+    "samples": [
+      {
+        "file": "tactile-4.wav",
+        "start_seconds": 0.0,
+        "duration_seconds": 0.17224
+      }
+    ],
+    "processing": "Mono 44.1 kHz PCM; one shared gain per recording; original pitch/speed; short edge fades; isolated strikes"
+  },
+  {
+    "name": "cherry-black",
+    "author": "ujonathan",
+    "source": "https://freesound.org/people/ujonathan/sounds/628325/",
+    "preview": "https://keyslam.com/sounds/mx-black.flac",
+    "license": "CC0-1.0",
+    "file": "cherry-black-source.flac",
+    "take_metadata": "cherry-black-takes.json",
+    "preview_preparation": "Public Keyslam preview of the CC0 recording",
+    "samples": [
+      {
+        "file": "cherry-black-key-1.wav",
+        "group": "alpha",
+        "start_seconds": 0.73775,
+        "press_duration_seconds": 0.05198,
+        "duration_seconds": 0.15147392290249434
+      },
+      {
+        "file": "cherry-black-key-2.wav",
+        "group": "alpha",
+        "start_seconds": 0.80973,
+        "press_duration_seconds": 0.08704,
+        "duration_seconds": 0.20732426303854876
+      },
+      {
+        "file": "cherry-black-key-3.wav",
+        "group": "alpha",
+        "start_seconds": 0.91677,
+        "press_duration_seconds": 0.10873,
+        "duration_seconds": 0.1797278911564626
+      },
+      {
+        "file": "cherry-black-key-4.wav",
+        "group": "alpha",
+        "start_seconds": 1.0455,
+        "press_duration_seconds": 0.09025,
+        "duration_seconds": 0.1552154195011338
+      },
+      {
+        "file": "cherry-black-space-1.wav",
+        "group": "space",
+        "start_seconds": 3.61231,
+        "press_duration_seconds": 0.08344,
+        "duration_seconds": 0.18294784580498866
+      },
+      {
+        "file": "cherry-black-erase-1.wav",
+        "group": "backspace",
+        "start_seconds": 3.61231,
+        "press_duration_seconds": 0.08344,
+        "duration_seconds": 0.18294784580498866
+      }
+    ],
+    "processing": "Mono 44.1 kHz PCM; medium-pressure takes combined with recorded key releases after 35 ms; shared peak gain 0.65; original pitch/speed; 1 ms attack and 4 ms fade-out"
+  },
+  {
+    "name": "topre",
+    "author": "grcekh",
+    "source": "https://freesound.org/people/grcekh/sounds/546033/",
+    "preview": "https://keyslam.com/sounds/topre.flac",
+    "license": "CC0-1.0",
+    "file": "topre-source.flac",
+    "take_metadata": "topre-takes.json",
+    "preview_preparation": "Public Keyslam preview of the CC0 recording",
+    "samples": [
+      {
+        "file": "topre-key-1.wav",
+        "group": "alpha",
+        "start_seconds": 0.58304,
+        "press_duration_seconds": 0.09877,
+        "duration_seconds": 0.23786848072562358
+      },
+      {
+        "file": "topre-key-2.wav",
+        "group": "alpha",
+        "start_seconds": 0.70181,
+        "press_duration_seconds": 0.07825,
+        "duration_seconds": 0.16419501133786849
+      },
+      {
+        "file": "topre-key-3.wav",
+        "group": "alpha",
+        "start_seconds": 0.80006,
+        "press_duration_seconds": 0.05769,
+        "duration_seconds": 0.14256235827664399
+      },
+      {
+        "file": "topre-key-4.wav",
+        "group": "alpha",
+        "start_seconds": 0.87775,
+        "press_duration_seconds": 0.0845,
+        "duration_seconds": 0.2235827664399093
+      },
+      {
+        "file": "topre-space-1.wav",
+        "group": "space",
+        "start_seconds": 2.84844,
+        "press_duration_seconds": 0.0544,
+        "duration_seconds": 0.1934920634920635
+      },
+      {
+        "file": "topre-erase-1.wav",
+        "group": "backspace",
+        "start_seconds": 2.84844,
+        "press_duration_seconds": 0.0544,
+        "duration_seconds": 0.1934920634920635
+      }
+    ],
+    "processing": "Mono 44.1 kHz PCM; medium-pressure takes combined with recorded key releases after 35 ms; shared peak gain 0.65; original pitch/speed; 1 ms attack and 4 ms fade-out"
+  },
+  {
+    "name": "rainy75",
+    "author": "Techrul",
+    "source": "https://freesound.org/people/Techrul/sounds/815614/",
+    "preview": "https://keyslam.com/sounds/rainy-75.flac",
+    "license": "CC0-1.0",
+    "file": "rainy75-source.flac",
+    "take_metadata": "rainy75-takes.json",
+    "preview_preparation": "Public Keyslam preview of the CC0 recording",
+    "samples": [
+      {
+        "file": "rainy75-key-1.wav",
+        "group": "alpha",
+        "start_seconds": 0.70467,
+        "press_duration_seconds": 0.0619,
+        "duration_seconds": 0.18755102040816327
+      },
+      {
+        "file": "rainy75-key-2.wav",
+        "group": "alpha",
+        "start_seconds": 0.78656,
+        "press_duration_seconds": 0.12119,
+        "duration_seconds": 0.19319727891156463
+      },
+      {
+        "file": "rainy75-key-3.wav",
+        "group": "alpha",
+        "start_seconds": 0.92775,
+        "press_duration_seconds": 0.07821,
+        "duration_seconds": 0.23471655328798186
+      },
+      {
+        "file": "rainy75-key-4.wav",
+        "group": "alpha",
+        "start_seconds": 1.02596,
+        "press_duration_seconds": 0.10694,
+        "duration_seconds": 0.17303854875283448
+      },
+      {
+        "file": "rainy75-space-1.wav",
+        "group": "space",
+        "start_seconds": 3.76775,
+        "press_duration_seconds": 0.10606,
+        "duration_seconds": 0.23170068027210886
+      },
+      {
+        "file": "rainy75-erase-1.wav",
+        "group": "backspace",
+        "start_seconds": 3.76775,
+        "press_duration_seconds": 0.10606,
+        "duration_seconds": 0.23170068027210886
+      }
+    ],
+    "processing": "Mono 44.1 kHz PCM; medium-pressure takes combined with recorded key releases after 35 ms; shared peak gain 0.65; original pitch/speed; 1 ms attack and 4 ms fade-out"
+  },
+  {
+    "name": "technics-yellow",
+    "author": "zrrion",
+    "source": "https://freesound.org/people/zrrion/sounds/665075/",
+    "preview": "https://keyslam.com/sounds/vintage-technics.flac",
+    "license": "CC0-1.0",
+    "file": "technics-yellow-source.flac",
+    "take_metadata": "technics-yellow-takes.json",
+    "preview_preparation": "Public Keyslam preview of the CC0 recording",
+    "samples": [
+      {
+        "file": "technics-yellow-key-1.wav",
+        "group": "alpha",
+        "start_seconds": 0.60781,
+        "press_duration_seconds": 0.10502,
+        "duration_seconds": 0.2282766439909297
+      },
+      {
+        "file": "technics-yellow-key-2.wav",
+        "group": "alpha",
+        "start_seconds": 0.73283,
+        "press_duration_seconds": 0.098,
+        "duration_seconds": 0.1934467120181406
+      },
+      {
+        "file": "technics-yellow-key-3.wav",
+        "group": "alpha",
+        "start_seconds": 0.85083,
+        "press_duration_seconds": 0.08692,
+        "duration_seconds": 0.16981859410430838
+      },
+      {
+        "file": "technics-yellow-key-4.wav",
+        "group": "alpha",
+        "start_seconds": 0.95775,
+        "press_duration_seconds": 0.12792,
+        "duration_seconds": 0.27564625850340135
+      },
+      {
+        "file": "technics-yellow-space-1.wav",
+        "group": "space",
+        "start_seconds": 3.56406,
+        "press_duration_seconds": 0.05429,
+        "duration_seconds": 0.17752834467120182
+      },
+      {
+        "file": "technics-yellow-erase-1.wav",
+        "group": "backspace",
+        "start_seconds": 3.56406,
+        "press_duration_seconds": 0.05429,
+        "duration_seconds": 0.17752834467120182
+      }
+    ],
+    "processing": "Mono 44.1 kHz PCM; medium-pressure takes combined with recorded key releases after 35 ms; shared peak gain 0.65; original pitch/speed; 1 ms attack and 4 ms fade-out"
+  }
+]

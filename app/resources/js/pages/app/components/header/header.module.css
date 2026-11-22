@@ -1,7 +1,0 @@
-.header {
-    position: relative;
-    z-index: 1;
-    isolation: isolate;
-    background: linear-gradient(rgb(139 92 246 / 20%), rgb(139 92 246 / 20%)), #0c0c11;
-}
-
