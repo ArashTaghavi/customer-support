@@ -191,7 +191,7 @@ function SidebarContent({
                     </div>
                 )}
             </nav>
-            <div className="mt-auto shrink-0 border-t border-white/6 bg-[#11111c] p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+            <div className="mt-auto shrink-0 bg-[#11111c] px-3 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
                 <Cart />
             </div>
         </div>

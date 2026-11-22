@@ -30,7 +30,7 @@ export default function ChatQuestionForm({
                 methods={questionForm}
                 onSubmit={sendQuestion}
                 isPending={asking}
-                className="flex min-w-0 shrink-0 items-end gap-2 border-t border-white/10 bg-[#191923]/95 px-3 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-8px_24px_-16px_rgba(0,0,0,0.7)] sm:gap-3 sm:px-5 [&>div]:min-w-0 [&>div]:flex-1"
+                className="relative mx-auto flex w-full max-w-3xl min-w-0 shrink-0 items-center bg-transparent px-3 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:px-5 [&>div]:min-w-0 [&>div]:flex-1 [&>div]:space-y-0 [&>div>label]:sr-only"
             >
                 <Input<AskRequest>
                     name="question"
@@ -38,12 +38,12 @@ export default function ChatQuestionForm({
                     placeholder={placeholder}
                     autoComplete="off"
                     disabled={asking}
-                    className="text-base! sm:text-sm!"
+                    className="h-12! w-full! rounded-xl! border-0! bg-white/6! ps-4! pe-14! text-base! shadow-none! placeholder:text-zinc-300! focus:bg-white/9! focus:ring-0! sm:text-sm!"
                 />
                 <Button
                     type="submit"
                     size="icon"
-                    className="mb-1.5"
+                    className="absolute! end-5 top-5 h-8! w-8! shrink-0 rounded-lg! border-0! shadow-none! sm:end-7"
                     loading={asking}
                     disabled={!hasQuestion || asking}
                     startIcon={<Send size={16} />}

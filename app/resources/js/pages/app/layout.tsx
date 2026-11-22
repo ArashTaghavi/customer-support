@@ -118,7 +118,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                     onClose={() => setSidebarOpen(false)}
                 />
                 <main
-                    className={`${styles.chat} flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden text-zinc-100`}
+                    className={`${styles.chat} flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-[#0d0e16] bg-[radial-gradient(ellipse_at_top_right,rgba(139,92,246,0.11),transparent_60%),radial-gradient(ellipse_at_bottom_left,rgba(56,189,248,0.05),transparent_55%)] text-zinc-100`}
                 >
                     <div className={styles.edgeShine} aria-hidden="true" />
                     <ChatHeader

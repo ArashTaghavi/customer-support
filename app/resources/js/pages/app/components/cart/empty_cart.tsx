@@ -11,10 +11,10 @@ export default function EmptyCart() {
                 />
             </span>
             <div className="space-y-2">
-                <p className="text-sm font-medium text-zinc-200">
+                <p className="text-xs font-medium text-zinc-200">
                     سبد خریدت هنوز خالیه
                 </p>
-                <p className="text-xs leading-6 text-zinc-500">
+                <p className="text-[11px] leading-6 text-zinc-500">
                     محصولاتی که انتخاب می‌کنی، اینجا نمایش داده می‌شن.
                 </p>
             </div>

@@ -26,12 +26,22 @@ export default function Cart() {
                 type="button"
                 onClick={() => dialogRef.current?.showModal()}
                 aria-haspopup="dialog"
-                className="group flex min-h-14 w-full cursor-pointer items-center gap-3 rounded-2xl border border-violet-300/20 bg-linear-to-l from-violet-500/15 to-indigo-500/10 px-3.5 py-3 text-start text-violet-100 shadow-lg shadow-black/10 transition-colors hover:border-violet-300/40 hover:from-violet-500/25 hover:to-indigo-500/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400 active:bg-violet-500/25"
+                className="group flex h-12 w-full cursor-pointer items-center gap-3 rounded-2xl border border-violet-300/35 bg-linear-to-br from-violet-500/30 via-violet-500/15 to-indigo-500/20 px-3 py-1 text-start text-white shadow-[0_6px_24px_rgba(124,58,237,0.18),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-xl transition-colors hover:border-violet-200/50 hover:from-violet-500/40 hover:to-indigo-500/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-300 active:from-white/10"
             >
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-violet-400/15 text-violet-300 transition-colors group-hover:bg-violet-400/25">
+                <span className="flex size-8 shrink-0 items-center justify-center rounded-xl border border-white/15 bg-white/10 text-violet-100 shadow-sm transition-colors group-hover:bg-white/20">
                     <ShoppingBag size={19} aria-hidden="true" />
                 </span>
-                <span className="flex-1 text-sm font-medium">سبد خرید</span>
+                <span className="flex min-w-0 flex-1 flex-col items-start gap-0 text-start">
+                    <span className="text-sm leading-5 font-semibold">
+                        سبد خرید
+                    </span>
+                    <span className="inline-flex items-baseline gap-1 text-[11px] leading-4 font-medium whitespace-nowrap text-violet-100 tabular-nums">
+                        {total.toLocaleString('fa-IR')}
+                        <span className="text-[9px] font-normal text-violet-200">
+                            تومان
+                        </span>
+                    </span>
+                </span>
                 <span
                     aria-live="polite"
                     aria-atomic="true"
@@ -78,7 +88,7 @@ export default function Cart() {
                     <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl border border-violet-300/20 bg-violet-400/10 text-violet-300">
                         <ShoppingBag size={22} aria-hidden="true" />
                     </span>
-                    <h2 id={titleId} className="flex-1 text-base font-semibold">
+                    <h2 id={titleId} className="flex-1 text-sm font-semibold">
                         سبد خرید
                     </h2>
                     <button
@@ -108,7 +118,7 @@ export default function Cart() {
                     <button
                         type="button"
                         onClick={close}
-                        className="w-full cursor-pointer rounded-xl border border-violet-300/20 bg-violet-400/10 px-4 py-3 text-sm font-medium text-violet-200 transition-colors hover:bg-violet-400/20 focus-visible:outline-2 focus-visible:outline-violet-400"
+                        className="w-full cursor-pointer rounded-xl border border-violet-300/20 bg-violet-400/10 px-4 py-3 text-xs font-medium text-violet-200 transition-colors hover:bg-violet-400/20 focus-visible:outline-2 focus-visible:outline-violet-400"
                     >
                         ادامه گفتگو
                     </button>

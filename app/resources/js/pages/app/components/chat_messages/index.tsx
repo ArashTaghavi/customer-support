@@ -14,7 +14,7 @@ export default function ChatMessages({ messagesRef, label, children }: Props) {
             aria-label={label}
             aria-live="polite"
             aria-relevant="additions text"
-            className="min-h-0 min-w-0 flex-1 [scrollbar-width:thin] [scrollbar-color:rgba(167,139,250,0.2)_transparent] space-y-5 overflow-x-hidden overflow-y-auto overscroll-contain bg-[#0d0e16] bg-[radial-gradient(ellipse_at_top_right,rgba(139,92,246,0.11),transparent_60%),radial-gradient(ellipse_at_bottom_left,rgba(56,189,248,0.05),transparent_55%)] px-2 py-3 sm:px-3"
+            className="min-h-0 min-w-0 flex-1 [scrollbar-width:thin] [scrollbar-color:rgba(167,139,250,0.2)_transparent] space-y-5 overflow-x-hidden overflow-y-auto overscroll-contain bg-transparent px-2 py-3 sm:px-3"
         >
             {children}
         </div>

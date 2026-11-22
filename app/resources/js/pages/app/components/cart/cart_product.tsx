@@ -29,7 +29,7 @@ export default function CartProduct({ item }: CartProductProps) {
             <div className="min-w-0 flex-1 space-y-3">
                 <h3
                     dir="auto"
-                    className="text-start text-sm leading-7 font-medium wrap-anywhere text-zinc-100 sm:text-base"
+                    className="text-start text-xs leading-6 font-medium wrap-anywhere text-zinc-100 sm:text-sm"
                 >
                     {product.title}
                 </h3>
@@ -37,7 +37,7 @@ export default function CartProduct({ item }: CartProductProps) {
                     <span className="rounded-lg border border-violet-300/15 bg-violet-400/10 px-2.5 py-1 font-medium text-violet-200">
                         {quantity.toLocaleString('fa-IR')} عدد
                     </span>
-                    <span className="text-sm font-medium text-zinc-200 tabular-nums">
+                    <span className="text-xs font-medium text-zinc-200 tabular-nums">
                         {product.price.toLocaleString('fa-IR')}
                         <span className="ms-1.5 text-[10px] font-normal text-zinc-400">
                             تومان
@@ -46,7 +46,7 @@ export default function CartProduct({ item }: CartProductProps) {
                 </div>
                 <div className="flex flex-wrap items-baseline justify-between gap-2 border-t border-white/6 pt-3">
                     <span className="text-[11px] text-zinc-500">مجموع</span>
-                    <p className="text-base font-semibold text-violet-200 tabular-nums sm:text-lg">
+                    <p className="text-sm font-semibold text-violet-200 tabular-nums sm:text-base">
                         {(product.price * quantity).toLocaleString('fa-IR')}
                         <span className="ms-1.5 text-[10px] font-normal text-zinc-400">
                             تومان
