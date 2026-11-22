@@ -78,13 +78,13 @@ export default function Cart() {
                     width: 'min(48rem, calc(100vw - 2rem))',
                     maxHeight: '90dvh',
                 }}
-                className="overflow-y-auto rounded-3xl border border-white/15 bg-[#171425]/85 p-0 text-zinc-100 shadow-[0_24px_100px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-2xl backdrop:bg-black/55 backdrop:backdrop-blur-sm"
+                className="overflow-y-auto rounded-3xl border border-white/15 bg-[#141416]/85 p-0 text-zinc-100 shadow-[0_24px_100px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-2xl backdrop:bg-black/55 backdrop:backdrop-blur-sm"
             >
                 <div
-                    className="pointer-events-none absolute inset-x-0 top-0 h-48 rounded-t-3xl bg-[radial-gradient(ellipse_at_top_right,rgba(139,92,246,0.22),transparent_70%)]"
+                    className="pointer-events-none absolute inset-x-0 top-0 h-48 rounded-t-3xl bg-[radial-gradient(ellipse_at_top_right,rgba(139,92,246,0.10),transparent_70%)]"
                     aria-hidden="true"
                 />
-                <div className="sticky top-0 z-10 flex items-center gap-3 border-b border-white/8 bg-[#171425]/90 p-5 backdrop-blur-xl sm:p-6">
+                <div className="sticky top-0 z-10 flex items-center gap-3 border-b border-white/8 bg-[#141416]/90 p-5 backdrop-blur-xl sm:p-6">
                     <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl border border-violet-300/20 bg-violet-400/10 text-violet-300">
                         <ShoppingBag size={22} aria-hidden="true" />
                     </span>
@@ -111,7 +111,7 @@ export default function Cart() {
                         <EmptyCart />
                     )}
                 </div>
-                <div className="sticky bottom-0 z-10 border-t border-white/8 bg-[#171425]/95 p-4 backdrop-blur-xl sm:px-6">
+                <div className="sticky bottom-0 z-10 border-t border-white/8 bg-[#141416]/95 p-4 backdrop-blur-xl sm:px-6">
                     {cart.length > 0 && (
                         <CartSummary itemCount={itemCount} total={total} />
                     )}

@@ -1,7 +1,7 @@
 .chat {
     position: relative;
     isolation: isolate;
-    border: 1px solid color-mix(in srgb, var(--brand) 35%, transparent);
+    border: 1px solid color-mix(in srgb, var(--brand) 10%, transparent);
 }
 
 /* A subtle animated shine across the full top edge */
@@ -23,7 +23,13 @@
     inset-block: 0;
     left: 0;
     width: 35%;
-    background: linear-gradient(90deg, transparent, var(--brand), color-mix(in srgb, var(--brand) 20%, white), transparent);
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--brand),
+        color-mix(in srgb, var(--brand) 20%, white),
+        transparent
+    );
     opacity: 0;
     animation: edge-shine 6s ease-in-out infinite;
 }
@@ -33,10 +39,12 @@
         opacity: 0;
         transform: translateX(-100%);
     }
-    15%, 55% {
+    15%,
+    55% {
         opacity: 0.9;
     }
-    75%, 100% {
+    75%,
+    100% {
         opacity: 0;
         transform: translateX(390%);
     }
@@ -47,4 +55,3 @@
         animation: none;
     }
 }
-

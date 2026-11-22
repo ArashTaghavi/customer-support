@@ -13,19 +13,19 @@ const capabilities = [
         icon: ShoppingCart,
         title: 'جستجوی کالا و خرید',
         description: 'کالاها رو همین‌جا جستجو کن و به سبد خریدت اضافه کن.',
-        color: 'text-sky-300 bg-sky-400/10',
+        color: 'text-violet-300 bg-violet-400/10',
     },
     {
         icon: XCircle,
         title: 'درخواست لغو سفارش',
         description: 'درخواست لغو بده تا امکان لغو سفارشت بررسی بشه.',
-        color: 'text-rose-300 bg-rose-400/10',
+        color: 'text-violet-300 bg-violet-400/10',
     },
     {
         icon: Headset,
         title: 'ارتباط با پشتیبانی',
         description: 'هر وقت نیاز داشتی، با پشتیبانی انسانی صحبت کن.',
-        color: 'text-emerald-300 bg-emerald-400/10',
+        color: 'text-violet-300 bg-violet-400/10',
     },
 ];
 

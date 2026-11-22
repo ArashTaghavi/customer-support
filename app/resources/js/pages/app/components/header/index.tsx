@@ -1,29 +1,16 @@
 import { Button } from '@/components/ui';
-import { useEffect, useState } from 'react';
 import styles from './header.module.css';
-import { Headset, LogIn, Moon, Sun } from 'lucide-react';
+import { Headset, LogIn } from 'lucide-react';
 
 export default function Header() {
-    const [isDark, setIsDark] = useState(false);
-
-    useEffect(() => {
-        setIsDark(document.documentElement.classList.contains('dark'));
-    }, []);
-
-    function toggleTheme() {
-        const nextIsDark = !isDark;
-        document.documentElement.classList.toggle('dark', nextIsDark);
-        setIsDark(nextIsDark);
-    }
-
     return (
         <header
             className={`${styles.header} grid min-h-14 min-w-0 shrink-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-2 border-b border-white/5 px-3 sm:min-h-16 sm:px-5 md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:gap-4`}
         >
-            <span className="flex min-w-0 items-center gap-2 text-sm font-semibold text-foreground sm:text-base">
+            <span className="flex min-w-0 items-center gap-2 text-sm font-semibold text-zinc-100 sm:text-base">
                 <Headset
                     size={20}
-                    className="shrink-0 text-brand"
+                    className="shrink-0 text-violet-300 drop-shadow-[0_0_8px_rgba(167,139,250,0.5)]"
                     aria-hidden="true"
                 />
                 <span className="truncate">پشتیبانی مشتریان</span>
@@ -36,7 +23,7 @@ export default function Header() {
                     type="button"
                     variant="tab"
                     size="sm"
-                    className="rounded text-sm font-medium text-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2"
+                    className="rounded-xl! text-sm font-medium text-zinc-400! hover:bg-violet-400/10! hover:text-violet-100! focus-visible:outline-2 focus-visible:outline-offset-2"
                 >
                     خانه
                 </Button>
@@ -44,7 +31,7 @@ export default function Header() {
                     type="button"
                     variant="tab"
                     size="sm"
-                    className="rounded text-sm font-medium text-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2"
+                    className="rounded-xl! text-sm font-medium text-zinc-400! hover:bg-violet-400/10! hover:text-violet-100! focus-visible:outline-2 focus-visible:outline-offset-2"
                 >
                     فروشگاه
                 </Button>
@@ -52,28 +39,8 @@ export default function Header() {
             <div className="flex shrink-0 items-center gap-1.5 justify-self-end sm:gap-3">
                 <Button
                     type="button"
-                    variant="secondary"
                     size="sm"
-                    onClick={toggleTheme}
-                    aria-label={
-                        isDark ? 'فعال کردن حالت روشن' : 'فعال کردن حالت تاریک'
-                    }
-                    aria-pressed={isDark}
-                    className="size-9! rounded-xl! border-border! p-0! text-foreground sm:h-9! sm:w-auto! sm:px-3!"
-                >
-                    {isDark ? (
-                        <Sun size={16} aria-hidden="true" />
-                    ) : (
-                        <Moon size={16} aria-hidden="true" />
-                    )}
-                    <span className="hidden sm:inline">
-                        {isDark ? 'حالت روشن' : 'حالت تاریک'}
-                    </span>
-                </Button>
-                <Button
-                    type="button"
-                    size="sm"
-                    className="h-9! rounded-xl! px-3! text-xs!"
+                    className="h-9! rounded-xl! border-violet-300/25! bg-linear-to-l from-violet-600 to-violet-700 px-3! text-xs! shadow-[0_3px_14px_rgba(124,58,237,0.25)]"
                     startIcon={<LogIn size={15} aria-hidden="true" />}
                 >
                     ورود

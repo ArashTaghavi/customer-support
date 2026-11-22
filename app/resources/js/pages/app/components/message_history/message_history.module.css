@@ -12,16 +12,16 @@
     border-color: rgb(167 139 250 / 32%);
     background: linear-gradient(
         135deg,
-        rgb(92 62 155 / 62%),
-        rgb(47 36 77 / 88%)
+        rgb(98 65 159 / 25%),
+        rgb(30 25 40 / 88%)
     );
 }
 
 .assistant {
-    border-color: rgb(186 210 245 / 19%);
+    border-color: rgb(255 255 255 / 8%);
     background: linear-gradient(
         135deg,
-        rgb(47 53 70 / 90%),
-        rgb(29 32 45 / 92%)
+        rgb(28 28 31 / 90%),
+        rgb(19 19 22 / 92%)
     );
 }
