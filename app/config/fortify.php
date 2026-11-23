@@ -1,7 +1,5 @@
 <?php
 
-use Laravel\Fortify\Features;
-
 return [
 
     /*
@@ -45,7 +43,7 @@ return [
     |
     */
 
-    'username' => 'email',
+    'username' => 'mobile_number',
 
     'email' => 'email',
 
@@ -161,8 +159,6 @@ return [
     |
     */
 
-    'features' => [
-        Features::registration(),
-    ],
+    'features' => [],
 
 ];

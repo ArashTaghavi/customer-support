@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\Cart\CartResource;
 use App\Models\Product\Product;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -18,7 +19,7 @@ class CartController extends Controller
         return CartResource::collection($cartItems);
     }
 
-    public function add(Request $request, Product $product)
+    public function add(Request $request, Product $product): RedirectResponse
     {
         $cart = $request->user()->cart()->firstOrCreate();
 
@@ -29,9 +30,11 @@ class CartController extends Controller
         if (! $cartItem->wasRecentlyCreated) {
             $cartItem->increment('quantity');
         }
+
+        return back();
     }
 
-    public function remove(Request $request, Product $product)
+    public function remove(Request $request, Product $product): RedirectResponse
     {
         $cartItem = $request->user()
             ->cart
@@ -44,5 +47,7 @@ class CartController extends Controller
         } else {
             $cartItem->delete();
         }
+
+        return back();
     }
 }

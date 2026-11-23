@@ -9,9 +9,11 @@ use App\Models\Order\Order;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
@@ -24,6 +26,7 @@ use Illuminate\Support\Carbon;
  * @property string $mobile_number
  * @property string|null $username
  * @property string|null $avatar
+ * @property-read string|null $avatar_url
  * @property bool $is_active
  * @property Carbon|null $email_verified_at
  * @property string $password
@@ -47,7 +50,19 @@ use Illuminate\Support\Carbon;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
+
+    /**
+     * @var list<string>
+     */
+    protected $appends = ['avatar_url'];
+
+    protected function avatarUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn (): ?string => $this->avatar ? asset($this->avatar) : null,
+        );
+    }
 
     public function conversations(): HasMany
     {

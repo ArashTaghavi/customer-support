@@ -39,7 +39,7 @@ export default function FileInput<T extends FieldValues>({
         <div className="space-y-2.5">
             <label
                 htmlFor={inputId}
-                className="flex items-center gap-2 text-xs font-medium text-ui-soft"
+                className="text-ui-soft flex items-center gap-2 text-xs font-medium"
             >
                 <FileUp size={16} aria-hidden="true" /> {label}
                 {error && (
@@ -54,6 +54,7 @@ export default function FileInput<T extends FieldValues>({
             </label>
             <input
                 {...props}
+                autoComplete="off"
                 type="file"
                 id={inputId}
                 name={fieldName}
@@ -70,10 +71,10 @@ export default function FileInput<T extends FieldValues>({
                         .filter(Boolean)
                         .join(' ') || undefined
                 }
-                className={`block w-full rounded-xl border border-dashed bg-[#0b0b10] p-4 text-sm text-ui-soft file:mr-4 file:cursor-pointer file:rounded-lg file:border-0 file:bg-violet-500/15 file:px-4 file:py-2 file:text-violet-200 hover:file:bg-violet-500/25 focus-visible:outline-2 focus-visible:outline-violet-400 disabled:cursor-not-allowed disabled:opacity-50 ${error ? 'border-red-400/60' : 'border-ui-border-strong'} ${className}`}
+                className={`text-ui-soft block w-full rounded-xl border border-dashed bg-[#0b0b10] p-4 text-sm file:mr-4 file:cursor-pointer file:rounded-lg file:border-0 file:bg-violet-500/15 file:px-4 file:py-2 file:text-violet-200 hover:file:bg-violet-500/25 focus-visible:outline-2 focus-visible:outline-violet-400 disabled:cursor-not-allowed disabled:opacity-50 ${error ? 'border-red-400/60' : 'border-ui-border-strong'} ${className}`}
             />
             {hint && (
-                <p id={`${inputId}-hint`} className="text-xs text-ui-muted">
+                <p id={`${inputId}-hint`} className="text-ui-muted text-xs">
                     {hint}
                 </p>
             )}

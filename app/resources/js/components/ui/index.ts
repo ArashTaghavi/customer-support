@@ -26,3 +26,6 @@ export type { AreaChartProps } from './data_display/area_chart';
 export { default as Pagination } from './pagination/pagination';
 export { default as GridSort } from './grid_sort/grid_sort';
 export type { GridSortProps, SortDirection } from './grid_sort/grid_sort';
+
+export { default as Tooltip } from './feedback/tooltip';
+export type { TooltipProps } from './feedback/tooltip';

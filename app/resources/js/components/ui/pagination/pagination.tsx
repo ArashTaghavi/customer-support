@@ -32,6 +32,7 @@ export default function Pagination({
             <label className="flex items-center gap-2">
                 Items per page
                 <select
+                    autoComplete="off"
                     value={pagination.per_page}
                     onChange={(event) =>
                         changePage(1, Number(event.target.value))

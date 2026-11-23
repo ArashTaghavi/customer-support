@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import LoginForm from './LoginForm';
-import styles from './LoginCard.module.css';
+import LoginForm from '../login_form';
+import styles from './login_card.module.css';
 
 export default function LoginCard() {
     const [confirmed, setConfirmed] = useState(false);
@@ -91,10 +91,10 @@ export default function LoginCard() {
                     id="login-title"
                     className="text-center text-2xl leading-relaxed font-semibold tracking-tight sm:text-[28px]"
                 >
-                    Welcome
+                    خوش آمدید
                 </h1>
                 <span role="status" className="sr-only">
-                    {confirmed ? 'Authentication successful. Redirecting?' : ''}
+                    {confirmed ? 'احراز هویت موفق بود. در حال انتقال…' : ''}
                 </span>
                 <LoginForm onAuthenticated={confirmAuthentication} />
             </section>

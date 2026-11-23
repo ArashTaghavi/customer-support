@@ -5,11 +5,24 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ChatResponseController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\OrderCancellationController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OtpAuthenticationController;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::inertia('/login', 'auth/index')->middleware('guest')->name('login');
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [OtpAuthenticationController::class, 'show'])->name('login');
+    Route::post('/login/otp', [OtpAuthenticationController::class, 'store'])->middleware('throttle:otp-send')->name('otp.store');
+    Route::delete('/login/otp', [OtpAuthenticationController::class, 'destroy'])->name('otp.destroy');
+});
 
 Route::middleware('auth')->group(function () {
+    Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+
+    Route::patch('/user/profile', [UserController::class, 'update'])->name('user.update');
+
     Route::get('/', [AppController::class, 'index'])->name('app.index');
 
     Route::post('messages/{message}/confirm-cancel-order', OrderCancellationController::class)

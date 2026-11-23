@@ -40,7 +40,7 @@ export default function Input<T extends FieldValues>({
         <div className="space-y-2.5">
             <label
                 htmlFor={inputId}
-                className="block text-xs font-medium text-ui-soft"
+                className="text-ui-soft block text-xs font-medium"
             >
                 {label}
                 {error && (
@@ -56,6 +56,7 @@ export default function Input<T extends FieldValues>({
 
             <input
                 {...props}
+                autoComplete="off"
                 {...field}
                 id={inputId}
                 value={field.value ?? ''}
@@ -66,10 +67,10 @@ export default function Input<T extends FieldValues>({
                         .join(' ') || undefined
                 }
                 className={[
-                    'h-12 w-full rounded-xl border bg-[#0b0b10] px-4 text-sm text-zinc-100 transition outline-none placeholder:text-ui-subtle disabled:opacity-50',
+                    'placeholder:text-ui-subtle h-12 w-full rounded-xl border bg-[#0b0b10] px-4 text-sm text-zinc-100 transition outline-none disabled:opacity-50',
                     error
                         ? 'border-red-400/60 focus:border-red-400 focus:ring-4 focus:ring-red-500/10'
-                        : 'border-ui-border focus:border-violet-400/60 focus:ring-4 focus:ring-violet-500/10',
+                        : 'border-violet-400/30 hover:border-violet-400/50 focus:border-violet-400/70 focus:ring-4 focus:ring-violet-500/10',
                     className,
                 ].join(' ')}
             />

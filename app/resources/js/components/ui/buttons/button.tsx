@@ -2,11 +2,13 @@
 
 import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react';
 import { LoaderCircle } from 'lucide-react';
+import Tooltip from '../feedback/tooltip';
 
 type ButtonVariant =
     'primary' | 'secondary' | 'danger' | 'outline-danger' | 'tab';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+    tooltip?: string;
     variant?: ButtonVariant;
     size?: 'default' | 'icon' | 'sm';
     loading?: boolean;
@@ -17,8 +19,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const variants: Record<ButtonVariant, string> = {
     tab: 'border-transparent bg-transparent text-ui-secondary hover:bg-white/5 hover:text-white aria-selected:bg-violet-400/10 aria-selected:text-violet-300 aria-selected:ring-1 aria-selected:ring-violet-400/20',
-    primary:
-        'button-primary',
+    primary: 'button-primary',
     secondary: 'border-ui-border bg-white/5 text-zinc-200 hover:bg-white/10',
     danger: 'border-red-400/20 bg-red-600 text-white hover:bg-red-500',
     'outline-danger':
@@ -35,6 +36,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     (
         {
             children,
+            tooltip,
+            title,
             type = 'button',
             variant = 'primary',
             size = 'default',
@@ -48,7 +51,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         },
         ref,
     ) => {
-        return (
+        const button = (
             <button
                 {...props}
                 ref={ref}
@@ -81,6 +84,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
                 {!loading && endIcon}
             </button>
+        );
+
+        return tooltip || title ? (
+            <Tooltip content={tooltip ?? title}>{button}</Tooltip>
+        ) : (
+            button
         );
     },
 );

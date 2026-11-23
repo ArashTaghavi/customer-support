@@ -1,159 +1,40 @@
-import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
-import { useForm } from 'react-hook-form';
+import { useState, type ReactNode } from 'react';
 import { PanelRightOpen } from 'lucide-react';
 import { Button } from '@/components/ui';
-import {
-    WelcomeMessage,
-    ChatMessages,
-    ChatQuestionForm,
-    ChatSidebar,
-    MessageHistory,
-} from './components';
+import ChatSidebar from './components/chat_sidebar';
 import styles from './index.module.css';
-import { router, usePage } from '@inertiajs/react';
-import type {
-    ConversationResponse,
-    MessagePayload,
-    MessageResponse,
-} from '@/types/conversation';
 
-type AppLayoutProps = {
-    children: ReactNode;
-};
-
-type ChatPageProps = {
-    messages?: MessageResponse[];
-    selectedConversation?: ConversationResponse;
-    conversations: ConversationResponse[];
-};
+type AppLayoutProps = { children: ReactNode };
 
 export default function AppLayout({ children }: AppLayoutProps) {
-    const messagesRef = useRef<HTMLDivElement>(null);
-
-    useLayoutEffect(() => {
-        const container = messagesRef.current;
-        if (!container) return;
-
-        const scrollToBottom = () => {
-            if (!container.querySelector('[data-chat-message]')) return;
-            container.scrollTop = container.scrollHeight;
-        };
-
-        scrollToBottom();
-
-        let followOutput = true;
-        const trackScroll = () => {
-            followOutput =
-                container.scrollHeight -
-                    container.scrollTop -
-                    container.clientHeight <
-                80;
-        };
-        container.addEventListener('scroll', trackScroll, { passive: true });
-
-        const mutationObserver = new MutationObserver((records) => {
-            const hasMessageChanges = records.some((record) => {
-                const element =
-                    record.target instanceof Element
-                        ? record.target
-                        : record.target.parentElement;
-                return !element?.closest('[data-chat-pagination]');
-            });
-            if (followOutput && hasMessageChanges) scrollToBottom();
-        });
-        mutationObserver.observe(container, {
-            childList: true,
-            characterData: true,
-            subtree: true,
-        });
-
-        const resizeObserver = new ResizeObserver(() => {
-            if (followOutput) scrollToBottom();
-        });
-        resizeObserver.observe(container);
-
-        return () => {
-            mutationObserver.disconnect();
-            resizeObserver.disconnect();
-            container.removeEventListener('scroll', trackScroll);
-        };
-    }, []);
-
-    const page = usePage<ChatPageProps>();
-    const { messages = [], selectedConversation } = page.props;
-    const isHomePage = page.url.split(/[?#]/)[0] === '/';
-
-    const [asking, setAsking] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(false);
-
-    const questionForm = useForm<MessagePayload>({
-        defaultValues: { question: '' },
-    });
-
-    function sendQuestion({ question }: MessagePayload) {
-        router.post(
-            selectedConversation
-                ? `/conversations/${selectedConversation.uuid}`
-                : '/conversations',
-            { question },
-            {
-                preserveScroll: true,
-                onStart: () => setAsking(true),
-                onSuccess: () => questionForm.reset(),
-                onFinish: () => setAsking(false),
-            },
-        );
-    }
-
-    const hasQuestion = !!questionForm.watch('question')?.trim();
 
     return (
         <div
             dir="rtl"
-            className={`${styles.shell} flex h-dvh min-h-0 w-full min-w-0 flex-col overflow-hidden`}
+            className={`${styles.shell} flex h-dvh min-h-0 w-full min-w-0 overflow-hidden`}
         >
-            <div className="flex min-h-0 min-w-0 flex-1 overflow-hidden">
-                <ChatSidebar
-                    open={sidebarOpen}
-                    onClose={() => setSidebarOpen(false)}
-                />
-                <main
-                    className={`${styles.chat} flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-[#050505] text-zinc-100`}
+            <ChatSidebar
+                open={sidebarOpen}
+                onClose={() => setSidebarOpen(false)}
+            />
+            <div
+                className={`${styles.content} relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-[#050505] text-zinc-100`}
+            >
+                <Button
+                    type="button"
+                    variant="secondary"
+                    size="icon"
+                    className="absolute start-3 top-3 z-10 size-11! lg:hidden"
+                    onClick={() => setSidebarOpen(true)}
+                    aria-label="باز کردن سایدبار"
+                    aria-expanded={sidebarOpen}
+                    aria-controls="mobile-chat-sidebar"
                 >
-                    <Button
-                        type="button"
-                        variant="secondary"
-                        size="icon"
-                        className="absolute start-3 top-3 z-10 size-11! lg:hidden"
-                        onClick={() => setSidebarOpen(true)}
-                        aria-label="باز کردن فهرست گفتگوها"
-                        aria-expanded={sidebarOpen}
-                        aria-controls="mobile-chat-sidebar"
-                    >
-                        <PanelRightOpen size={18} aria-hidden="true" />
-                    </Button>
-                    <ChatMessages
-                        messagesRef={messagesRef}
-                        label="پیام‌های گفتگو"
-                    >
-                        {selectedConversation && messages.length > 0 ? (
-                            <MessageHistory
-                                key={selectedConversation.uuid}
-                                turns={messages}
-                                selectedConversation={selectedConversation}
-                            />
-                        ) : (
-                            <WelcomeMessage animated={isHomePage} />
-                        )}
-                    </ChatMessages>
+                    <PanelRightOpen size={18} aria-hidden="true" />
+                </Button>
+                <main className="min-h-0 min-w-0 flex-1 [scrollbar-width:thin] [scrollbar-color:rgba(167,139,250,0.2)_transparent] overflow-x-hidden overflow-y-auto overscroll-contain">
                     {children}
-                    <ChatQuestionForm
-                        questionForm={questionForm}
-                        sendQuestion={sendQuestion}
-                        asking={asking}
-                        hasQuestion={hasQuestion}
-                        placeholder="پیام خود را بنویسید…"
-                    />
                 </main>
             </div>
         </div>

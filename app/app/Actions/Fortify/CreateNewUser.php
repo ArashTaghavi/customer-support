@@ -22,6 +22,10 @@ class CreateNewUser implements CreatesNewUsers
     {
         $validated = Validator::make($input, [
             'mobile_number' => ['required', 'string', 'regex:/\A09[0-9]{9}\z/'],
+        ], [
+            'mobile_number.required' => 'شماره موبایل را وارد کنید.',
+            'mobile_number.string' => 'شماره موبایل باید به‌صورت متن وارد شود.',
+            'mobile_number.regex' => 'شماره موبایل معتبر وارد کنید؛ مانند 09123456789.',
         ])->validate();
 
         $user = User::firstOrCreate([
@@ -30,7 +34,8 @@ class CreateNewUser implements CreatesNewUsers
             'password' => Str::random(64),
         ]);
 
-        $this->otpService->send($user);
+        $user->refresh();
+        $user->setRelation('otp', $this->otpService->send($user));
 
         return $user;
     }

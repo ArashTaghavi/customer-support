@@ -2,20 +2,23 @@ import { Link, router, usePage } from '@inertiajs/react';
 import { useEffect, useId, useRef, useState } from 'react';
 import {
     ChevronLeft,
-    Bell,
     MessageCircle,
     MessageSquare,
     Plus,
     Search,
-    Settings,
-    UserRound,
+    LogOut,
+    ShoppingBag,
+    ReceiptText,
     X,
 } from 'lucide-react';
-import { Button } from '@/components/ui';
+import { Button, Tooltip } from '@/components/ui';
 import { show, store } from '@/routes/conversations';
+import { logout, shop } from '@/routes';
+import { index as ordersIndex } from '@/routes/orders';
 import { messageDate } from '@/utils/message_dates';
 import type { ConversationResponse } from '@/types/conversation';
 import Cart from '../cart';
+import Profile from '../profile';
 import styles from '../../index.module.css';
 
 type SidebarProps = { open: boolean; onClose: () => void };
@@ -32,8 +35,10 @@ function SidebarContent({
         selectedConversation?: ConversationResponse;
     }>().props;
 
+    const currentPage = usePage().component;
     const [search, setSearch] = useState('');
     const [creating, setCreating] = useState(false);
+    const [loggingOut, setLoggingOut] = useState(false);
     const searchId = useId();
     const filtered = conversations.filter((conversation) =>
         conversation.title
@@ -57,33 +62,59 @@ function SidebarContent({
         <div className="flex h-full min-h-0 flex-col bg-[#090909] text-zinc-100">
             <div className="shrink-0 space-y-4 border-b border-white/6 p-4">
                 <div className="flex items-center gap-2.5">
-                    <button
-                        type="button"
-                        aria-label="حساب کاربری"
-                        title="حساب کاربری"
-                        className="flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-violet-300/30 bg-linear-to-br from-violet-400/10 to-white/3 text-violet-200 shadow-[0_0_18px_rgba(139,92,246,0.1)] transition-colors hover:border-violet-300/60 hover:bg-violet-400/20 focus-visible:outline-2 focus-visible:outline-violet-400"
-                    >
-                        <UserRound size={19} aria-hidden="true" />
-                    </button>
+                    <Profile />
                     <span className="flex-1" />
                     <Button
                         variant="tab"
                         size="icon"
-                        aria-label="اعلان‌ها"
-                        title="اعلان‌ها"
-                        className="size-11! rounded-xl! text-muted! hover:bg-violet-400/10! hover:text-violet-200!"
-                    >
-                        <Bell size={18} aria-hidden="true" />
-                    </Button>
-                    <Button
-                        variant="tab"
-                        size="icon"
-                        aria-label="تنظیمات"
-                        title="تنظیمات"
-                        className="size-11! rounded-xl! text-muted! hover:bg-violet-400/10! hover:text-violet-200!"
-                    >
-                        <Settings size={18} aria-hidden="true" />
-                    </Button>
+                        aria-label="خروج از حساب"
+                        tooltip="خروج از حساب"
+                        className="size-11! shrink-0 rounded-xl! text-red-300! hover:bg-red-400/10!"
+                        disabled={loggingOut}
+                        loading={loggingOut}
+                        startIcon={<LogOut size={18} aria-hidden="true" />}
+                        onClick={() => {
+                            if (loggingOut) return;
+                            router.post(
+                                logout().url,
+                                {},
+                                {
+                                    onStart: () => setLoggingOut(true),
+                                    onFinish: () => setLoggingOut(false),
+                                },
+                            );
+                        }}
+                    />
+                    {[
+                        {
+                            label: 'فروشگاه',
+                            href: shop(),
+                            component: 'app/shop/index',
+                            Icon: ShoppingBag,
+                        },
+                        {
+                            label: 'سفارشات',
+                            href: ordersIndex(),
+                            component: 'app/orders/index',
+                            Icon: ReceiptText,
+                        },
+                    ].map(({ label, href, component, Icon }) => (
+                        <Tooltip key={component} content={label}>
+                            <Link
+                                href={href}
+                                onClick={onNavigate}
+                                aria-label={label}
+                                aria-current={
+                                    currentPage === component
+                                        ? 'page'
+                                        : undefined
+                                }
+                                className={`inline-flex size-11 shrink-0 items-center justify-center rounded-xl transition-colors focus-visible:outline-2 focus-visible:outline-violet-400 ${currentPage === component ? 'bg-violet-400/15 text-violet-200' : 'text-muted hover:bg-violet-400/10 hover:text-violet-200'}`}
+                            >
+                                <Icon size={18} aria-hidden="true" />
+                            </Link>
+                        </Tooltip>
+                    ))}
                     {mobile && (
                         <Button
                             variant="tab"
@@ -117,6 +148,7 @@ function SidebarContent({
                     <input
                         id={searchId}
                         type="search"
+                        autoComplete="off"
                         value={search}
                         onChange={(event) => setSearch(event.target.value)}
                         placeholder="جستجو در گفتگوها…"
@@ -169,18 +201,19 @@ function SidebarContent({
                                         {conversation.title || 'گفتگوی جدید'}
                                     </span>
                                     {date.iso && (
-                                        <time
-                                            dateTime={date.iso}
-                                            title={date.full}
-                                            className="mt-1 block text-[10px] text-muted"
-                                        >
-                                            {new Date(
-                                                date.iso,
-                                            ).toLocaleDateString('fa-IR', {
-                                                month: 'short',
-                                                day: 'numeric',
-                                            })}
-                                        </time>
+                                        <Tooltip content={date.full}>
+                                            <time
+                                                dateTime={date.iso}
+                                                className="mt-1 block text-[10px] text-muted"
+                                            >
+                                                {new Date(
+                                                    date.iso,
+                                                ).toLocaleDateString('fa-IR', {
+                                                    month: 'short',
+                                                    day: 'numeric',
+                                                })}
+                                            </time>
+                                        </Tooltip>
                                     )}
                                 </span>
                                 <ChevronLeft

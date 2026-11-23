@@ -37,7 +37,7 @@
     padding: 0;
 }
 
-.chat {
+.content {
     position: relative;
     isolation: isolate;
     background-image: radial-gradient(
@@ -51,7 +51,7 @@
 }
 
 @media (max-width: 767px) {
-    .chat {
+    .content {
         background-image: radial-gradient(
             ellipse 110% 48% at 50% 50%,
             rgb(139 92 246 / 24%) 0%,

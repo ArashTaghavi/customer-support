@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useEffect, useId, useRef, useState } from "react";
-import { Check, X } from "lucide-react";
+import { useEffect, useId, useRef, useState } from 'react';
+import { Check, X } from 'lucide-react';
 import { Button } from '@/components/ui';
 
 export interface ConfirmProps {
@@ -14,7 +14,7 @@ export interface ConfirmProps {
 
 export default function Confirm({
     open,
-    message = "Are you sure?",
+    message = 'Are you sure?',
     anchor,
     onConfirm,
     onCancel,
@@ -22,7 +22,7 @@ export default function Confirm({
     const dialog = useRef<HTMLDialogElement>(null);
     const busy = useRef(false);
     const [pending, setPending] = useState(false);
-    const [error, setError] = useState("");
+    const [error, setError] = useState('');
     const id = useId();
 
     useEffect(() => {
@@ -46,11 +46,11 @@ export default function Confirm({
             element.style.top = `${Math.max(8, Math.min(top, window.innerHeight - height - 8))}px`;
         }
         position();
-        window.addEventListener("resize", position);
-        window.addEventListener("scroll", position, true);
+        window.addEventListener('resize', position);
+        window.addEventListener('scroll', position, true);
         return () => {
-            window.removeEventListener("resize", position);
-            window.removeEventListener("scroll", position, true);
+            window.removeEventListener('resize', position);
+            window.removeEventListener('scroll', position, true);
         };
     }, [open, anchor, error]);
 
@@ -58,7 +58,7 @@ export default function Confirm({
         if (busy.current) return;
         busy.current = true;
         setPending(true);
-        setError("");
+        setError('');
         try {
             await onConfirm();
             onCancel();
@@ -66,7 +66,7 @@ export default function Confirm({
             setError(
                 cause instanceof Error
                     ? cause.message
-                    : "Something went wrong. Please try again.",
+                    : 'Something went wrong. Please try again.',
             );
         } finally {
             busy.current = false;
@@ -80,7 +80,7 @@ export default function Confirm({
             aria-labelledby={id}
             aria-describedby={error ? `${id}-error` : undefined}
             aria-busy={pending}
-            className="fixed inset-auto m-0 w-56 max-w-[calc(100vw-1rem)] rounded-xl border border-ui-border-strong bg-zinc-950/95 p-3 text-zinc-100 shadow-xl backdrop:bg-transparent"
+            className="border-ui-border-strong fixed inset-auto m-0 w-56 max-w-[calc(100vw-1rem)] rounded-xl border bg-zinc-950/95 p-3 text-zinc-100 shadow-xl backdrop:bg-transparent"
             onClick={(event) => {
                 if (event.target !== event.currentTarget || busy.current)
                     return;
@@ -122,7 +122,7 @@ export default function Confirm({
                     variant="secondary"
                     size="icon"
                     aria-label="Cancel"
-                    title="Cancel"
+                    tooltip="Cancel"
                     disabled={pending}
                     onClick={onCancel}
                     startIcon={<X size={15} aria-hidden="true" />}
@@ -131,7 +131,7 @@ export default function Confirm({
                     variant="danger"
                     size="icon"
                     aria-label="Confirm delete"
-                    title="Confirm delete"
+                    tooltip="Confirm delete"
                     loading={pending}
                     onClick={() => void confirm()}
                     startIcon={<Check size={15} aria-hidden="true" />}

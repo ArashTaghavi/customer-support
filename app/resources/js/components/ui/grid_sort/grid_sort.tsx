@@ -43,7 +43,7 @@ export default function GridSort({
                 onClick={() => onSort(field, nextDirection)}
                 disabled={disabled}
                 aria-label={sortLabel}
-                title={sortLabel}
+                tooltip={sortLabel}
             />
             {children}
         </div>

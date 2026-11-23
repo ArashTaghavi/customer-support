@@ -19,7 +19,6 @@ export default function PasswordInput<T extends FieldValues>({
     disabled,
     id,
     className = '',
-    autoComplete = 'current-password',
     ...props
 }: PasswordInputProps<T>) {
     const generatedId = useId();
@@ -34,7 +33,7 @@ export default function PasswordInput<T extends FieldValues>({
                 name={name}
                 label={label}
                 type={showPassword ? 'text' : 'password'}
-                autoComplete={autoComplete}
+                autoComplete="off"
                 disabled={disabled}
                 className={`pr-12 ${className}`}
             />

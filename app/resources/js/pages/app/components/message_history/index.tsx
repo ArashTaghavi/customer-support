@@ -6,6 +6,7 @@ type MessageHistoryProps = {
 };
 type MessageTimeProps = { timestamp: string };
 import { UserRound } from 'lucide-react';
+import { Tooltip } from '@/components/ui';
 import styles from './message_history.module.css';
 import TypingIndicator from '../typing_indicator';
 import AssistantMessage from '../assistant_message';
@@ -21,15 +22,17 @@ function MessageTime({ timestamp }: MessageTimeProps) {
     const date = messageDate(timestamp);
     if (!date.iso) return null;
     return (
-        <time
-            dateTime={date.iso}
-            title={date.full}
-            aria-label={date.full}
-            dir="ltr"
-            className="mt-2 block text-right text-[10px] text-muted tabular-nums"
-        >
-            {date.time}
-        </time>
+        <Tooltip content={date.full}>
+            <time
+                tabIndex={0}
+                dateTime={date.iso}
+                aria-label={date.full}
+                dir="ltr"
+                className="mt-2 block text-right text-[10px] text-muted tabular-nums"
+            >
+                {date.time}
+            </time>
+        </Tooltip>
     );
 }
 
