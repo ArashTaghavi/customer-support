@@ -3,41 +3,35 @@
 namespace App\Actions\Fortify;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use App\Services\OtpService;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
 class CreateNewUser implements CreatesNewUsers
 {
-    use PasswordValidationRules;
+    public function __construct(private OtpService $otpService) {}
 
     /**
-     * Validate and create a newly registered user.
-     *
      * @param  array<string, string>  $input
      *
      * @throws ValidationException
      */
     public function create(array $input): User
     {
-        Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique(User::class),
-            ],
-            'password' => $this->passwordRules(),
+        $validated = Validator::make($input, [
+            'mobile_number' => ['required', 'string', 'regex:/\A09[0-9]{9}\z/'],
         ])->validate();
 
-        return User::create([
-            'name' => $input['name'],
-            'email' => $input['email'],
-            'password' => Hash::make($input['password']),
+        $user = User::firstOrCreate([
+            'mobile_number' => $validated['mobile_number'],
+        ], [
+            'password' => Str::random(64),
         ]);
+
+        $this->otpService->send($user);
+
+        return $user;
     }
 }

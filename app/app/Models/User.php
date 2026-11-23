@@ -18,15 +18,31 @@ use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
- * @property string $name
- * @property string $email
+ * @property string|null $first_name
+ * @property string|null $last_name
+ * @property string|null $email
+ * @property string $mobile_number
+ * @property string|null $username
+ * @property string|null $avatar
+ * @property bool $is_active
  * @property Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $remember_token
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
  */
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable([
+    'first_name',
+    'last_name',
+    'email',
+    'mobile_number',
+    'username',
+    'password',
+    'avatar',
+    'is_active',
+    'email_verified_at',
+])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -46,7 +62,9 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
+            'is_active' => 'boolean',
             'email_verified_at' => 'datetime',
+            'deleted_at' => 'datetime',
             'password' => 'hashed',
         ];
     }
@@ -59,5 +77,10 @@ class User extends Authenticatable
     public function cart(): HasOne
     {
         return $this->hasOne(Cart::class);
+    }
+
+    public function otp(): HasOne
+    {
+        return $this->hasOne(Otp::class)->active();
     }
 }
