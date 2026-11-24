@@ -250,7 +250,7 @@ export default function PaginatedResponse({ type, data: ids }: ChatBlock) {
                                     }
                                     disabled={loading}
                                     onClick={() => setPage(pageNumber)}
-                                    className={`flex size-7! items-center justify-center rounded-lg border text-[11px]! transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${page === pageNumber ? 'border-outline/50 bg-glow/20 font-semibold text-highlight shadow-glass' : 'border-border/40 bg-highlight/3 text-muted hover:border-outline/30 hover:text-foreground'}`}
+                                    className={`flex size-7! items-center justify-center rounded-lg border text-[11px]! transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${page === pageNumber ? 'border-outline/50 bg-glow/20 font-semibold text-foreground shadow-glass' : 'border-border/40 bg-highlight/3 text-muted hover:border-outline/30 hover:text-foreground'}`}
                                 >
                                     {pageNumber.toLocaleString('fa-IR')}
                                 </Button>

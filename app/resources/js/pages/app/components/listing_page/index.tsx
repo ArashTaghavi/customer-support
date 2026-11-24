@@ -26,7 +26,7 @@ export default function ListingPage({
                     aria-hidden="true"
                     className={`${styles.edgeShine} pointer-events-none absolute inset-x-0 bottom-0 h-px overflow-hidden bg-linear-to-r from-transparent via-highlight to-transparent shadow-glass`}
                 />
-                <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-glow/10 text-highlight">
+                <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-glow/10 text-foreground">
                     <Icon size={23} aria-hidden="true" />
                 </span>
                 <div>

@@ -22,7 +22,7 @@ export default function StatCard({
                 {icon && (
                     <span
                         aria-hidden="true"
-                        className="text-highlight/80 [&>svg]:size-4"
+                        className="text-foreground/80 [&>svg]:size-4"
                     >
                         {icon}
                     </span>

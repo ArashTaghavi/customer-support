@@ -166,7 +166,7 @@ function SidebarContent({
                                     />
                                 )}
                                 <span
-                                    className={`flex size-8 shrink-0 items-center justify-center rounded-lg ${active ? 'bg-glow/10 text-highlight' : 'bg-highlight/3 text-muted group-hover:text-secondary'}`}
+                                    className={`flex size-8 shrink-0 items-center justify-center rounded-lg ${active ? 'bg-glow/10 text-foreground' : 'bg-highlight/3 text-muted group-hover:text-secondary'}`}
                                 >
                                     <MessageSquare
                                         size={15}
@@ -176,7 +176,7 @@ function SidebarContent({
                                 <span className="min-w-0 flex-1">
                                     <span
                                         dir="auto"
-                                        className={`block truncate text-start text-xs leading-5 ${active ? 'font-medium text-highlight' : 'text-secondary'}`}
+                                        className={`block truncate text-start text-xs leading-5 ${active ? 'font-medium text-foreground' : 'text-secondary'}`}
                                     >
                                         {conversation.title || 'گفتگوی جدید'}
                                     </span>
@@ -198,7 +198,7 @@ function SidebarContent({
                                 </span>
                                 <ChevronLeft
                                     size={13}
-                                    className={`shrink-0 ${active ? 'text-highlight' : 'text-muted opacity-0 group-hover:opacity-100'}`}
+                                    className={`shrink-0 ${active ? 'text-foreground' : 'text-muted opacity-0 group-hover:opacity-100'}`}
                                     aria-hidden="true"
                                 />
                             </Link>
@@ -209,7 +209,7 @@ function SidebarContent({
                     <div className="flex flex-col items-center gap-2 px-3 py-10 text-center">
                         <MessageCircle
                             size={28}
-                            className="mb-1 text-highlight/40"
+                            className="mb-1 text-foreground/40"
                             aria-hidden="true"
                         />
                         <p className="text-xs text-muted">
@@ -252,7 +252,7 @@ function SidebarContent({
                                         ? 'page'
                                         : undefined
                                 }
-                                className={`glass-nav group glass-nav flex h-12 w-full shrink-0 items-center gap-3 rounded-2xl px-3 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-glow ${currentPage === component ? 'bg-glow/15 text-highlight' : 'text-muted hover:bg-glow/10 hover:text-highlight'}`}
+                                className={`glass-nav group glass-nav flex h-12 w-full shrink-0 items-center gap-3 rounded-2xl px-3 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-glow ${currentPage === component ? 'bg-glow/15 text-foreground' : 'text-muted hover:bg-glow/10 hover:text-foreground'}`}
                             >
                                 <Icon size={18} aria-hidden="true" />
                                 <span>{label}</span>

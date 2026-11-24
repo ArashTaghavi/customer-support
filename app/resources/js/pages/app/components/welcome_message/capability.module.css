@@ -1,6 +1,6 @@
 .card {
     border: 1px solid var(--border);
-    background: var(--gradient-glass);
+    background: var(--gradient-welcome-card);
     box-shadow: var(--shadow-glass);
     transition:
         box-shadow var(--duration-ui),

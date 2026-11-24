@@ -32,16 +32,16 @@ export default function PagePagination({ meta, onPage }: Props) {
                   .filter((page) => page >= 1 && page <= last)
                   .sort((a, b) => a - b);
     const controlClass =
-        'size-7! rounded-lg! text-highlight! sm:size-9! sm:rounded-xl! hover:bg-glow/15! disabled:opacity-25!';
+        'size-7! rounded-lg! text-foreground! sm:size-9! sm:rounded-xl! hover:bg-glow/15! disabled:opacity-25!';
     return (
         <footer className="flex shrink-0 flex-col items-center justify-center gap-3 border-t border-outline/10 bg-sidebar/95 px-4 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] backdrop-blur-xl sm:flex-row sm:justify-between">
             <p className="text-[11px] text-muted sm:text-xs" aria-live="polite">
                 صفحهٔ{' '}
-                <span className="font-medium text-highlight">
+                <span className="font-medium text-foreground">
                     {current.toLocaleString('fa-IR')}
                 </span>{' '}
                 از {last.toLocaleString('fa-IR')}
-                <span aria-hidden="true" className="mx-2 text-highlight/30">
+                <span aria-hidden="true" className="mx-2 text-foreground/30">
                     ·
                 </span>
                 {meta.total.toLocaleString('fa-IR')} مورد
@@ -79,7 +79,7 @@ export default function PagePagination({ meta, onPage }: Props) {
                             onClick={() => {
                                 if (page !== current) onPage(page);
                             }}
-                            className={`size-7! rounded-lg! text-xs! tabular-nums transition-all sm:size-9! sm:rounded-xl! ${page === current ? 'bg-primary/25! font-semibold! text-highlight! shadow-glass' : 'text-secondary! hover:bg-glow/10! hover:text-highlight!'}`}
+                            className={`size-7! rounded-lg! text-xs! tabular-nums transition-all sm:size-9! sm:rounded-xl! ${page === current ? 'bg-primary/25! font-semibold! text-foreground! shadow-glass' : 'text-secondary! hover:bg-glow/10! hover:text-foreground!'}`}
                         >
                             {page.toLocaleString('fa-IR')}
                         </Button>

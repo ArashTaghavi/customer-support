@@ -46,7 +46,7 @@ export default function AddToCart({ product, quantity }: AddToCartProps) {
                 <div
                     role="group"
                     aria-label={`تعداد ${product.title}`}
-                    className="inline-flex h-9 w-16 shrink-0 items-center justify-between rounded-lg border-0 bg-brand/10 text-brand"
+                    className="inline-flex h-9 w-16 shrink-0 items-center justify-between rounded-lg border-0 bg-brand/10 text-foreground"
                 >
                     <button
                         type="button"

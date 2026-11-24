@@ -84,7 +84,7 @@ export default function ProductsResponse({
                                     product={product}
                                     quantity={quantity}
                                 />
-                                <span className="text-base font-semibold text-highlight tabular-nums">
+                                <span className="text-base font-semibold text-foreground tabular-nums">
                                     {product.price.toLocaleString('fa-IR')}
                                     <span className="ms-1 text-[10px] font-normal text-muted">
                                         تومان

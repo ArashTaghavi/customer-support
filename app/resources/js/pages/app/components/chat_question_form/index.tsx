@@ -1,5 +1,5 @@
 import { Send } from 'lucide-react';
-import { Form, Input } from '@/components/form';
+import { Form, Textarea } from '@/components/form';
 import { Button } from '@/components/ui';
 type AskRequest = { question: string };
 import type { SubmitHandler, UseFormReturn } from 'react-hook-form';
@@ -32,13 +32,26 @@ export default function ChatQuestionForm({
                 isPending={asking}
                 className="relative mx-auto flex w-full max-w-4xl min-w-0 shrink-0 items-center bg-transparent px-[var(--chat-gutter)] pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] [&>div]:min-w-0 [&>div]:flex-1 [&>div]:space-y-0 [&>div>label]:sr-only"
             >
-                <Input<AskRequest>
+                <Textarea<AskRequest>
                     name="question"
                     label="پیام شما"
                     placeholder={placeholder}
                     autoComplete="off"
                     disabled={asking}
-                    className="glass-composer h-14! w-full! rounded-2xl! ps-4! pe-16! text-base! text-foreground! placeholder:text-muted sm:text-sm!"
+                    rows={1}
+                    onKeyDown={(event) => {
+                        if (
+                            event.key !== 'Enter' ||
+                            event.shiftKey ||
+                            event.nativeEvent.isComposing
+                        )
+                            return;
+                        event.preventDefault();
+                        if (!event.repeat && hasQuestion && !asking) {
+                            event.currentTarget.form?.requestSubmit();
+                        }
+                    }}
+                    className="glass-composer block field-sizing-content max-h-40 min-h-14 w-full! resize-none! rounded-2xl! border-0! bg-transparent! py-4! ps-4! pe-16! text-base! leading-6! text-foreground! shadow-none! outline-none! placeholder:text-muted focus:ring-0! sm:text-sm!"
                 />
                 <Button
                     type="submit"

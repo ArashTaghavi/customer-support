@@ -20,6 +20,10 @@
     background-repeat: no-repeat;
 }
 
+.shopContent {
+    background: var(--shop-background);
+}
+
 @media (max-width: 374px) {
     .shell {
         --chat-gutter: 0.5rem;

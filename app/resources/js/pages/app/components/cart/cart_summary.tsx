@@ -14,7 +14,7 @@ export default function CartSummary({ itemCount, total }: CartSummaryProps) {
                     {itemCount.toLocaleString('fa-IR')} عدد کالا
                 </p>
             </div>
-            <p className="text-lg font-semibold text-highlight tabular-nums">
+            <p className="text-lg font-semibold text-foreground tabular-nums">
                 {total.toLocaleString('fa-IR')}
                 <span className="ms-1.5 text-[11px] font-normal text-muted">
                     تومان

@@ -28,16 +28,16 @@ export default function Cart() {
                 aria-haspopup="dialog"
                 className="group glass-nav flex h-12 w-full cursor-pointer items-center gap-3 rounded-2xl px-3 py-1 text-start text-foreground transition-colors hover:border-outline/50 hover:from-primary/25 hover:to-primary/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-highlight active:from-highlight/10"
             >
-                <span className="flex size-8 shrink-0 items-center justify-center rounded-xl border border-border/75 bg-highlight/10 text-highlight shadow-sm transition-colors group-hover:bg-highlight/20">
+                <span className="flex size-8 shrink-0 items-center justify-center rounded-xl border border-border/75 bg-highlight/10 text-foreground shadow-sm transition-colors group-hover:bg-highlight/20">
                     <ShoppingBag size={19} aria-hidden="true" />
                 </span>
                 <span className="flex min-w-0 flex-1 flex-col items-start gap-0 text-start">
                     <span className="text-sm leading-5 font-semibold">
                         سبد خرید
                     </span>
-                    <span className="inline-flex items-baseline gap-1 text-[11px] leading-4 font-medium whitespace-nowrap text-highlight tabular-nums">
+                    <span className="inline-flex items-baseline gap-1 text-[11px] leading-4 font-medium whitespace-nowrap text-foreground tabular-nums">
                         {total.toLocaleString('fa-IR')}
-                        <span className="text-[9px] font-normal text-highlight">
+                        <span className="text-[9px] font-normal text-foreground">
                             تومان
                         </span>
                     </span>
@@ -45,13 +45,13 @@ export default function Cart() {
                 <span
                     aria-live="polite"
                     aria-atomic="true"
-                    className="flex min-w-7 shrink-0 items-center justify-center rounded-lg border border-outline/25 bg-glow/20 px-2 py-1 text-xs font-bold text-highlight tabular-nums shadow-sm shadow-deep/20"
+                    className="flex min-w-7 shrink-0 items-center justify-center rounded-lg border border-outline/25 bg-glow/20 px-2 py-1 text-xs font-bold text-foreground tabular-nums shadow-sm shadow-deep/20"
                 >
                     {itemCount.toLocaleString('fa-IR')}
                 </span>
                 <ChevronLeft
                     size={16}
-                    className="text-highlight/60 transition-colors group-hover:text-highlight"
+                    className="text-foreground/60 transition-colors group-hover:text-foreground"
                     aria-hidden="true"
                 />
             </button>
@@ -83,7 +83,7 @@ export default function Cart() {
                     aria-hidden="true"
                 />
                 <div className="sticky top-0 z-10 flex items-center gap-3 border-b border-border/40 bg-surface/90 p-3 backdrop-blur-xl sm:p-5">
-                    <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl border border-outline/20 bg-glow/10 text-highlight">
+                    <span className="flex size-11 shrink-0 items-center justify-center rounded-2xl border border-outline/20 bg-glow/10 text-foreground">
                         <ShoppingBag size={22} aria-hidden="true" />
                     </span>
                     <h2 id={titleId} className="flex-1 text-sm font-semibold">
@@ -116,7 +116,7 @@ export default function Cart() {
                     <button
                         type="button"
                         onClick={close}
-                        className="w-full cursor-pointer rounded-xl border border-outline/20 bg-glow/10 px-4 py-3 text-xs font-medium text-highlight transition-colors hover:bg-glow/20 focus-visible:outline-2 focus-visible:outline-glow"
+                        className="w-full cursor-pointer rounded-xl border border-outline/20 bg-glow/10 px-4 py-3 text-xs font-medium text-foreground transition-colors hover:bg-glow/20 focus-visible:outline-2 focus-visible:outline-glow"
                     >
                         ادامه گفتگو
                     </button>

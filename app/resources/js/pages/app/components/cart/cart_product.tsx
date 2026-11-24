@@ -34,7 +34,7 @@ export default function CartProduct({ item }: CartProductProps) {
                     {product.title}
                 </h3>
                 <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-muted">
-                    <span className="rounded-lg border border-outline/15 bg-glow/10 px-2.5 py-1 font-medium text-highlight">
+                    <span className="rounded-lg border border-outline/15 bg-glow/10 px-2.5 py-1 font-medium text-foreground">
                         {quantity.toLocaleString('fa-IR')} عدد
                     </span>
                     <span className="text-xs font-medium text-foreground tabular-nums">
@@ -46,7 +46,7 @@ export default function CartProduct({ item }: CartProductProps) {
                 </div>
                 <div className="flex flex-wrap items-baseline justify-between gap-2 border-t border-border/30 pt-3">
                     <span className="text-[11px] text-muted">مجموع</span>
-                    <p className="text-sm font-semibold text-highlight tabular-nums sm:text-base">
+                    <p className="text-sm font-semibold text-foreground tabular-nums sm:text-base">
                         {(product.price * quantity).toLocaleString('fa-IR')}
                         <span className="ms-1.5 text-[10px] font-normal text-muted">
                             تومان

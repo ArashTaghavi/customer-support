@@ -7,7 +7,7 @@ const colors: Record<StatusTone, string> = {
     warning: 'border-warning/20 bg-warning/10 text-warning',
     danger: 'border-danger/20 bg-danger/10 text-danger',
     info: 'border-info/20 bg-info/10 text-info',
-    processing: 'border-processing/20 bg-processing/10 text-processing',
+    processing: 'border-processing/20 bg-processing/10 text-foreground',
     neutral: 'border-ui-border bg-highlight/5 text-ui-secondary',
 };
 

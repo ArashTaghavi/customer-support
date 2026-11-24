@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react';
+import { usePage } from '@inertiajs/react';
 import { PanelRightOpen } from 'lucide-react';
 import { Button } from '@/components/ui';
 import ChatSidebar from './components/chat_sidebar';
@@ -8,6 +9,7 @@ type AppLayoutProps = { children: ReactNode };
 
 export default function AppLayout({ children }: AppLayoutProps) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const isShop = usePage().component === 'app/shop/index';
 
     return (
         <div
@@ -19,7 +21,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                 onClose={() => setSidebarOpen(false)}
             />
             <div
-                className={`${styles.content} relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-canvas text-foreground`}
+                className={`${styles.content} ${isShop ? styles.shopContent : ''} relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-canvas text-foreground`}
             >
                 <Button
                     type="button"

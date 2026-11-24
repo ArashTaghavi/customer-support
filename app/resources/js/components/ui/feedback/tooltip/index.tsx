@@ -206,7 +206,7 @@ export default function Tooltip({
                         data-side={position?.side ?? side}
                         onPointerEnter={clearTimer}
                         onPointerLeave={leave}
-                        className={`${styles.panel} z-[9999] w-max max-w-[min(20rem,calc(100vw-1.5rem))] rounded-xl border-0 bg-linear-to-br from-elevated to-sidebar px-3 py-2 text-center text-xs leading-6 font-medium break-words text-highlight shadow-glass`}
+                        className={`${styles.panel} z-[9999] w-max max-w-[min(20rem,calc(100vw-1.5rem))] rounded-xl border-0 bg-linear-to-br from-elevated to-sidebar px-3 py-2 text-center text-xs leading-6 font-medium break-words text-foreground shadow-glass`}
                         style={{
                             position: 'fixed',
                             inset: 'auto',

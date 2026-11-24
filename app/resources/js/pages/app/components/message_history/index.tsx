@@ -84,7 +84,7 @@ export default function MessageHistory({
                         <div
                             className={`${styles.bubble} ${styles.user} ml-auto w-fit max-w-[92%] px-3 py-2.5 sm:max-w-[82%]`}
                         >
-                            <div className="mb-2 flex items-center gap-2 text-xs font-medium text-highlight">
+                            <div className="mb-2 flex items-center gap-2 text-xs font-medium text-foreground">
                                 <span className="flex size-6 items-center justify-center rounded-lg border border-outline/20 bg-highlight/15">
                                     <UserRound size={13} aria-hidden="true" />
                                 </span>

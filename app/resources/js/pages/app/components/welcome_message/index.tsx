@@ -7,25 +7,25 @@ const capabilities = [
         icon: PackageSearch,
         title: 'پیگیری و مدیریت سفارش',
         description: 'وضعیت سفارش‌هات رو ببین و برای تغییراتشون اقدام کن.',
-        color: 'text-highlight bg-glow/10',
+        color: 'text-foreground bg-glow/10',
     },
     {
         icon: ShoppingCart,
         title: 'جستجوی کالا و خرید',
         description: 'کالاها رو همین‌جا جستجو کن و به سبد خریدت اضافه کن.',
-        color: 'text-highlight bg-glow/10',
+        color: 'text-foreground bg-glow/10',
     },
     {
         icon: XCircle,
         title: 'درخواست لغو سفارش',
         description: 'درخواست لغو بده تا امکان لغو سفارشت بررسی بشه.',
-        color: 'text-highlight bg-glow/10',
+        color: 'text-foreground bg-glow/10',
     },
     {
         icon: Headset,
         title: 'ارتباط با پشتیبانی',
         description: 'هر وقت نیاز داشتی، با پشتیبانی انسانی صحبت کن.',
-        color: 'text-highlight bg-glow/10',
+        color: 'text-foreground bg-glow/10',
     },
 ];
 
@@ -59,7 +59,7 @@ export default function WelcomeMessage({
 
                 <p className="mt-4 text-center text-xs leading-5 text-muted [@media(max-height:700px)]:mt-2 [@media(max-height:700px)]:text-[11px]">
                     مثلاً بنویس:
-                    <span className="mr-1 text-highlight">
+                    <span className="mr-1 text-foreground">
                         «یه هدفون بی‌سیم می‌خوام»
                     </span>
                 </p>

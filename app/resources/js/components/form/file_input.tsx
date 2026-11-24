@@ -71,7 +71,7 @@ export default function FileInput<T extends FieldValues>({
                         .filter(Boolean)
                         .join(' ') || undefined
                 }
-                className={`block w-full rounded-xl border border-dashed bg-input p-4 text-sm text-ui-soft file:mr-4 file:cursor-pointer file:rounded-lg file:border-0 file:bg-primary/15 file:px-4 file:py-2 file:text-highlight hover:file:bg-primary/25 focus-visible:outline-2 focus-visible:outline-glow disabled:cursor-not-allowed disabled:opacity-50 ${error ? 'border-danger/60' : 'border-ui-border-strong'} ${className}`}
+                className={`block w-full rounded-xl border border-dashed bg-input p-4 text-sm text-ui-soft file:mr-4 file:cursor-pointer file:rounded-lg file:border-0 file:bg-primary/15 file:px-4 file:py-2 file:text-foreground hover:file:bg-primary/25 focus-visible:outline-2 focus-visible:outline-glow disabled:cursor-not-allowed disabled:opacity-50 ${error ? 'border-danger/60' : 'border-ui-border-strong'} ${className}`}
             />
             {hint && (
                 <p id={`${inputId}-hint`} className="text-xs text-ui-muted">

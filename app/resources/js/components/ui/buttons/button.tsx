@@ -18,7 +18,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const variants: Record<ButtonVariant, string> = {
-    tab: 'border-transparent bg-transparent text-ui-secondary hover:bg-highlight/5 hover:text-foreground aria-selected:bg-glow/10 aria-selected:text-highlight aria-selected:ring-1 aria-selected:ring-outline/20',
+    tab: 'border-transparent bg-transparent text-ui-secondary hover:bg-highlight/5 hover:text-foreground aria-selected:bg-glow/10 aria-selected:text-foreground aria-selected:ring-1 aria-selected:ring-outline/20',
     primary: 'button-primary',
     secondary: 'button-secondary',
     danger: 'border-danger/30 bg-danger/15 text-danger hover:bg-danger/25',

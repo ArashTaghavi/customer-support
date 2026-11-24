@@ -6,7 +6,7 @@ export default function EmptyCart() {
             <span className="flex size-20 items-center justify-center rounded-full border border-outline/10 bg-glow/5 shadow-glass">
                 <ShoppingBag
                     size={32}
-                    className="text-highlight/60"
+                    className="text-foreground/60"
                     aria-hidden="true"
                 />
             </span>

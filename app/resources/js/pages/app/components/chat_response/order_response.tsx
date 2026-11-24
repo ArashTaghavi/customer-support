@@ -137,7 +137,7 @@ export default function OrderResponse({
                     aria-controls={detailsId}
                     className="h-auto! justify-start! gap-3! rounded-none! p-3! text-start sm:p-4!"
                 >
-                    <span className="flex size-9 shrink-0 items-center justify-center rounded-xl border border-outline/20 bg-glow/10 text-highlight">
+                    <span className="flex size-9 shrink-0 items-center justify-center rounded-xl border border-outline/20 bg-glow/10 text-foreground">
                         <ReceiptText size={18} aria-hidden="true" />
                     </span>
                     <span className="flex min-w-0 flex-1 flex-wrap items-center justify-between gap-x-4 gap-y-2">
@@ -150,7 +150,7 @@ export default function OrderResponse({
                             </span>
                         </span>
                         <span className="flex flex-wrap items-center gap-2">
-                            <span className="text-sm font-semibold whitespace-nowrap text-highlight tabular-nums">
+                            <span className="text-sm font-semibold whitespace-nowrap text-foreground tabular-nums">
                                 {order.total_amount.toLocaleString('fa-IR')}{' '}
                                 <span className="text-[10px] font-normal text-muted">
                                     تومان
@@ -175,7 +175,7 @@ export default function OrderResponse({
                     <ChevronDown
                         size={16}
                         aria-hidden="true"
-                        className={`shrink-0 text-highlight transition-transform motion-reduce:transition-none ${open ? 'rotate-180' : ''}`}
+                        className={`shrink-0 text-foreground transition-transform motion-reduce:transition-none ${open ? 'rotate-180' : ''}`}
                     />
                 </Button>
             </h3>
@@ -195,7 +195,7 @@ export default function OrderResponse({
                                 className="min-w-0 rounded-xl border border-border/40 bg-input/70 px-3 py-2"
                                 aria-label="اطلاعات سفارش"
                             >
-                                <h4 className="mb-1 flex items-center gap-2 border-b border-border/30 pb-2 text-xs font-medium text-highlight">
+                                <h4 className="mb-1 flex items-center gap-2 border-b border-border/30 pb-2 text-xs font-medium text-foreground">
                                     <ReceiptText size={14} aria-hidden="true" />
                                     اطلاعات سفارش
                                 </h4>
@@ -277,7 +277,7 @@ export default function OrderResponse({
                                 className="min-w-0 rounded-xl border border-border/40 bg-input/70 px-3 py-2"
                                 aria-label="اطلاعات پرداخت"
                             >
-                                <h4 className="mb-1 flex items-center gap-2 border-b border-border/30 pb-2 text-xs font-medium text-highlight">
+                                <h4 className="mb-1 flex items-center gap-2 border-b border-border/30 pb-2 text-xs font-medium text-foreground">
                                     <Wallet size={14} aria-hidden="true" />
                                     اطلاعات پرداخت
                                 </h4>
@@ -372,7 +372,7 @@ export default function OrderResponse({
                                 <h4 className="flex items-center gap-2 text-xs font-medium text-foreground">
                                     <Package
                                         size={15}
-                                        className="text-highlight"
+                                        className="text-foreground"
                                         aria-hidden="true"
                                     />
                                     اقلام سفارش{' '}
@@ -464,7 +464,7 @@ export default function OrderResponse({
                                                                 'fa-IR',
                                                             )}
                                                         </td>
-                                                        <td className="px-3 py-2 font-medium whitespace-nowrap text-highlight tabular-nums">
+                                                        <td className="px-3 py-2 font-medium whitespace-nowrap text-foreground tabular-nums">
                                                             {item.total_price.toLocaleString(
                                                                 'fa-IR',
                                                             )}

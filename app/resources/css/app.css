@@ -9,6 +9,7 @@
 :root.dark {
     color-scheme: dark;
     --canvas: #08060d;
+    --shop-background: #000;
     --sidebar: #100b19;
     --surface: #181024;
     --elevated: #221532;
@@ -19,9 +20,9 @@
     --accent: #9333ea;
     --glow: #a855f7;
     --highlight: #c4b5fd;
-    --foreground: #f5f3ff;
-    --secondary: #b8a9ce;
-    --muted: #a092b1;
+    --foreground: #fafafa;
+    --secondary: #c4c4c4;
+    --muted: #a1a1a1;
     --outline: #e8dfce;
     --border: color-mix(in srgb, var(--outline) 22%, transparent);
     --border-hover: color-mix(in srgb, var(--outline) 38%, transparent);
@@ -46,6 +47,17 @@
         color-mix(in srgb, var(--elevated) 90%, transparent),
         color-mix(in srgb, var(--surface) 94%, transparent) 55%,
         var(--sidebar)
+    );
+    --gradient-composer: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--elevated) 64%, transparent),
+        color-mix(in srgb, var(--input) 48%, transparent)
+    );
+    --gradient-welcome-card: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--deep) 24%, var(--elevated)),
+        color-mix(in srgb, var(--deep) 16%, var(--surface)) 60%,
+        color-mix(in srgb, var(--deep) 10%, var(--sidebar))
     );
     --gradient-sidebar: linear-gradient(
         180deg,
@@ -287,19 +299,21 @@
         pointer-events: none;
     }
     .glass-composer {
-        background: var(--gradient-glass);
-        border: 1px solid var(--border);
-        box-shadow: var(--glass-shadow);
+        background: var(--gradient-composer);
+        border: 0;
+        box-shadow: none;
+        -webkit-backdrop-filter: blur(6px) saturate(110%);
+        backdrop-filter: blur(6px) saturate(110%);
     }
     .glass-composer:focus-visible {
-        border-color: var(--border-focus);
-        box-shadow: var(--focus-ring), var(--glass-shadow);
+        box-shadow: none;
     }
     .neural-ambient {
         background: radial-gradient(
-            ellipse 60% 55% at 50% 50%,
-            color-mix(in srgb, var(--deep) 20%, transparent),
-            transparent
+            ellipse 65% 60% at 50% 50%,
+            color-mix(in srgb, var(--primary) 34%, transparent) 0%,
+            color-mix(in srgb, var(--deep) 24%, transparent) 45%,
+            transparent 100%
         );
     }
     .neural-grid {
@@ -356,7 +370,7 @@
     .button-secondary[aria-pressed='true'],
     .glass-nav[aria-current='page'] {
         border-color: var(--border-hover);
-        color: var(--highlight);
+        color: var(--foreground);
         box-shadow: var(--glow-shadow);
     }
 }

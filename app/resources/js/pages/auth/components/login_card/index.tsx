@@ -59,7 +59,7 @@ export default function LoginCard() {
                 />
                 <div
                     aria-hidden="true"
-                    className={`${styles.lock} ${confirmed ? `${styles.unlocked} ${styles.confirmed}` : ''} mx-auto mb-6 flex size-14 items-center justify-center rounded-2xl border border-outline/20 bg-glow/10 text-highlight shadow-glass`}
+                    className={`${styles.lock} ${confirmed ? `${styles.unlocked} ${styles.confirmed}` : ''} mx-auto mb-6 flex size-14 items-center justify-center rounded-2xl border border-outline/20 bg-glow/10 text-foreground shadow-glass`}
                 >
                     <svg
                         width="28"

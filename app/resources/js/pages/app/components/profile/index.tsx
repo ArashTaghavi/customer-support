@@ -107,7 +107,7 @@ export default function Profile() {
                 aria-haspopup="dialog"
                 aria-expanded={open}
                 tooltip="ویرایش پروفایل"
-                className="size-11! shrink-0 overflow-hidden rounded-full! border! border-outline/30! bg-linear-to-br from-glow/10 to-surface/30 p-0! text-highlight! shadow-glass hover:border-outline/60! hover:bg-glow/20!"
+                className="size-11! shrink-0 overflow-hidden rounded-full! border! border-outline/30! bg-linear-to-br from-glow/10 to-surface/30 p-0! text-foreground! shadow-glass hover:border-outline/60! hover:bg-glow/20!"
             >
                 {avatar && failedImage !== avatar ? (
                     <img
@@ -134,9 +134,9 @@ export default function Profile() {
                     setOpen(false);
                 }}
                 style={{ position: 'fixed', inset: 0, margin: 'auto' }}
-                className="max-h-[calc(100dvh-2rem)] w-[calc(100vw-2rem)] max-w-xl overflow-hidden rounded-3xl border border-border-hover bg-surface/95 p-0 text-foreground shadow-modal backdrop-blur-md backdrop:bg-black/60 backdrop:backdrop-blur-sm"
+                className="max-h-[calc(100dvh-2rem)] w-[calc(100vw-2rem)] max-w-xl overflow-hidden rounded-3xl border border-border-hover bg-black bg-none p-0 text-foreground shadow-modal backdrop-blur-md backdrop:bg-black/60 backdrop:backdrop-blur-sm"
             >
-                <div className="relative z-10 flex items-center justify-between border-b border-outline/15 bg-elevated px-5 py-3">
+                <div className="relative z-10 flex items-center justify-between border-b border-outline/15 bg-black px-5 py-3">
                     <h2 id={titleId} className="text-base font-semibold">
                         ویرایش پروفایل
                     </h2>
@@ -157,7 +157,7 @@ export default function Profile() {
                     className="grid max-h-[calc(100dvh-7rem)] grid-cols-2 items-start gap-3 overflow-y-auto overscroll-contain p-4 sm:p-5"
                 >
                     <div className="flex flex-col items-center gap-2 self-center">
-                        <div className="flex size-16 items-center justify-center overflow-hidden rounded-full border border-outline/25 bg-glow/10 text-highlight">
+                        <div className="flex size-16 items-center justify-center overflow-hidden rounded-full border border-outline/25 bg-glow/10 text-foreground">
                             {source && failedImage !== source ? (
                                 <img
                                     src={source}

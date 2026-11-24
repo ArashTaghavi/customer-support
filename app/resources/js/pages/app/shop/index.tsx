@@ -101,7 +101,7 @@ export default function Shop({ categories, products, category }: Props) {
                             aria-current={
                                 category === item.id ? 'page' : undefined
                             }
-                            className={`rounded-xl border px-4 py-2 text-xs leading-6 transition-colors focus-visible:outline-2 focus-visible:outline-glow ${category === item.id ? 'border-outline/40 bg-glow/15 text-highlight' : 'border-border/40 bg-highlight/3 text-secondary hover:border-outline/25 hover:text-foreground'}`}
+                            className={`rounded-xl border px-4 py-2 text-xs leading-6 transition-colors focus-visible:outline-2 focus-visible:outline-glow ${category === item.id ? 'border-outline/40 bg-glow/15 text-foreground' : 'border-border/40 bg-highlight/3 text-secondary hover:border-outline/25 hover:text-foreground'}`}
                         >
                             {item.title}
                         </Link>
@@ -152,7 +152,7 @@ export default function Shop({ categories, products, category }: Props) {
                 <div className="flex flex-col items-center gap-3 rounded-3xl border border-outline/10 bg-highlight/2 px-5 py-16 text-center text-secondary">
                     <PackageSearch
                         size={36}
-                        className="text-highlight/60"
+                        className="text-foreground/60"
                         aria-hidden="true"
                     />
                     <p className="text-sm">
