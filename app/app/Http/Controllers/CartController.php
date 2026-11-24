@@ -3,50 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\Cart\CartResource;
-use App\Models\Product\Product;
+use App\Services\CartService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class CartController extends Controller
 {
-    public function index(Request $request)
+    public function __construct(private CartService $cartService) {}
+
+    public function index(Request $request): AnonymousResourceCollection
     {
-        $cartItems = $request->cart
-            ?->cartItems()
-            ->with(['product'])
-            ->get();
+        $cartItems = $this->cartService->index(user: $request->user());
 
         return CartResource::collection($cartItems);
     }
 
-    public function add(Request $request, Product $product): RedirectResponse
+    public function add(Request $request, int $productId): RedirectResponse
     {
-        $cart = $request->user()->cart()->firstOrCreate();
-
-        $cartItem = $cart->cartItems()->firstOrCreate([
-            'product_id' => $product->id,
-        ]);
-
-        if (! $cartItem->wasRecentlyCreated) {
-            $cartItem->increment('quantity');
-        }
+        $this->cartService->add(user: $request->user(), productId: $productId);
 
         return back();
     }
 
-    public function remove(Request $request, Product $product): RedirectResponse
+    public function remove(Request $request, int $productId): RedirectResponse
     {
-        $cartItem = $request->user()
-            ->cart
-            ?->cartItems()
-            ->where('product_id', $product->id)
-            ->first();
-
-        if ($cartItem->quantity > 1) {
-            $cartItem->decrement('quantity');
-        } else {
-            $cartItem->delete();
-        }
+        $this->cartService->remove(user: $request->user(), productId: $productId);
 
         return back();
     }

@@ -2,22 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\Order\OrderResource as OrderOrderResource;
+use App\Http\Requests\ChatResponseRequest;
+use App\Http\Resources\Order\OrderResource;
 use App\Http\Resources\Product\ProductResource;
 use App\Models\Product\Product;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ChatResponseController extends Controller
 {
-    public function orders(Request $request): AnonymousResourceCollection
+    public function orders(ChatResponseRequest $request): AnonymousResourceCollection
     {
-        $validated = $request->validate([
-            'ids' => ['present', 'array'],
-            'ids.*' => ['required', 'integer', 'min:1'],
-            'page' => ['sometimes', 'integer', 'min:1'],
-        ]);
-
         $orders = $request->user()->orders()
             ->with([
                 'orderItems' => [
@@ -25,23 +19,18 @@ class ChatResponseController extends Controller
                         'productCategory',
                     ],
                 ], 'payments'])
-            ->whereIn('id', $validated['ids'])
+            ->whereIn('id', $request->array('ids'))
             ->orderBy('id')
             ->paginate(5)
             ->withQueryString();
 
-        return OrderOrderResource::collection($orders);
+        return OrderResource::collection($orders);
     }
 
-    public function products(Request $request): AnonymousResourceCollection
+    public function products(ChatResponseRequest $request): AnonymousResourceCollection
     {
-        $validated = $request->validate([
-            'ids' => ['present', 'array'],
-            'ids.*' => ['required', 'integer', 'min:1'],
-            'page' => ['sometimes', 'integer', 'min:1'],
-        ]);
 
-        $products = Product::whereIn('id', $validated['ids'])
+        $products = Product::whereIn('id', $request->array('ids'))
             ->orderBy('id')
             ->paginate(5)
             ->withQueryString();

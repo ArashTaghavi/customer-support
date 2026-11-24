@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class OtpService
 {
-    private const int EXPIRATION_MINUTES = 5;
+    private const int EXPIRATION_MINUTES = 2;
 
     private const int MAX_ATTEMPTS = 5;
 
@@ -16,7 +16,7 @@ class OtpService
     {
         $otp = DB::transaction(function () use ($user): Otp {
             $lockedUser = User::whereKey($user->id)->lockForUpdate()->firstOrFail();
-            $activeOtp = $lockedUser->otp()->first();
+            $activeOtp = $lockedUser->otp;
 
             if ($activeOtp !== null) {
                 return $activeOtp;

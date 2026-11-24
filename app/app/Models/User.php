@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Cart\Cart;
+use App\Models\Cart\CartItem;
 use App\Models\Conversation\Conversation;
 use App\Models\Order\Order;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -103,6 +105,11 @@ class User extends Authenticatable implements PasskeyUser
     public function cart(): HasOne
     {
         return $this->hasOne(Cart::class);
+    }
+
+    public function cartItems(): HasManyThrough
+    {
+        return $this->hasManyThrough(CartItem::class, Cart::class);
     }
 
     public function otp(): HasOne

@@ -57,7 +57,7 @@ Route::middleware('auth')->group(function () {
         ->controller(CartController::class)
         ->group(function () {
             Route::post('', 'index')->name('index');
-            Route::prefix('{product}')->group(function () {
+            Route::prefix('{productId}')->group(function () {
                 Route::post('add', 'add')->name('add');
                 Route::post('remove', 'remove')->name('remove');
             });

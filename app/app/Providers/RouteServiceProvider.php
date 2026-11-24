@@ -26,5 +26,6 @@ class RouteServiceProvider extends ServiceProvider
                 ->where('user_id', auth()->id())
                 ->firstOrFail();
         });
+        
     }
 }
