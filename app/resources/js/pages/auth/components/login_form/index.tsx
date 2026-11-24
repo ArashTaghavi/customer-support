@@ -1,3 +1,4 @@
+import PasskeyButton from '@/components/passkey_button';
 import { router, usePage } from '@inertiajs/react';
 import {
     useForm,
@@ -250,6 +251,7 @@ export default function LoginForm({
                         : 'ارسال مجدد کد'}
                 </Button>
             )}
+            <PasskeyButton />
         </Form>
     );
 }

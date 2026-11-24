@@ -9,7 +9,10 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OtpAuthenticationController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\RequireRecentOtp;
 use Illuminate\Support\Facades\Route;
+use Laravel\Passkeys\Http\Controllers\PasskeyLoginController;
+use Laravel\Passkeys\Http\Controllers\PasskeyRegistrationController;
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [OtpAuthenticationController::class, 'show'])->name('login');
@@ -58,4 +61,14 @@ Route::middleware('auth')->group(function () {
             });
 
         });
+});
+
+Route::middleware(['guest', 'throttle:6,1'])->group(function (): void {
+    Route::get('/passkeys/login/options', [PasskeyLoginController::class, 'index'])->name('passkey.login-options');
+    Route::post('/passkeys/login', [PasskeyLoginController::class, 'store'])->name('passkey.login');
+});
+Route::middleware(['auth', RequireRecentOtp::class, 'throttle:6,1'])->group(function (): void {
+    Route::get('/user/passkeys/options', [PasskeyRegistrationController::class, 'index'])->name('passkey.registration-options');
+    Route::post('/user/passkeys', [PasskeyRegistrationController::class, 'store'])->name('passkey.store');
+    Route::delete('/user/passkeys/{passkey}', [PasskeyRegistrationController::class, 'destroy'])->name('passkey.destroy');
 });

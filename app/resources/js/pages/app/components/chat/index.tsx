@@ -11,6 +11,7 @@ import ChatMessages from '../chat_messages';
 import ChatQuestionForm from '../chat_question_form';
 import MessageHistory from '../message_history';
 import WelcomeMessage from '../welcome_message';
+import PublicBackground from '@/components/PublicBackground';
 
 type ChatProps = {
     messages?: MessageResponse[];
@@ -97,7 +98,8 @@ export default function Chat({
     const hasQuestion = !!questionForm.watch('question')?.trim();
 
     return (
-        <div className="flex h-full min-h-0 min-w-0 flex-col overflow-hidden">
+        <div className={`relative isolate flex h-full min-h-0 min-w-0 flex-col overflow-hidden ${!selectedConversation || messages.length === 0 ? 'bg-black' : ''}`}>
+            {(!selectedConversation || messages.length === 0) && <PublicBackground />}
             <ChatMessages messagesRef={messagesRef} label="پیام‌های گفت‌وگو">
                 {selectedConversation && messages.length > 0 ? (
                     <MessageHistory

@@ -6,31 +6,11 @@
 
 .sidebar {
     z-index: 1;
-    border-inline-end-color: rgb(167 139 250 / 20%);
-    box-shadow:
-        -12px 0 40px -16px rgb(139 92 246 / 32%),
-        -1px 0 0 rgb(196 181 253 / 8%);
+    border-inline-end-color: rgb(255 255 255 / 8%);
 }
 
 .sidebar:not(dialog) {
     position: relative;
-}
-
-.sidebar::after {
-    position: absolute;
-    inset-block: 0;
-    inset-inline-end: -1px;
-    width: 1px;
-    background: linear-gradient(
-        to bottom,
-        transparent,
-        rgb(167 139 250 / 18%) 20%,
-        rgb(196 181 253 / 65%) 50%,
-        rgb(167 139 250 / 18%) 80%,
-        transparent
-    );
-    content: '';
-    pointer-events: none;
 }
 
 .messages:has(> [data-chat-welcome]) {
@@ -41,7 +21,7 @@
     position: relative;
     isolation: isolate;
     background-image: radial-gradient(
-        ellipse 76% 54% at 50% 50%,
+        ellipse 152% 108% at 50% 50%,
         rgb(139 92 246 / 25%) 0%,
         rgb(124 58 237 / 15%) 28%,
         rgb(109 40 217 / 5%) 60%,
@@ -53,7 +33,7 @@
 @media (max-width: 767px) {
     .content {
         background-image: radial-gradient(
-            ellipse 110% 48% at 50% 50%,
+            ellipse 220% 96% at 50% 50%,
             rgb(139 92 246 / 24%) 0%,
             rgb(124 58 237 / 12%) 38%,
             transparent 90%

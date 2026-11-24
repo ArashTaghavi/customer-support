@@ -14,6 +14,8 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Http\Requests\LoginRequest;
+use Laravel\Passkeys\Contracts\PasskeyUser;
+use Laravel\Passkeys\Passkeys;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -24,6 +26,10 @@ class FortifyServiceProvider extends ServiceProvider
 
     public function boot(OtpService $otpService): void
     {
+        Passkeys::authorizeLoginUsing(
+            fn (Request $request, PasskeyUser $user): bool => $user instanceof User && $user->is_active,
+        );
+
         Fortify::createUsersUsing(CreateNewUser::class);
 
         Fortify::authenticateUsing(function (Request $request) use ($otpService): User {
@@ -39,6 +45,7 @@ class FortifyServiceProvider extends ServiceProvider
                 ]);
             }
 
+            $request->session()->put('auth.otp_confirmed_at', now()->timestamp);
             $request->session()->forget(['otp.challenge', 'otp.resend_at']);
 
             return $user;

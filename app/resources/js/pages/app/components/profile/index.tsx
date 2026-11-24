@@ -1,3 +1,4 @@
+import PasskeyButton from '@/components/passkey_button';
 ﻿import { router, usePage } from '@inertiajs/react';
 import { useEffect, useId, useRef, useState } from 'react';
 import { useForm, useWatch, type SubmitHandler } from 'react-hook-form';
@@ -133,9 +134,9 @@ export default function Profile() {
                     setOpen(false);
                 }}
                 style={{ position: 'fixed', inset: 0, margin: 'auto' }}
-                className="max-h-[calc(100dvh-2rem)] w-[calc(100vw-2rem)] max-w-lg overflow-y-auto rounded-3xl border border-white/15 bg-[#0d0d0f]/95 p-0 text-zinc-100 shadow-2xl backdrop-blur-2xl backdrop:bg-black/60 backdrop:backdrop-blur-sm"
+                className="max-h-[calc(100dvh-2rem)] w-[calc(100vw-2rem)] max-w-xl overflow-hidden rounded-3xl border border-white/15 bg-[#0d0d0f]/95 p-0 text-zinc-100 shadow-2xl backdrop-blur-2xl backdrop:bg-black/60 backdrop:backdrop-blur-sm"
             >
-                <div className="flex items-center justify-between border-b border-white/8 px-5 py-4">
+                <div className="relative z-10 flex items-center justify-between border-b border-violet-300/15 bg-[#21172f] px-5 py-3">
                     <h2 id={titleId} className="text-base font-semibold">
                         ویرایش پروفایل
                     </h2>
@@ -153,9 +154,10 @@ export default function Profile() {
                     methods={methods}
                     onSubmit={submit}
                     isPending={processing}
-                    className="space-y-5 p-5 sm:p-6"
+                    className="grid max-h-[calc(100dvh-7rem)] grid-cols-2 items-start gap-3 overflow-y-auto overscroll-contain p-4 sm:p-5"
                 >
-                    <div className="mx-auto flex size-20 items-center justify-center overflow-hidden rounded-full border border-violet-300/25 bg-violet-400/10 text-violet-200">
+                    <div className="flex flex-col items-center gap-2 self-center">
+                    <div className="flex size-16 items-center justify-center overflow-hidden rounded-full border border-violet-300/25 bg-violet-400/10 text-violet-200">
                         {source && failedImage !== source ? (
                             <img
                                 src={source}
@@ -167,6 +169,8 @@ export default function Profile() {
                             <UserRound size={32} aria-hidden="true" />
                         )}
                     </div>
+                        <p dir="ltr" className="text-sm text-zinc-400">{user.mobile_number}</p>
+                    </div>
                     <FileInput<ProfileValues>
                         key={fileVersion}
                         name="avatar"
@@ -175,7 +179,7 @@ export default function Profile() {
                         accept="image/jpeg,image/png,image/webp"
                         disabled={processing}
                     />
-                    <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="col-span-2 grid grid-cols-2 gap-3">
                         <Input<ProfileValues>
                             name="first_name"
                             label="نام"
@@ -207,17 +211,10 @@ export default function Profile() {
                         spellCheck={false}
                         disabled={processing}
                     />
-                    <Input<ProfileValues>
-                        name="mobile_number"
-                        label="شماره موبایل"
-                        dir="ltr"
-                        readOnly
-                        disabled
-                    />
-                    <p role="status" className="text-sm text-emerald-300">
+                    <p role="status" className="col-span-2 text-sm text-emerald-300">
                         {saved ? 'اطلاعات پروفایل ذخیره شد.' : ''}
                     </p>
-                    <div className="flex gap-3 border-t border-white/8 pt-5">
+                    <div className="col-span-2 flex gap-3 border-t border-white/8 pt-3">
                         <Button
                             type="submit"
                             fullWidth
@@ -227,6 +224,9 @@ export default function Profile() {
                         >
                             ذخیره تغییرات
                         </Button>
+                    </div>
+                    <div className="col-span-2">
+                        <PasskeyButton register />
                     </div>
                 </Form>
             </dialog>

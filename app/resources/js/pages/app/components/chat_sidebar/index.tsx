@@ -35,6 +35,11 @@ function SidebarContent({
         selectedConversation?: ConversationResponse;
     }>().props;
 
+    const { auth } = usePage().props;
+    const fullName = [auth.user.first_name, auth.user.last_name]
+        .map((part) => part?.trim())
+        .filter(Boolean)
+        .join(' ');
     const currentPage = usePage().component;
     const [search, setSearch] = useState('');
     const [creating, setCreating] = useState(false);
@@ -59,11 +64,13 @@ function SidebarContent({
     }
 
     return (
-        <div className="flex h-full min-h-0 flex-col bg-[#090909] text-zinc-100">
+        <div className="flex h-full min-h-0 flex-col bg-[#18181b] text-zinc-100">
             <div className="shrink-0 space-y-4 border-b border-white/6 p-4">
                 <div className="flex items-center gap-2.5">
                     <Profile />
-                    <span className="flex-1" />
+                    <span className="min-w-0 flex-1 truncate text-sm font-medium text-zinc-200" title={fullName}>
+                        {fullName}
+                    </span>
                     <Button
                         variant="tab"
                         size="icon"
@@ -215,7 +222,7 @@ function SidebarContent({
                     </div>
                 )}
             </nav>
-            <div className="mt-auto shrink-0 bg-[#090909] px-3 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+            <div className="mt-auto shrink-0 bg-[#18181b] px-3 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
 <div className="mb-2 space-y-2">                    {[
                         {
                             label: 'فروشگاه',
@@ -290,7 +297,7 @@ export default function ChatSidebar({ open, onClose }: SidebarProps) {
                 onClick={(event) => {
                     if (event.target === event.currentTarget) onClose();
                 }}
-                className={`${styles.sidebar} fixed inset-y-0 right-0 left-auto m-0 h-dvh max-h-dvh w-[min(20rem,calc(100vw-1rem))] max-w-none border-0 border-e border-white/10 bg-[#090909] p-0 text-zinc-100 shadow-2xl shadow-black/50 backdrop:bg-black/65 backdrop:backdrop-blur-sm lg:hidden`}
+                className={`${styles.sidebar} fixed inset-y-0 right-0 left-auto m-0 h-dvh max-h-dvh w-[min(20rem,calc(100vw-1rem))] max-w-none border-0 border-e border-white/10 bg-[#18181b] p-0 text-zinc-100 shadow-2xl shadow-black/50 backdrop:bg-black/65 backdrop:backdrop-blur-sm lg:hidden`}
             >
                 <SidebarContent onNavigate={onClose} mobile />
             </dialog>

@@ -1,4 +1,4 @@
-import { Minus, Plus, ShoppingBag } from 'lucide-react';
+import { LoaderCircle, Minus, Plus, ShoppingCart } from 'lucide-react';
 import type { ProductData } from '@/types/chat_response';
 import { router } from '@inertiajs/react';
 import { useRef, useState } from 'react';
@@ -77,10 +77,12 @@ export default function AddToCart({ product, quantity }: AddToCartProps) {
             type="button"
             onClick={() => updateCart('add')}
             disabled={processing || !available}
-            className="inline-flex min-h-9 cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-brand/20 bg-brand/10 px-2.5 py-2 text-[11px] font-medium text-brand transition-colors hover:border-brand/40 hover:bg-brand/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-40"
+            aria-label={`افزودن ${product.title} به سبد خرید`}
+            title={available ? 'افزودن به سبد خرید' : 'ناموجود'}
+            aria-busy={processing}
+            className="inline-flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-lg bg-[#818cf8] text-[#111113] transition-colors hover:bg-[#a5b4fc] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:bg-[#27272f] disabled:text-zinc-500"
         >
-            <ShoppingBag size={14} aria-hidden="true" />
-            افزودن به سبد خرید
+            {processing ? <LoaderCircle size={17} className="animate-spin" aria-hidden="true" /> : <ShoppingCart size={17} aria-hidden="true" />}
         </button>
     );
 }

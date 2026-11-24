@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Laravel\Passkeys\Contracts\PasskeyUser;
 
 /**
  * @property int $id
@@ -47,10 +48,10 @@ use Illuminate\Support\Carbon;
     'email_verified_at',
 ])]
 #[Hidden(['password', 'remember_token'])]
-class User extends Authenticatable
+class User extends Authenticatable implements PasskeyUser
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasFactory, \Laravel\Passkeys\PasskeyAuthenticatable, Notifiable, SoftDeletes;
 
     /**
      * @var list<string>
@@ -62,6 +63,16 @@ class User extends Authenticatable
         return Attribute::make(
             get: fn (): ?string => $this->avatar ? asset($this->avatar) : null,
         );
+    }
+
+    public function getPasskeyUsername(): string
+    {
+        return $this->mobile_number;
+    }
+
+    public function getPasskeyDisplayName(): string
+    {
+        return trim($this->first_name.' '.$this->last_name) ?: $this->mobile_number;
     }
 
     public function conversations(): HasMany

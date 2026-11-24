@@ -38,7 +38,7 @@ export default function ChatQuestionForm({
                     placeholder={placeholder}
                     autoComplete="off"
                     disabled={asking}
-                    className="h-14! w-full! rounded-xl! border-0! bg-white/6! ps-4! pe-16! text-base! text-zinc-100! shadow-[0_8px_32px_rgba(0,0,0,0.2)]! backdrop-blur-2xl backdrop-saturate-150 placeholder:text-zinc-300! hover:bg-white/8! focus:bg-white/10! focus:ring-0! sm:text-sm!"
+                    className="h-14! w-full! rounded-xl! border-0! bg-white/5! ps-4! pe-16! text-base! text-zinc-100! shadow-[0_4px_24px_rgba(0,0,0,0.12)]! backdrop-blur-md backdrop-saturate-125 placeholder:text-zinc-300! hover:bg-white/7! focus:bg-white/8! focus:ring-0! sm:text-sm!"
                 />
                 <Button
                     type="submit"

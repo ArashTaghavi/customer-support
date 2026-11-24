@@ -6,7 +6,7 @@ export default function PublicBackground() {
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 -z-10"
         >
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(124,58,237,0.25),transparent_70%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_50%,rgba(124,58,237,0.5)_0%,rgba(124,58,237,0.25)_45%,transparent_100%)]" />
             <div className="absolute inset-0 bg-[radial-gradient(#ffffff0c_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)] bg-size-[28px_28px]" />
             <div className="absolute top-1/2 left-1/2 size-[600px] -translate-1/2 rounded-full border border-white/4" />
             <div className="absolute top-1/2 left-1/2 size-[480px] -translate-1/2 rounded-full border border-white/4" />

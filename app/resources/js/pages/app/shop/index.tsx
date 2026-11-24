@@ -19,7 +19,7 @@ type Props = {
 
 export default function Shop({ categories, products, category }: Props) {
     const { url } = usePage();
-    const [density, setDensity] = useState<'comfortable' | 'compact'>('compact');
+    const [columns, setColumns] = useState<3 | 4 | 5>(5);
     const [sorting, setSorting] = useState(false);
     const query = new URLSearchParams(url.split('?')[1] ?? '');
     const sort = query.get('sort');
@@ -86,9 +86,14 @@ export default function Shop({ categories, products, category }: Props) {
                 <Button size="sm" variant="secondary" loading={sorting} onClick={toggleSort} startIcon={<ArrowUpDown size={14} />} className="h-9!">
                     {sort === 'price_asc' ? 'قیمت: ارزان‌ترین' : sort === 'price_desc' ? 'قیمت: گران‌ترین' : 'مرتب‌سازی قیمت'}
                 </Button>
-                <Button size="sm" variant="secondary" onClick={() => setDensity(density === 'compact' ? 'comfortable' : 'compact')} startIcon={<LayoutGrid size={14} />} aria-pressed={density === 'compact'} className="h-9!">
-                    {density === 'compact' ? 'چیدمان: فشرده' : 'چیدمان: درشت'}
-                </Button>
+                <div role="group" aria-label="چیدمان محصولات" className="flex items-center gap-1">
+                    <LayoutGrid size={14} aria-hidden="true" className="mx-1 text-zinc-400" />
+                    {([5, 4, 3] as const).map((count) => (
+                        <Button key={count} size="sm" variant="secondary" onClick={() => setColumns(count)} aria-pressed={columns === count} className={`h-9! ${columns === count ? 'bg-violet-400/20! text-violet-200!' : ''}`}>
+                            {count.toLocaleString('fa-IR')} تایی
+                        </Button>
+                    ))}
+                </div>
             </div>
             </div>
             <div className="flex items-center justify-between gap-3">
@@ -100,7 +105,7 @@ export default function Shop({ categories, products, category }: Props) {
                 </span>
             </div>
             {items.length > 0 ? (
-                <ProductsResponse products={items} density={density} />
+                <ProductsResponse products={items} columns={columns} />
             ) : (
                 <div className="flex flex-col items-center gap-3 rounded-3xl border border-violet-300/10 bg-white/2 px-5 py-16 text-center text-zinc-400">
                     <PackageSearch
