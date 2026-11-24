@@ -1,5 +1,7 @@
-import { Link, router } from '@inertiajs/react';
-import { PackageSearch, ShoppingBag } from 'lucide-react';
+import { useState } from 'react';
+import { Button } from '@/components/ui';
+import { Link, router, usePage } from '@inertiajs/react';
+import { PackageSearch, ShoppingBag, ArrowUpDown, LayoutGrid } from 'lucide-react';
 import AppLayout from '../layout';
 import ListingPage from '../components/listing_page';
 import ProductsResponse from '../components/chat_response/products_response';
@@ -16,6 +18,21 @@ type Props = {
 };
 
 export default function Shop({ categories, products, category }: Props) {
+    const { url } = usePage();
+    const [density, setDensity] = useState<'comfortable' | 'compact'>('compact');
+    const [sorting, setSorting] = useState(false);
+    const query = new URLSearchParams(url.split('?')[1] ?? '');
+    const sort = query.get('sort');
+    function toggleSort() {
+        query.delete('page');
+        query.delete('min_price');
+        query.delete('max_price');
+        query.set('sort', sort === 'price_asc' ? 'price_desc' : 'price_asc');
+        router.get(shop.url(), Object.fromEntries(query), {
+            preserveState: true, preserveScroll: true,
+            onStart: () => setSorting(true), onFinish: () => setSorting(false),
+        });
+    }
     const items = productSchema.array().parse(products.data);
     const selected = categories.data.find((item) => item.id === category);
     return (
@@ -30,6 +47,7 @@ export default function Shop({ categories, products, category }: Props) {
                         router.get(
                             shop.url({
                                 query: {
+                                    ...Object.fromEntries(new URLSearchParams(window.location.search)),
                                     ...(category ? { category } : {}),
                                     page,
                                 },
@@ -41,16 +59,17 @@ export default function Shop({ categories, products, category }: Props) {
                 />
             }
         >
+            <div className="flex flex-wrap items-center justify-between gap-3">
             <nav
                 aria-label="دسته‌بندی محصولات"
-                className="flex flex-wrap gap-2"
+                className="flex min-w-0 flex-1 flex-wrap gap-2"
             >
                 {[{ id: null, title: 'همه محصولات' }, ...categories.data].map(
                     (item) => (
                         <Link
                             key={item.id ?? 'all'}
                             href={shop({
-                                query: item.id ? { category: item.id } : {},
+                                query: { ...Object.fromEntries([...new URLSearchParams(window.location.search)].filter(([key]) => key !== 'page' && key !== 'category')), ...(item.id ? { category: item.id } : {}) },
                             })}
                             preserveState
                             aria-current={
@@ -63,6 +82,15 @@ export default function Shop({ categories, products, category }: Props) {
                     ),
                 )}
             </nav>
+            <div className="flex shrink-0 flex-wrap items-center gap-2">
+                <Button size="sm" variant="secondary" loading={sorting} onClick={toggleSort} startIcon={<ArrowUpDown size={14} />} className="h-9!">
+                    {sort === 'price_asc' ? 'قیمت: ارزان‌ترین' : sort === 'price_desc' ? 'قیمت: گران‌ترین' : 'مرتب‌سازی قیمت'}
+                </Button>
+                <Button size="sm" variant="secondary" onClick={() => setDensity(density === 'compact' ? 'comfortable' : 'compact')} startIcon={<LayoutGrid size={14} />} aria-pressed={density === 'compact'} className="h-9!">
+                    {density === 'compact' ? 'چیدمان: فشرده' : 'چیدمان: درشت'}
+                </Button>
+            </div>
+            </div>
             <div className="flex items-center justify-between gap-3">
                 <h2 className="text-sm font-medium text-zinc-200">
                     {selected?.title ?? 'همه محصولات'}
@@ -72,7 +100,7 @@ export default function Shop({ categories, products, category }: Props) {
                 </span>
             </div>
             {items.length > 0 ? (
-                <ProductsResponse products={items} />
+                <ProductsResponse products={items} density={density} />
             ) : (
                 <div className="flex flex-col items-center gap-3 rounded-3xl border border-violet-300/10 bg-white/2 px-5 py-16 text-center text-zinc-400">
                     <PackageSearch

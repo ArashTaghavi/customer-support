@@ -85,36 +85,6 @@ function SidebarContent({
                             );
                         }}
                     />
-                    {[
-                        {
-                            label: 'فروشگاه',
-                            href: shop(),
-                            component: 'app/shop/index',
-                            Icon: ShoppingBag,
-                        },
-                        {
-                            label: 'سفارشات',
-                            href: ordersIndex(),
-                            component: 'app/orders/index',
-                            Icon: ReceiptText,
-                        },
-                    ].map(({ label, href, component, Icon }) => (
-                        <Tooltip key={component} content={label}>
-                            <Link
-                                href={href}
-                                onClick={onNavigate}
-                                aria-label={label}
-                                aria-current={
-                                    currentPage === component
-                                        ? 'page'
-                                        : undefined
-                                }
-                                className={`inline-flex size-11 shrink-0 items-center justify-center rounded-xl transition-colors focus-visible:outline-2 focus-visible:outline-violet-400 ${currentPage === component ? 'bg-violet-400/15 text-violet-200' : 'text-muted hover:bg-violet-400/10 hover:text-violet-200'}`}
-                            >
-                                <Icon size={18} aria-hidden="true" />
-                            </Link>
-                        </Tooltip>
-                    ))}
                     {mobile && (
                         <Button
                             variant="tab"
@@ -246,6 +216,38 @@ function SidebarContent({
                 )}
             </nav>
             <div className="mt-auto shrink-0 bg-[#090909] px-3 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+<div className="mb-2 space-y-2">                    {[
+                        {
+                            label: 'فروشگاه',
+                            href: shop(),
+                            component: 'app/shop/index',
+                            Icon: ShoppingBag,
+                        },
+                        {
+                            label: 'سفارشات',
+                            href: ordersIndex(),
+                            component: 'app/orders/index',
+                            Icon: ReceiptText,
+                        },
+                    ].map(({ label, href, component, Icon }) => (
+                        <Tooltip key={component} content={label}>
+                            <Link
+                                href={href}
+                                onClick={onNavigate}
+                                aria-label={label}
+                                aria-current={
+                                    currentPage === component
+                                        ? 'page'
+                                        : undefined
+                                }
+                                className={`group flex h-12 w-full shrink-0 items-center gap-3 rounded-2xl border border-violet-300/35 bg-linear-to-br from-violet-500/15 via-violet-500/8 to-white/3 px-3 text-sm font-semibold shadow-[0_6px_24px_rgba(124,58,237,0.18),inset_0_1px_0_rgba(255,255,255,0.12)] transition-colors focus-visible:outline-2 focus-visible:outline-violet-400 ${currentPage === component ? 'bg-violet-400/15 text-violet-200' : 'text-muted hover:bg-violet-400/10 hover:text-violet-200'}`}
+                            >
+                                <Icon size={18} aria-hidden="true" />
+                                <span>{label}</span>
+                            </Link>
+                        </Tooltip>
+                    ))}
+</div>
                 <Cart />
             </div>
         </div>

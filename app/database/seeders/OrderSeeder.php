@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\OrderStatusEnum;
 use App\Models\Order\Order;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -12,11 +13,18 @@ class OrderSeeder extends Seeder
     public function run(): void
     {
         DB::transaction(function (): void {
-            User::firstOrFail()
-                ->orders()
-                ->createMany(
-                    Order::factory()->count(20)->make()->toArray()
-                );
+            $user = User::firstOrFail();
+
+            Order::factory()
+                ->for($user)
+                ->count(20)
+                ->sequence(
+                    ...array_map(
+                        fn (OrderStatusEnum $status): array => ['order_status' => $status],
+                        OrderStatusEnum::cases(),
+                    ),
+                )
+                ->create();
         });
     }
 }

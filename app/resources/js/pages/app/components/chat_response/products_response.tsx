@@ -6,9 +6,10 @@ import type { ProductData } from '@/types/chat_response';
 
 type ProductsResponseProps = {
     products: ProductData[];
+    density?: 'comfortable' | 'compact';
 };
 
-export default function ProductsResponse({ products }: ProductsResponseProps) {
+export default function ProductsResponse({ products, density }: ProductsResponseProps) {
     const { cart = [] } = usePage<{ cart: CartResponse[] }>().props;
     const quantities = new Map(
         cart.map((item) => [item.product.id, item.quantity]),
@@ -16,7 +17,7 @@ export default function ProductsResponse({ products }: ProductsResponseProps) {
 
     return (
         <div className="@container w-full min-w-0">
-            <div className="grid min-w-0 grid-cols-1 gap-2 sm:gap-3 @min-[22rem]:grid-cols-2 @min-[36rem]:grid-cols-3 @min-[48rem]:grid-cols-4 @min-[60rem]:grid-cols-5">
+            <div className={`grid min-w-0 grid-cols-1 gap-2 sm:gap-3 ${density === 'comfortable' ? '@min-[22rem]:grid-cols-2 @min-[48rem]:grid-cols-3' : '@min-[22rem]:grid-cols-2 @min-[36rem]:grid-cols-3 @min-[48rem]:grid-cols-4 @min-[60rem]:grid-cols-5'}`}>
                 {products.map((product) => {
                     const quantity = quantities.get(product.id) ?? 0;
                     const remainingStock = Math.max(

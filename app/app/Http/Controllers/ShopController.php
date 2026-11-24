@@ -16,6 +16,7 @@ class ShopController extends Controller
     public function index(Request $request): Response
     {
         $validated = $request->validate([
+            'sort' => ['nullable', 'in:price_asc,price_desc'],
             'category' => ['nullable', 'integer', 'min:1'],
             'page' => ['sometimes', 'integer', 'min:1'],
         ]);
@@ -26,6 +27,7 @@ class ShopController extends Controller
         $products = Product::query()
             ->with('productCategory')
             ->when($category, fn (Builder $query): Builder => $query->where('product_category_id', $category->id))
+            ->when(isset($validated['sort']), fn (Builder $query): Builder => $query->orderBy('price', $validated['sort'] === 'price_desc' ? 'desc' : 'asc'))
             ->latest('id')
             ->paginate(12)
             ->withQueryString();

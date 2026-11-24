@@ -1,3 +1,4 @@
+import ListingFilters from '../components/listing_filters';
 import { Link, router } from '@inertiajs/react';
 import { ReceiptText, ShoppingBag } from 'lucide-react';
 import { useState } from 'react';
@@ -23,7 +24,7 @@ export default function Orders({ orders }: { orders: Paginated<unknown> }) {
                     meta={orders.meta}
                     onPage={(page) =>
                         router.get(
-                            index.url({ query: { page } }),
+                            index.url({ query: { ...Object.fromEntries(new URLSearchParams(window.location.search)), page } }),
                             {},
                             { preserveState: true },
                         )
@@ -31,6 +32,7 @@ export default function Orders({ orders }: { orders: Paginated<unknown> }) {
                 />
             }
         >
+            <ListingFilters kind="orders" />
             {items.length > 0 ? (
                 <div className="space-y-3">
                     {items.map((order) => (
