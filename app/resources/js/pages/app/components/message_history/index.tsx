@@ -64,7 +64,7 @@ export default function MessageHistory({
             <div className="sticky top-0 z-10 flex justify-center py-2">
                 <span
                     dir="ltr"
-                    className="rounded-full border border-white/15 bg-[#252533]/90 px-4 py-1.5 text-[11px] text-zinc-300 shadow-lg shadow-black/20 backdrop-blur-md"
+                    className="rounded-full border border-border/75 bg-elevated/90 px-4 py-1.5 text-[11px] text-secondary shadow-lg shadow-black/20 backdrop-blur-md"
                 >
                     {group.label}
                 </span>
@@ -84,15 +84,15 @@ export default function MessageHistory({
                         <div
                             className={`${styles.bubble} ${styles.user} ml-auto w-fit max-w-[92%] px-3 py-2.5 sm:max-w-[82%]`}
                         >
-                            <div className="mb-2 flex items-center gap-2 text-xs font-medium text-violet-200">
-                                <span className="flex size-6 items-center justify-center rounded-lg border border-violet-200/20 bg-violet-300/15">
+                            <div className="mb-2 flex items-center gap-2 text-xs font-medium text-highlight">
+                                <span className="flex size-6 items-center justify-center rounded-lg border border-outline/20 bg-highlight/15">
                                     <UserRound size={13} aria-hidden="true" />
                                 </span>
                                 شما
                             </div>
                             <p
                                 dir="auto"
-                                className="text-sm leading-7 wrap-break-word whitespace-pre-wrap text-zinc-100"
+                                className="text-sm leading-7 wrap-break-word whitespace-pre-wrap text-foreground"
                             >
                                 {turn.question}
                             </p>

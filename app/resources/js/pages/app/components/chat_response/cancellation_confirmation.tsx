@@ -56,13 +56,13 @@ export default function CancellationConfirmation({
             dir="rtl"
             aria-label="تأیید لغو سفارش"
             aria-busy={processing}
-            className="min-w-0 space-y-3 rounded-2xl border border-amber-300/20 bg-amber-300/5 p-4"
+            className="min-w-0 space-y-3 rounded-2xl border border-warning/20 bg-warning/5 p-4"
         >
-            <h3 className="flex items-center gap-2 text-sm font-medium text-amber-200">
+            <h3 className="flex items-center gap-2 text-sm font-medium text-warning">
                 <ShieldQuestion size={18} aria-hidden="true" />
                 تأیید لغو سفارش
             </h3>
-            <p className="text-xs leading-7 wrap-anywhere text-zinc-200">
+            <p className="text-xs leading-7 wrap-anywhere text-foreground">
                 {confirmation.message}
             </p>
             <p className="text-xs text-muted">
@@ -76,7 +76,7 @@ export default function CancellationConfirmation({
                 دارد.
             </p>
             {error && (
-                <p role="alert" className="text-xs leading-6 text-rose-300">
+                <p role="alert" className="text-xs leading-6 text-danger">
                     {error}
                 </p>
             )}

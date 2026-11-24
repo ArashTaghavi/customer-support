@@ -17,10 +17,10 @@ export interface ActionProps extends Omit<
 }
 
 const tones = {
-    neutral: 'text-ui-soft hover:text-white',
-    edit: 'text-amber-400 hover:text-amber-200',
-    delete: 'text-red-400 hover:text-red-200',
-    view: 'text-sky-400 hover:text-sky-200',
+    neutral: 'text-ui-soft hover:text-foreground',
+    edit: 'text-warning hover:text-warning',
+    delete: 'text-danger hover:text-danger',
+    view: 'text-info hover:text-info',
 };
 
 export default function Action({
@@ -45,7 +45,7 @@ export default function Action({
                 disabled={disabled || loading}
                 aria-busy={loading}
                 aria-label={props['aria-label'] ?? label}
-                className={`inline-flex size-7 shrink-0 cursor-pointer items-center justify-center rounded border-0 bg-transparent p-0 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400 disabled:cursor-not-allowed disabled:opacity-50 ${tones[tone]} ${className}`}
+                className={`glass-icon inline-flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-lg p-0 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-glow disabled:cursor-not-allowed disabled:opacity-50 ${tones[tone]} ${className}`}
                 onClick={(event) => {
                     onClick?.(event);
                     if (!event.defaultPrevented) close();

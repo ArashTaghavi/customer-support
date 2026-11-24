@@ -19,7 +19,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                 onClose={() => setSidebarOpen(false)}
             />
             <div
-                className={`${styles.content} relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-[#050505] text-zinc-100`}
+                className={`${styles.content} relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-canvas text-foreground`}
             >
                 <Button
                     type="button"
@@ -33,7 +33,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                 >
                     <PanelRightOpen size={18} aria-hidden="true" />
                 </Button>
-                <main className="min-h-0 min-w-0 flex-1 [scrollbar-width:thin] [scrollbar-color:rgba(167,139,250,0.2)_transparent] overflow-x-hidden overflow-y-auto overscroll-contain">
+                <main className="min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain">
                     {children}
                 </main>
             </div>

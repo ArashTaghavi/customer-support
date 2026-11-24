@@ -1,16 +1,19 @@
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react';
 
-export type StatusTone = "success" | "warning" | "danger" | "neutral";
+export type StatusTone =
+    'success' | 'warning' | 'danger' | 'info' | 'processing' | 'neutral';
 const colors: Record<StatusTone, string> = {
-    success: "border-emerald-400/20 bg-emerald-400/10 text-emerald-300",
-    warning: "border-amber-400/20 bg-amber-400/10 text-amber-300",
-    danger: "border-red-400/20 bg-red-400/10 text-red-300",
-    neutral: "border-ui-border bg-white/5 text-ui-secondary",
+    success: 'border-success/20 bg-success/10 text-success',
+    warning: 'border-warning/20 bg-warning/10 text-warning',
+    danger: 'border-danger/20 bg-danger/10 text-danger',
+    info: 'border-info/20 bg-info/10 text-info',
+    processing: 'border-processing/20 bg-processing/10 text-processing',
+    neutral: 'border-ui-border bg-highlight/5 text-ui-secondary',
 };
 
 export default function StatusBadge({
     children,
-    tone = "neutral",
+    tone = 'neutral',
 }: {
     children: ReactNode;
     tone?: StatusTone;

@@ -28,7 +28,7 @@ export default function Pagination({
     changePage,
 }: PropsType) {
     return (
-        <div className="text-ui-secondary flex min-w-0 flex-1 flex-wrap items-center justify-center gap-3 text-xs">
+        <div className="flex min-w-0 flex-1 flex-wrap items-center justify-center gap-3 text-xs text-ui-secondary">
             <label className="flex items-center gap-2">
                 Items per page
                 <select
@@ -37,7 +37,7 @@ export default function Pagination({
                     onChange={(event) =>
                         changePage(1, Number(event.target.value))
                     }
-                    className="rounded-lg border border-white/10 bg-zinc-900 px-2 py-2 text-zinc-100 outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+                    className="rounded-lg border border-border/50 bg-input px-2 py-2 text-foreground outline-none focus-visible:ring-2 focus-visible:ring-outline"
                 >
                     {[10, 20, 50, 100].map((size) => (
                         <option key={size} value={size}>

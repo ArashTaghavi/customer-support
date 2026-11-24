@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react';
 
 export interface ResourceMeterProps {
     label: string;
@@ -18,11 +18,7 @@ export default function ResourceMeter({
         Math.min(100, Number.isFinite(value) ? value : 0),
     );
     const color =
-        percent >= 90
-            ? "bg-red-400"
-            : percent >= 75
-              ? "bg-amber-400"
-              : "bg-violet-400";
+        percent >= 90 ? 'bg-danger' : percent >= 75 ? 'bg-warning' : 'bg-glow';
     return (
         <div>
             <div className="mb-2.5 flex items-center justify-between gap-3 text-xs">

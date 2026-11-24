@@ -1,4 +1,4 @@
-import { useId } from "react";
+import { useId } from 'react';
 
 export interface AreaChartProps {
     values: readonly number[];
@@ -11,9 +11,9 @@ export default function AreaChart({
     values,
     labels,
     label,
-    unit = "",
+    unit = '',
 }: AreaChartProps) {
-    const id = useId().replaceAll(":", "");
+    const id = useId().replaceAll(':', '');
     const samples = values.map((value) =>
         Number.isFinite(value) ? Math.max(0, value) : 0,
     );
@@ -29,7 +29,7 @@ export default function AreaChart({
             <div className="flex w-12 shrink-0 flex-col justify-between pb-6 text-right font-mono text-[10px] text-ui-muted">
                 {[max, max / 2, 0].map((value, index) => (
                     <span key={index}>
-                        {Math.round(value).toLocaleString("en-US")}
+                        {Math.round(value).toLocaleString('en-US')}
                         {unit}
                     </span>
                 ))}
@@ -49,18 +49,18 @@ export default function AreaChart({
                                 (value, index) =>
                                     `${index + 1}: ${value}${unit}`,
                             )
-                            .join("; ")}
+                            .join('; ')}
                     </desc>
                     <defs>
                         <linearGradient id={id} x1="0" y1="0" x2="0" y2="1">
                             <stop
                                 offset="0%"
-                                stopColor="#a78bfa"
+                                stopColor="var(--processing)"
                                 stopOpacity="0.22"
                             />
                             <stop
                                 offset="100%"
-                                stopColor="#a78bfa"
+                                stopColor="var(--processing)"
                                 stopOpacity="0"
                             />
                         </linearGradient>
@@ -78,13 +78,13 @@ export default function AreaChart({
                         />
                     ))}
                     <path
-                        d={`M 0,170 L ${points.join(" L ")} L 600,170 Z`}
+                        d={`M 0,170 L ${points.join(' L ')} L 600,170 Z`}
                         fill={`url(#${id})`}
                     />
                     <polyline
-                        points={points.join(" ")}
+                        points={points.join(' ')}
                         fill="none"
-                        stroke="#a78bfa"
+                        stroke="var(--processing)"
                         strokeWidth="2"
                         vectorEffect="non-scaling-stroke"
                         strokeLinejoin="round"

@@ -8,7 +8,12 @@
     inset-block: 0;
     left: 0;
     width: 35%;
-    background: linear-gradient(90deg, transparent, #ede9fe, transparent);
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--highlight),
+        transparent
+    );
     opacity: 0;
     animation: edge-shine 1800ms ease-in-out 450ms both;
 }
@@ -84,8 +89,8 @@
 }
 
 .lock.confirmed {
-    border-color: rgb(52 211 153 / 0.4);
-    background-color: rgb(52 211 153 / 0.12);
-    color: #6ee7b7;
-    box-shadow: 0 0 30px -12px #34d399;
+    border-color: color-mix(in srgb, var(--success) 40%, transparent);
+    background-color: color-mix(in srgb, var(--success) 12%, transparent);
+    color: var(--success);
+    box-shadow: 0 0 30px -12px var(--success);
 }

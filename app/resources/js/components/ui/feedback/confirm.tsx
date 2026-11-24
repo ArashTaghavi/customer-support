@@ -80,7 +80,7 @@ export default function Confirm({
             aria-labelledby={id}
             aria-describedby={error ? `${id}-error` : undefined}
             aria-busy={pending}
-            className="border-ui-border-strong fixed inset-auto m-0 w-56 max-w-[calc(100vw-1rem)] rounded-xl border bg-zinc-950/95 p-3 text-zinc-100 shadow-xl backdrop:bg-transparent"
+            className="fixed inset-auto m-0 w-56 max-w-[calc(100vw-1rem)] rounded-xl border border-ui-border-strong bg-input/95 p-3 text-foreground shadow-xl backdrop:bg-transparent"
             onClick={(event) => {
                 if (event.target !== event.currentTarget || busy.current)
                     return;
@@ -111,7 +111,7 @@ export default function Confirm({
                 <p
                     id={`${id}-error`}
                     role="alert"
-                    className="mt-2 text-xs text-red-300"
+                    className="mt-2 text-xs text-danger"
                 >
                     {error}
                 </p>

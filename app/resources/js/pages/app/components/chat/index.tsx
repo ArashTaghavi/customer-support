@@ -98,8 +98,12 @@ export default function Chat({
     const hasQuestion = !!questionForm.watch('question')?.trim();
 
     return (
-        <div className={`relative isolate flex h-full min-h-0 min-w-0 flex-col overflow-hidden ${!selectedConversation || messages.length === 0 ? 'bg-black' : ''}`}>
-            {(!selectedConversation || messages.length === 0) && <PublicBackground />}
+        <div
+            className={`relative isolate flex h-full min-h-0 min-w-0 flex-col overflow-hidden ${!selectedConversation || messages.length === 0 ? 'bg-canvas' : ''}`}
+        >
+            {(!selectedConversation || messages.length === 0) && (
+                <PublicBackground />
+            )}
             <ChatMessages messagesRef={messagesRef} label="پیام‌های گفت‌وگو">
                 {selectedConversation && messages.length > 0 ? (
                     <MessageHistory

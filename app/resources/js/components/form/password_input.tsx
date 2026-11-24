@@ -47,7 +47,7 @@ export default function PasswordInput<T extends FieldValues>({
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
                 aria-controls={inputId}
                 aria-pressed={showPassword}
-                className="text-ui-subtle absolute top-7 right-1 flex h-12 w-10 items-center justify-center rounded-lg transition hover:text-zinc-200 focus-visible:outline-2 focus-visible:outline-violet-400 disabled:opacity-50"
+                className="absolute top-7 right-1 flex h-12 w-10 items-center justify-center rounded-lg text-ui-subtle transition hover:text-foreground focus-visible:outline-2 focus-visible:outline-glow disabled:opacity-50"
             >
                 {showPassword ? (
                     <EyeOff size={18} aria-hidden="true" />

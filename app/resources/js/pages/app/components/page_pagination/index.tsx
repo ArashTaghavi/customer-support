@@ -1,4 +1,4 @@
-﻿import { Fragment } from 'react';
+import { Fragment } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui';
 import type { Paginated } from '@/types/pagination';
@@ -32,19 +32,16 @@ export default function PagePagination({ meta, onPage }: Props) {
                   .filter((page) => page >= 1 && page <= last)
                   .sort((a, b) => a - b);
     const controlClass =
-        'size-7! rounded-lg! text-violet-200! sm:size-9! sm:rounded-xl! hover:bg-violet-400/15! disabled:opacity-25!';
+        'size-7! rounded-lg! text-highlight! sm:size-9! sm:rounded-xl! hover:bg-glow/15! disabled:opacity-25!';
     return (
-        <footer className="flex shrink-0 flex-col items-center justify-center gap-3 border-t border-violet-300/10 bg-[#0b0911]/95 px-4 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] backdrop-blur-xl sm:flex-row sm:justify-between">
-            <p
-                className="text-[11px] text-zinc-500 sm:text-xs"
-                aria-live="polite"
-            >
+        <footer className="flex shrink-0 flex-col items-center justify-center gap-3 border-t border-outline/10 bg-sidebar/95 px-4 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] backdrop-blur-xl sm:flex-row sm:justify-between">
+            <p className="text-[11px] text-muted sm:text-xs" aria-live="polite">
                 صفحهٔ{' '}
-                <span className="font-medium text-violet-200">
+                <span className="font-medium text-highlight">
                     {current.toLocaleString('fa-IR')}
                 </span>{' '}
                 از {last.toLocaleString('fa-IR')}
-                <span aria-hidden="true" className="mx-2 text-violet-300/30">
+                <span aria-hidden="true" className="mx-2 text-highlight/30">
                     ·
                 </span>
                 {meta.total.toLocaleString('fa-IR')} مورد
@@ -69,7 +66,7 @@ export default function PagePagination({ meta, onPage }: Props) {
                         {index > 0 && page - pages[index - 1] > 1 && (
                             <span
                                 aria-hidden="true"
-                                className="flex w-4 items-center justify-center text-xs text-zinc-500"
+                                className="flex w-4 items-center justify-center text-xs text-muted"
                             >
                                 …
                             </span>
@@ -82,7 +79,7 @@ export default function PagePagination({ meta, onPage }: Props) {
                             onClick={() => {
                                 if (page !== current) onPage(page);
                             }}
-                            className={`size-7! rounded-lg! text-xs! tabular-nums transition-all sm:size-9! sm:rounded-xl! ${page === current ? 'bg-violet-500/25! font-semibold! text-violet-100! shadow-[inset_0_0_0_1px_#c4b5fd45,0_3px_14px_#8b5cf62b]' : 'text-zinc-400! hover:bg-violet-400/10! hover:text-violet-100!'}`}
+                            className={`size-7! rounded-lg! text-xs! tabular-nums transition-all sm:size-9! sm:rounded-xl! ${page === current ? 'bg-primary/25! font-semibold! text-highlight! shadow-glass' : 'text-secondary! hover:bg-glow/10! hover:text-highlight!'}`}
                         >
                             {page.toLocaleString('fa-IR')}
                         </Button>

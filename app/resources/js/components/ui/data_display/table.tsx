@@ -1,4 +1,4 @@
-import type { Key, ReactNode } from "react";
+import type { Key, ReactNode } from 'react';
 
 export interface TableColumn<T> {
     id: string;
@@ -30,10 +30,10 @@ export default function Table<T>({
     caption,
     loading = false,
     loadingRows = 5,
-    emptyState = "No results found.",
+    emptyState = 'No results found.',
     error,
-    className = "",
-    tableClassName = "",
+    className = '',
+    tableClassName = '',
 }: TableProps<T>) {
     return (
         <div className={`overflow-x-auto ${className}`}>
@@ -48,7 +48,7 @@ export default function Table<T>({
                             <th
                                 key={column.id}
                                 scope="col"
-                                className={`px-4 py-3 font-medium ${column.headerClassName ?? ""}`}
+                                className={`px-4 py-3 font-medium ${column.headerClassName ?? ''}`}
                             >
                                 {column.header}
                             </th>
@@ -70,7 +70,7 @@ export default function Table<T>({
                             <tr key={row} aria-hidden="true">
                                 {columns.map((column) => (
                                     <td key={column.id} className="px-4 py-3">
-                                        <div className="h-4 w-3/4 animate-pulse rounded bg-white/10 motion-reduce:animate-none" />
+                                        <div className="h-4 w-3/4 animate-pulse rounded bg-highlight/10 motion-reduce:animate-none" />
                                     </td>
                                 ))}
                             </tr>
@@ -91,22 +91,22 @@ export default function Table<T>({
                                 className="transition-colors hover:bg-white/[0.035]"
                             >
                                 {columns.map((column) => {
-                                    const Cell = column.rowHeader ? "th" : "td";
+                                    const Cell = column.rowHeader ? 'th' : 'td';
                                     const value = column.cell(row, index);
                                     const isEmpty =
                                         value == null ||
-                                        typeof value === "boolean" ||
-                                        (typeof value === "string" &&
-                                            value.trim() === "");
+                                        typeof value === 'boolean' ||
+                                        (typeof value === 'string' &&
+                                            value.trim() === '');
                                     return (
                                         <Cell
                                             key={column.id}
                                             scope={
                                                 column.rowHeader
-                                                    ? "row"
+                                                    ? 'row'
                                                     : undefined
                                             }
-                                            className={`px-4 py-3 ${column.rowHeader ? "font-medium text-zinc-100" : "text-ui-soft"} ${column.cellClassName ?? ""}`}
+                                            className={`px-4 py-3 ${column.rowHeader ? 'font-medium text-foreground' : 'text-ui-soft'} ${column.cellClassName ?? ''}`}
                                         >
                                             {isEmpty ? (
                                                 <span className="text-ui-muted">

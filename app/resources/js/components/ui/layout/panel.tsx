@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react';
 
 export interface PanelProps {
     title: string;
@@ -14,16 +14,16 @@ export default function Panel({
     description,
     action,
     children,
-    className = "",
-    contentClassName = "",
+    className = '',
+    contentClassName = '',
 }: PanelProps) {
     return (
         <section
-            className={`min-w-0 overflow-hidden rounded-2xl border border-ui-border bg-white/[0.025] ${className}`}
+            className={`min-w-0 overflow-hidden rounded-2xl border border-ui-border bg-surface/70 ${className}`}
         >
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-ui-border-subtle px-4 py-4 sm:px-5">
                 <div>
-                    <h2 className="text-sm font-medium text-zinc-100">
+                    <h2 className="text-sm font-medium text-foreground">
                         {title}
                     </h2>
                     {description && (

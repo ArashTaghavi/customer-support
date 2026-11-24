@@ -18,12 +18,12 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const variants: Record<ButtonVariant, string> = {
-    tab: 'border-transparent bg-transparent text-ui-secondary hover:bg-white/5 hover:text-white aria-selected:bg-violet-400/10 aria-selected:text-violet-300 aria-selected:ring-1 aria-selected:ring-violet-400/20',
+    tab: 'border-transparent bg-transparent text-ui-secondary hover:bg-highlight/5 hover:text-foreground aria-selected:bg-glow/10 aria-selected:text-highlight aria-selected:ring-1 aria-selected:ring-outline/20',
     primary: 'button-primary',
-    secondary: 'border-ui-border bg-white/5 text-zinc-200 hover:bg-white/10',
-    danger: 'border-red-400/20 bg-red-600 text-white hover:bg-red-500',
+    secondary: 'button-secondary',
+    danger: 'border-danger/30 bg-danger/15 text-danger hover:bg-danger/25',
     'outline-danger':
-        'border-ui-border-muted bg-transparent text-ui-secondary hover:border-red-400/20 hover:bg-red-400/5 hover:text-red-300',
+        'border-ui-border-muted bg-transparent text-ui-secondary hover:border-danger/20 hover:bg-danger/5 hover:text-danger',
 };
 
 const sizes = {
@@ -59,9 +59,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                 disabled={disabled || loading}
                 aria-busy={loading}
                 className={[
-                    'inline-flex items-center justify-center border-0 transition',
+                    'inline-flex items-center justify-center border transition',
                     sizes[size],
-                    'focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-400',
+                    'focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-glow',
                     'cursor-pointer disabled:cursor-not-allowed disabled:opacity-60',
                     variants[variant],
                     fullWidth && 'w-full',

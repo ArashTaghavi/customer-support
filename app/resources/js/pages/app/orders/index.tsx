@@ -24,7 +24,16 @@ export default function Orders({ orders }: { orders: Paginated<unknown> }) {
                     meta={orders.meta}
                     onPage={(page) =>
                         router.get(
-                            index.url({ query: { ...Object.fromEntries(new URLSearchParams(window.location.search)), page } }),
+                            index.url({
+                                query: {
+                                    ...Object.fromEntries(
+                                        new URLSearchParams(
+                                            window.location.search,
+                                        ),
+                                    ),
+                                    page,
+                                },
+                            }),
                             {},
                             { preserveState: true },
                         )
@@ -49,18 +58,18 @@ export default function Orders({ orders }: { orders: Paginated<unknown> }) {
                     ))}
                 </div>
             ) : (
-                <div className="flex flex-col items-center gap-4 rounded-3xl border border-violet-300/10 bg-white/2 px-5 py-16 text-center">
+                <div className="flex flex-col items-center gap-4 rounded-3xl border border-outline/10 bg-highlight/2 px-5 py-16 text-center">
                     <ReceiptText
                         size={38}
-                        className="text-violet-300/60"
+                        className="text-highlight/60"
                         aria-hidden="true"
                     />
-                    <p className="text-sm text-zinc-300">
+                    <p className="text-sm text-secondary">
                         هنوز سفارشی ثبت نکرده‌اید.
                     </p>
                     <Link
                         href={shop()}
-                        className="inline-flex items-center gap-2 rounded-xl bg-violet-400/15 px-5 py-3 text-sm text-violet-200 transition-colors hover:bg-violet-400/25 focus-visible:outline-2 focus-visible:outline-violet-400"
+                        className="inline-flex items-center gap-2 rounded-xl bg-glow/15 px-5 py-3 text-sm text-highlight transition-colors hover:bg-glow/25 focus-visible:outline-2 focus-visible:outline-glow"
                     >
                         <ShoppingBag size={16} aria-hidden="true" />
                         مشاهده فروشگاه

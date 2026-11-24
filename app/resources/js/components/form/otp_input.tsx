@@ -85,7 +85,7 @@ export default function OtpInput<T extends FieldValues>({
             <label
                 htmlFor={`${inputId}-0`}
                 id={`${inputId}-label`}
-                className="text-ui-soft block text-xs font-medium"
+                className="block text-xs font-medium text-ui-soft"
             >
                 {label}
             </label>
@@ -188,10 +188,10 @@ export default function OtpInput<T extends FieldValues>({
                             }
                         }}
                         className={[
-                            'h-12 min-w-0 flex-1 rounded-xl border bg-[#0b0b10] text-center text-xl text-zinc-100 transition outline-none disabled:opacity-50',
+                            'h-12 min-w-0 flex-1 rounded-xl border bg-input text-center text-xl text-foreground transition outline-none disabled:opacity-50',
                             error
-                                ? 'border-red-400/60 focus:border-red-400 focus:ring-4 focus:ring-red-500/10'
-                                : 'border-ui-border focus:border-violet-400/60 focus:ring-4 focus:ring-violet-500/10',
+                                ? 'border-danger/60 focus:border-danger focus:ring-4 focus:ring-danger/10'
+                                : 'border-ui-border focus:border-outline/60 focus:ring-4 focus:ring-outline/10',
                             className,
                         ].join(' ')}
                     />
@@ -201,7 +201,7 @@ export default function OtpInput<T extends FieldValues>({
                 <p
                     id={`${inputId}-error`}
                     role="alert"
-                    className="text-xs text-red-300"
+                    className="text-xs text-danger"
                 >
                     {error}
                 </p>

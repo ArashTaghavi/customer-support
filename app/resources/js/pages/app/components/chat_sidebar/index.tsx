@@ -64,11 +64,14 @@ function SidebarContent({
     }
 
     return (
-        <div className="flex h-full min-h-0 flex-col bg-[#18181b] text-zinc-100">
-            <div className="shrink-0 space-y-4 border-b border-white/6 p-4">
+        <div className="sidebar-surface flex h-full min-h-0 flex-col text-foreground">
+            <div className="shrink-0 space-y-4 border-b border-border/30 p-4">
                 <div className="flex items-center gap-2.5">
                     <Profile />
-                    <span className="min-w-0 flex-1 truncate text-sm font-medium text-zinc-200" title={fullName}>
+                    <span
+                        className="min-w-0 flex-1 truncate text-sm font-medium text-foreground"
+                        title={fullName}
+                    >
                         {fullName}
                     </span>
                     <Button
@@ -76,7 +79,7 @@ function SidebarContent({
                         size="icon"
                         aria-label="خروج از حساب"
                         tooltip="خروج از حساب"
-                        className="size-11! shrink-0 rounded-xl! text-red-300! hover:bg-red-400/10!"
+                        className="size-11! shrink-0 rounded-xl! text-danger! hover:bg-danger/10!"
                         disabled={loggingOut}
                         loading={loggingOut}
                         startIcon={<LogOut size={18} aria-hidden="true" />}
@@ -109,7 +112,7 @@ function SidebarContent({
                     loading={creating}
                     onClick={newChat}
                     startIcon={<Plus size={17} aria-hidden="true" />}
-                    className="h-11! rounded-xl! font-medium!"
+                    className="h-11! rounded-xl! border-0! font-medium!"
                 >
                     گفتگوی جدید
                 </Button>
@@ -129,17 +132,17 @@ function SidebarContent({
                         value={search}
                         onChange={(event) => setSearch(event.target.value)}
                         placeholder="جستجو در گفتگوها…"
-                        className="h-11 w-full min-w-0 rounded-xl border border-white/8 bg-black/20 ps-9 pe-3 text-base text-zinc-200 outline-none placeholder:text-muted focus:border-violet-400/50 focus:ring-2 focus:ring-violet-400/10 sm:text-xs"
+                        className="h-11 w-full min-w-0 rounded-xl border border-border/40 bg-input ps-9 pe-3 text-base text-foreground outline-none placeholder:text-muted focus:border-outline/50 focus:ring-2 focus:ring-outline/10 sm:text-xs"
                     />
                 </div>
             </div>
             <nav
                 aria-label="تاریخچه گفتگوها"
-                className="min-h-0 flex-1 scrollbar-thin [scrollbar-color:rgba(167,139,250,0.2)_transparent] overflow-y-auto overscroll-contain p-3"
+                className="min-h-0 flex-1 scrollbar-thin overflow-y-auto overscroll-contain p-3"
             >
                 <div className="mb-2 flex items-center justify-between px-2 text-[10px] text-muted">
                     <span>گفتگوهای اخیر</span>
-                    <span className="rounded-md border border-white/5 bg-white/3 px-1.5 py-0.5 tabular-nums">
+                    <span className="rounded-md border border-border/25 bg-highlight/3 px-1.5 py-0.5 tabular-nums">
                         {filtered.length.toLocaleString('fa-IR')}
                     </span>
                 </div>
@@ -154,16 +157,16 @@ function SidebarContent({
                                 href={show.url(conversation.uuid)}
                                 onClick={onNavigate}
                                 aria-current={active ? 'page' : undefined}
-                                className={`group relative flex min-w-0 items-center gap-2.5 overflow-hidden rounded-xl border px-3 py-3 text-start transition-colors focus-visible:outline-2 focus-visible:outline-violet-400 ${active ? 'border-violet-300/20 bg-linear-to-l from-violet-500/15 to-indigo-500/5 shadow-sm shadow-black/10' : 'border-transparent hover:border-white/5 hover:bg-white/4'}`}
+                                className={`group relative flex min-w-0 items-center gap-2.5 overflow-hidden rounded-xl border px-3 py-3 text-start transition-colors focus-visible:outline-2 focus-visible:outline-glow ${active ? 'border-outline/20 bg-linear-to-l from-primary/15 to-primary/5 shadow-sm shadow-black/10' : 'border-transparent hover:border-border/25 hover:bg-highlight/4'}`}
                             >
                                 {active && (
                                     <span
-                                        className="absolute inset-y-3 inset-s-0 w-0.5 rounded-full bg-violet-300 shadow-[0_0_8px_rgba(167,139,250,0.6)]"
+                                        className="active-indicator absolute inset-y-3 right-0 w-0.5 rounded-full bg-glow"
                                         aria-hidden="true"
                                     />
                                 )}
                                 <span
-                                    className={`flex size-8 shrink-0 items-center justify-center rounded-lg ${active ? 'bg-violet-400/10 text-violet-300' : 'bg-white/3 text-muted group-hover:text-zinc-300'}`}
+                                    className={`flex size-8 shrink-0 items-center justify-center rounded-lg ${active ? 'bg-glow/10 text-highlight' : 'bg-highlight/3 text-muted group-hover:text-secondary'}`}
                                 >
                                     <MessageSquare
                                         size={15}
@@ -173,7 +176,7 @@ function SidebarContent({
                                 <span className="min-w-0 flex-1">
                                     <span
                                         dir="auto"
-                                        className={`block truncate text-start text-xs leading-5 ${active ? 'font-medium text-violet-100' : 'text-zinc-300'}`}
+                                        className={`block truncate text-start text-xs leading-5 ${active ? 'font-medium text-highlight' : 'text-secondary'}`}
                                     >
                                         {conversation.title || 'گفتگوی جدید'}
                                     </span>
@@ -195,7 +198,7 @@ function SidebarContent({
                                 </span>
                                 <ChevronLeft
                                     size={13}
-                                    className={`shrink-0 ${active ? 'text-violet-300' : 'text-muted opacity-0 group-hover:opacity-100'}`}
+                                    className={`shrink-0 ${active ? 'text-highlight' : 'text-muted opacity-0 group-hover:opacity-100'}`}
                                     aria-hidden="true"
                                 />
                             </Link>
@@ -206,7 +209,7 @@ function SidebarContent({
                     <div className="flex flex-col items-center gap-2 px-3 py-10 text-center">
                         <MessageCircle
                             size={28}
-                            className="mb-1 text-violet-300/40"
+                            className="mb-1 text-highlight/40"
                             aria-hidden="true"
                         />
                         <p className="text-xs text-muted">
@@ -222,8 +225,10 @@ function SidebarContent({
                     </div>
                 )}
             </nav>
-            <div className="mt-auto shrink-0 bg-[#18181b] px-3 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-<div className="mb-2 space-y-2">                    {[
+            <div className="mt-auto shrink-0 bg-transparent px-3 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+                <div className="mb-2 space-y-2">
+                    {' '}
+                    {[
                         {
                             label: 'فروشگاه',
                             href: shop(),
@@ -247,14 +252,14 @@ function SidebarContent({
                                         ? 'page'
                                         : undefined
                                 }
-                                className={`group flex h-12 w-full shrink-0 items-center gap-3 rounded-2xl border border-violet-300/35 bg-linear-to-br from-violet-500/15 via-violet-500/8 to-white/3 px-3 text-sm font-semibold shadow-[0_6px_24px_rgba(124,58,237,0.18),inset_0_1px_0_rgba(255,255,255,0.12)] transition-colors focus-visible:outline-2 focus-visible:outline-violet-400 ${currentPage === component ? 'bg-violet-400/15 text-violet-200' : 'text-muted hover:bg-violet-400/10 hover:text-violet-200'}`}
+                                className={`glass-nav group glass-nav flex h-12 w-full shrink-0 items-center gap-3 rounded-2xl px-3 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-glow ${currentPage === component ? 'bg-glow/15 text-highlight' : 'text-muted hover:bg-glow/10 hover:text-highlight'}`}
                             >
                                 <Icon size={18} aria-hidden="true" />
                                 <span>{label}</span>
                             </Link>
                         </Tooltip>
                     ))}
-</div>
+                </div>
                 <Cart />
             </div>
         </div>
@@ -284,12 +289,13 @@ export default function ChatSidebar({ open, onClose }: SidebarProps) {
         <>
             <aside
                 aria-label="گفتگوها"
-                className={`${styles.sidebar} hidden h-full min-h-0 w-64 shrink-0 border-e border-white/8 lg:block 2xl:w-72`}
+                className={`${styles.sidebar} hidden h-full min-h-0 w-64 shrink-0 border-e border-border/40 lg:block 2xl:w-72`}
             >
                 <SidebarContent onNavigate={onClose} />
             </aside>
             <dialog
                 ref={dialogRef}
+                data-sidebar="true"
                 id="mobile-chat-sidebar"
                 dir="rtl"
                 aria-label="گفتگوهای شما"
@@ -297,7 +303,7 @@ export default function ChatSidebar({ open, onClose }: SidebarProps) {
                 onClick={(event) => {
                     if (event.target === event.currentTarget) onClose();
                 }}
-                className={`${styles.sidebar} fixed inset-y-0 right-0 left-auto m-0 h-dvh max-h-dvh w-[min(20rem,calc(100vw-1rem))] max-w-none border-0 border-e border-white/10 bg-[#18181b] p-0 text-zinc-100 shadow-2xl shadow-black/50 backdrop:bg-black/65 backdrop:backdrop-blur-sm lg:hidden`}
+                className={`${styles.sidebar} fixed inset-y-0 right-0 left-auto m-0 h-dvh max-h-dvh w-[min(20rem,calc(100vw-1rem))] max-w-none border-0 border-e border-border/50 bg-sidebar p-0 text-foreground shadow-2xl shadow-black/50 backdrop:bg-black/65 backdrop:backdrop-blur-sm lg:hidden`}
             >
                 <SidebarContent onNavigate={onClose} mobile />
             </dialog>

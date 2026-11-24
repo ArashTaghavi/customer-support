@@ -150,10 +150,10 @@ export default function LoginForm({
             {otp ? (
                 <>
                     <div className="space-y-2 text-center">
-                        <p className="text-sm leading-relaxed text-zinc-400">
+                        <p className="text-sm leading-relaxed text-secondary">
                             کد تأیید شمارهٔ{' '}
                             <span
-                                className="font-medium text-zinc-100"
+                                className="font-medium text-foreground"
                                 dir="ltr"
                             >
                                 {otp.mobile_number}
@@ -185,7 +185,7 @@ export default function LoginForm({
                     />
                     <p
                         role="status"
-                        className={`text-center text-xs ${expired ? 'text-red-300' : 'text-zinc-400'}`}
+                        className={`text-center text-xs ${expired ? 'text-danger' : 'text-secondary'}`}
                     >
                         {expired
                             ? 'کد منقضی شده است. کد جدید درخواست کنید.'
@@ -194,7 +194,7 @@ export default function LoginForm({
                     {errors.mobile_number && (
                         <p
                             role="alert"
-                            className="text-center text-xs text-red-300"
+                            className="text-center text-xs text-danger"
                         >
                             {errors.mobile_number}
                         </p>
@@ -202,7 +202,7 @@ export default function LoginForm({
                 </>
             ) : (
                 <>
-                    <p className="text-center text-sm leading-relaxed text-zinc-400">
+                    <p className="text-center text-sm leading-relaxed text-secondary">
                         برای ورود یا ثبت‌نام، شماره موبایل خود را وارد کنید.
                     </p>
                     <Input<AuthValues>

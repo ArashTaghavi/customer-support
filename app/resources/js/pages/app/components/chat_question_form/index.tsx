@@ -22,7 +22,7 @@ export default function ChatQuestionForm({
     return (
         <>
             {questionForm.formState.errors.root?.server?.message && (
-                <p role="alert" className="px-4 py-2 text-sm text-red-300">
+                <p role="alert" className="px-4 py-2 text-sm text-danger">
                     {questionForm.formState.errors.root.server.message}
                 </p>
             )}
@@ -38,7 +38,7 @@ export default function ChatQuestionForm({
                     placeholder={placeholder}
                     autoComplete="off"
                     disabled={asking}
-                    className="h-14! w-full! rounded-xl! border-0! bg-white/5! ps-4! pe-16! text-base! text-zinc-100! shadow-[0_4px_24px_rgba(0,0,0,0.12)]! backdrop-blur-md backdrop-saturate-125 placeholder:text-zinc-300! hover:bg-white/7! focus:bg-white/8! focus:ring-0! sm:text-sm!"
+                    className="glass-composer h-14! w-full! rounded-2xl! ps-4! pe-16! text-base! text-foreground! placeholder:text-muted sm:text-sm!"
                 />
                 <Button
                     type="submit"

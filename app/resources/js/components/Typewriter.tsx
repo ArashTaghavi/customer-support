@@ -102,11 +102,11 @@ export default function Typewriter({ title, description }: Props) {
     }, [frames]);
 
     const caret = (
-        <span className="ms-1 inline-block h-[1em] w-0.5 bg-violet-300 align-middle motion-safe:animate-pulse" />
+        <span className="ms-1 inline-block h-[1em] w-0.5 bg-highlight align-middle motion-safe:animate-pulse" />
     );
     return (
         <div className="text-center">
-            <h2 className="relative text-xl leading-9 font-semibold text-zinc-100 sm:text-2xl [@media(max-height:700px)]:text-lg [@media(max-height:700px)]:leading-7">
+            <h2 className="relative text-xl leading-9 font-semibold tracking-tight text-foreground sm:text-3xl [@media(max-height:700px)]:text-lg [@media(max-height:700px)]:leading-7">
                 <span className="sr-only">{title}</span>
                 <span aria-hidden="true" className="invisible">
                     {title}
@@ -116,7 +116,7 @@ export default function Typewriter({ title, description }: Props) {
                     {frame.phase === 'title' && caret}
                 </span>
             </h2>
-            <p className="relative mt-2 text-xs leading-7 text-muted sm:text-sm [@media(max-height:700px)]:text-xs [@media(max-height:700px)]:leading-6">
+            <p className="relative mt-2 text-xs leading-7 text-secondary sm:text-sm [@media(max-height:700px)]:text-xs [@media(max-height:700px)]:leading-6">
                 <span className="sr-only">{finalDescription}</span>
                 <span aria-hidden="true" className="invisible">
                     {finalDescription}

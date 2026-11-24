@@ -1,7 +1,7 @@
 .bubble {
     position: relative;
     isolation: isolate;
-    border: 2px solid #b9a0e8;
+    border: 1px solid var(--border);
     border-radius: 20px;
     background-clip: padding-box;
     overflow-wrap: anywhere;
@@ -9,12 +9,12 @@
 
 .user {
     border-start-start-radius: 12px;
-    background: rgb(167 139 250 / 4%);
+    background: color-mix(in srgb, var(--deep) 14%, var(--canvas));
 }
 
 .assistant {
     border-start-end-radius: 12px;
-    background: rgb(255 255 255 / 2%);
+    background: color-mix(in srgb, var(--surface) 55%, var(--canvas));
 }
 
 .robot {
@@ -23,10 +23,17 @@
 }
 
 @keyframes robot-float {
-    0%, 100% { transform: translateY(0) rotate(-4deg); }
-    50% { transform: translateY(-2px) rotate(4deg); }
+    0%,
+    100% {
+        transform: translateY(0) rotate(-4deg);
+    }
+    50% {
+        transform: translateY(-2px) rotate(4deg);
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .robot { animation: none; }
+    .robot {
+        animation: none;
+    }
 }

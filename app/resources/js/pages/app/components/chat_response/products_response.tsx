@@ -9,20 +9,25 @@ type ProductsResponseProps = {
     columns?: 3 | 4 | 5;
 };
 
-export default function ProductsResponse({ products, columns = 5 }: ProductsResponseProps) {
+export default function ProductsResponse({
+    products,
+    columns = 5,
+}: ProductsResponseProps) {
     const layouts = {
         3: '@min-[22rem]:grid-cols-2 @min-[48rem]:grid-cols-3',
         4: '@min-[22rem]:grid-cols-2 @min-[36rem]:grid-cols-3 @min-[48rem]:grid-cols-4',
         5: '@min-[22rem]:grid-cols-2 @min-[36rem]:grid-cols-3 @min-[48rem]:grid-cols-4 @min-[60rem]:grid-cols-5',
     };
-    const { cart = [] } = usePage<{ cart: CartResponse[] }>().props;
+    const { cart = [] } = usePage<{ cart?: CartResponse[] }>().props;
     const quantities = new Map(
         cart.map((item) => [item.product.id, item.quantity]),
     );
 
     return (
         <div className="@container w-full min-w-0">
-            <div className={`grid min-w-0 grid-cols-1 gap-2 sm:gap-3 ${layouts[columns]}`}>
+            <div
+                className={`grid min-w-0 grid-cols-1 gap-2 sm:gap-3 ${layouts[columns]}`}
+            >
                 {products.map((product) => {
                     const quantity = quantities.get(product.id) ?? 0;
                     const remainingStock = Math.max(
@@ -35,12 +40,12 @@ export default function ProductsResponse({ products, columns = 5 }: ProductsResp
                         <article
                             key={product.id}
                             dir="rtl"
-                            className="group relative isolate flex min-w-0 flex-col gap-3 overflow-hidden rounded-2xl border border-violet-300/30 bg-[#141322] bg-[radial-gradient(ellipse_at_top_right,rgba(139,92,246,0.18),transparent_65%)] p-3 text-zinc-100 shadow-[0_12px_32px_-12px_rgba(0,0,0,0.65)] transition-colors hover:border-violet-300/45"
+                            className="group glass-card product-card relative isolate flex min-w-0 flex-col gap-3 overflow-hidden rounded-2xl p-3 text-foreground shadow-glass transition-colors hover:border-outline/45"
                         >
                             <div className="relative flex aspect-4/3 w-full shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white">
                                 <Package
                                     size={32}
-                                    className="text-zinc-300"
+                                    className="text-secondary"
                                     aria-hidden="true"
                                 />
                                 <img
@@ -50,23 +55,23 @@ export default function ProductsResponse({ products, columns = 5 }: ProductsResp
                                     onError={(event) => {
                                         event.currentTarget.hidden = true;
                                     }}
-                                    className="absolute inset-0 size-full bg-white object-contain p-3 transition-transform duration-300 motion-safe:group-hover:scale-105"
+                                    className="absolute inset-0 size-full bg-white object-contain p-3"
                                 />
                             </div>
 
                             <div className="flex min-w-0 flex-1 flex-col gap-2">
                                 <h3
                                     dir="auto"
-                                    className="line-clamp-2 min-h-12 text-start text-sm leading-6 font-semibold wrap-anywhere text-zinc-100"
+                                    className="line-clamp-2 min-h-12 text-start text-sm leading-6 font-semibold wrap-anywhere text-foreground"
                                 >
                                     {product.title}
                                 </h3>
                                 <span
-                                    className={`inline-flex items-center gap-1.5 self-start text-xs ${available ? 'text-emerald-700 dark:text-emerald-300' : 'text-muted'}`}
+                                    className={`inline-flex items-center gap-1.5 self-start text-xs ${available ? 'text-success' : 'text-danger'}`}
                                 >
                                     <span
                                         aria-hidden="true"
-                                        className={`size-1.5 shrink-0 rounded-full ${available ? 'bg-emerald-500' : 'bg-zinc-500'}`}
+                                        className={`size-1.5 shrink-0 rounded-full ${available ? 'bg-success' : 'bg-danger'}`}
                                     />
                                     {available
                                         ? `${remainingStock.toLocaleString('fa-IR')} عدد موجود`
@@ -74,12 +79,12 @@ export default function ProductsResponse({ products, columns = 5 }: ProductsResp
                                 </span>
                             </div>
 
-                            <div className="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-violet-300/15 pt-3">
+                            <div className="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-outline/15 pt-3">
                                 <AddToCart
                                     product={product}
                                     quantity={quantity}
                                 />
-                                <span className="text-base font-semibold text-violet-200 tabular-nums">
+                                <span className="text-base font-semibold text-highlight tabular-nums">
                                     {product.price.toLocaleString('fa-IR')}
                                     <span className="ms-1 text-[10px] font-normal text-muted">
                                         تومان

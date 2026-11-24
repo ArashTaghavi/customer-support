@@ -18,11 +18,11 @@ const orderStatuses: Record<string, { label: string; tone: StatusTone }> = {
     },
     PROCESSING: {
         label: 'در حال آماده‌سازی',
-        tone: 'neutral',
+        tone: 'processing',
     },
     SHIPPED: {
         label: 'ارسال شده',
-        tone: 'neutral',
+        tone: 'info',
     },
     DELIVERED: {
         label: 'تحویل داده شده',
@@ -45,7 +45,7 @@ const paymentTones: Record<string, StatusTone> = {
     UNPAID: 'warning',
     PAID: 'success',
     FAILED: 'danger',
-    REFUNDED: 'neutral',
+    REFUNDED: 'info',
 };
 
 const paymentMethods: Record<string, string> = {
@@ -72,7 +72,9 @@ function DetailRow({
     return (
         <div className="grid min-w-0 grid-cols-[6rem_minmax(0,1fr)] items-baseline gap-x-2 py-1.5 text-xs leading-6">
             <dt className="text-muted">{label}:</dt>
-            <dd className="min-w-0 wrap-anywhere text-zinc-100">{children}</dd>
+            <dd className="min-w-0 wrap-anywhere text-foreground">
+                {children}
+            </dd>
         </div>
     );
 }
@@ -123,7 +125,7 @@ export default function OrderResponse({
     return (
         <article
             dir="rtl"
-            className="relative isolate w-full min-w-0 overflow-hidden rounded-2xl border border-violet-300/30 bg-[#141322] bg-[radial-gradient(ellipse_at_top_right,rgba(139,92,246,0.18),transparent_65%)] text-zinc-100 shadow-[0_12px_32px_-12px_rgba(0,0,0,0.65)] before:pointer-events-none before:absolute before:inset-x-6 before:top-0 before:z-10 before:h-px before:bg-linear-to-r before:from-transparent before:via-violet-200 before:to-transparent before:shadow-[0_0_14px_2px_rgba(167,139,250,0.55)]"
+            className="glass-card order-card relative isolate w-full min-w-0 overflow-hidden rounded-2xl text-foreground shadow-glass"
         >
             <h3>
                 <Button
@@ -135,12 +137,12 @@ export default function OrderResponse({
                     aria-controls={detailsId}
                     className="h-auto! justify-start! gap-3! rounded-none! p-3! text-start sm:p-4!"
                 >
-                    <span className="flex size-9 shrink-0 items-center justify-center rounded-xl border border-violet-300/20 bg-violet-400/10 text-violet-300">
+                    <span className="flex size-9 shrink-0 items-center justify-center rounded-xl border border-outline/20 bg-glow/10 text-highlight">
                         <ReceiptText size={18} aria-hidden="true" />
                     </span>
                     <span className="flex min-w-0 flex-1 flex-wrap items-center justify-between gap-x-4 gap-y-2">
                         <span className="min-w-0 space-y-1">
-                            <span className="block text-xs font-semibold wrap-anywhere text-zinc-100">
+                            <span className="block text-xs font-semibold wrap-anywhere text-foreground">
                                 سفارش <bdi>{order.order_number}</bdi>
                             </span>
                             <span className="block text-[11px] font-normal text-muted">
@@ -148,7 +150,7 @@ export default function OrderResponse({
                             </span>
                         </span>
                         <span className="flex flex-wrap items-center gap-2">
-                            <span className="text-sm font-semibold whitespace-nowrap text-violet-200 tabular-nums">
+                            <span className="text-sm font-semibold whitespace-nowrap text-highlight tabular-nums">
                                 {order.total_amount.toLocaleString('fa-IR')}{' '}
                                 <span className="text-[10px] font-normal text-muted">
                                     تومان
@@ -173,7 +175,7 @@ export default function OrderResponse({
                     <ChevronDown
                         size={16}
                         aria-hidden="true"
-                        className={`shrink-0 text-violet-300 transition-transform motion-reduce:transition-none ${open ? 'rotate-180' : ''}`}
+                        className={`shrink-0 text-highlight transition-transform motion-reduce:transition-none ${open ? 'rotate-180' : ''}`}
                     />
                 </Button>
             </h3>
@@ -181,20 +183,23 @@ export default function OrderResponse({
                 id={detailsId}
                 role="region"
                 aria-labelledby={triggerId}
-                hidden={!open}
+                className="order-details"
+                data-open={open}
+                aria-hidden={!open}
+                inert={!open}
             >
-                {open && (
-                    <div className="space-y-3 border-t border-white/8 p-3 sm:p-4">
+                <div className="order-details-clip">
+                    <div className="space-y-3 border-t border-border/40 p-3 sm:p-4">
                         <div className="grid min-w-0 gap-3 md:grid-cols-2">
                             <section
-                                className="min-w-0 rounded-xl border border-white/8 bg-black/15 px-3 py-2"
+                                className="min-w-0 rounded-xl border border-border/40 bg-input/70 px-3 py-2"
                                 aria-label="اطلاعات سفارش"
                             >
-                                <h4 className="mb-1 flex items-center gap-2 border-b border-white/6 pb-2 text-xs font-medium text-violet-200">
+                                <h4 className="mb-1 flex items-center gap-2 border-b border-border/30 pb-2 text-xs font-medium text-highlight">
                                     <ReceiptText size={14} aria-hidden="true" />
                                     اطلاعات سفارش
                                 </h4>
-                                <dl className="divide-y divide-white/5">
+                                <dl className="divide-y divide-border/25">
                                     <DetailRow label="آدرس">
                                         {order.shipping_address || 'ثبت نشده'}
                                     </DetailRow>
@@ -213,7 +218,7 @@ export default function OrderResponse({
                                     )}
                                     {order.cancellation_reason && (
                                         <DetailRow label="علت لغو">
-                                            <span className="text-rose-300">
+                                            <span className="text-danger">
                                                 {order.cancellation_reason}
                                             </span>
                                         </DetailRow>
@@ -269,16 +274,16 @@ export default function OrderResponse({
                                 </dl>
                             </section>
                             <section
-                                className="min-w-0 rounded-xl border border-white/8 bg-black/15 px-3 py-2"
+                                className="min-w-0 rounded-xl border border-border/40 bg-input/70 px-3 py-2"
                                 aria-label="اطلاعات پرداخت"
                             >
-                                <h4 className="mb-1 flex items-center gap-2 border-b border-white/6 pb-2 text-xs font-medium text-violet-200">
+                                <h4 className="mb-1 flex items-center gap-2 border-b border-border/30 pb-2 text-xs font-medium text-highlight">
                                     <Wallet size={14} aria-hidden="true" />
                                     اطلاعات پرداخت
                                 </h4>
-                                <dl className="divide-y divide-white/5">
+                                <dl className="divide-y divide-border/25">
                                     <DetailRow label="پرداخت‌شده">
-                                        <span className="text-emerald-300 tabular-nums">
+                                        <span className="text-success tabular-nums">
                                             {paidAmount.toLocaleString('fa-IR')}{' '}
                                             تومان
                                         </span>
@@ -311,7 +316,7 @@ export default function OrderResponse({
                                 {order.payments.map((payment) => (
                                     <dl
                                         key={payment.id}
-                                        className="mt-2 divide-y divide-white/5 border-t border-white/8 pt-1"
+                                        className="mt-2 divide-y divide-border/25 border-t border-border/40 pt-1"
                                     >
                                         <DetailRow label="تراکنش">
                                             <span className="flex flex-wrap items-center gap-1.5">
@@ -350,7 +355,7 @@ export default function OrderResponse({
                                         )}
                                         {payment.failure_reason && (
                                             <DetailRow label="علت خطا">
-                                                <span className="text-rose-300">
+                                                <span className="text-danger">
                                                     {payment.failure_reason}
                                                 </span>
                                             </DetailRow>
@@ -364,10 +369,10 @@ export default function OrderResponse({
                                 className="min-w-0 space-y-2"
                                 aria-label="اقلام سفارش"
                             >
-                                <h4 className="flex items-center gap-2 text-xs font-medium text-zinc-200">
+                                <h4 className="flex items-center gap-2 text-xs font-medium text-foreground">
                                     <Package
                                         size={15}
-                                        className="text-violet-300"
+                                        className="text-highlight"
                                         aria-hidden="true"
                                     />
                                     اقلام سفارش{' '}
@@ -378,12 +383,12 @@ export default function OrderResponse({
                                         قلم
                                     </StatusBadge>
                                 </h4>
-                                <div className="max-w-full overflow-x-auto rounded-xl border border-white/8">
+                                <div className="max-w-full overflow-x-auto rounded-xl border border-border/40">
                                     <table className="w-full text-start text-xs">
                                         <caption className="sr-only">
                                             اقلام سفارش {order.order_number}
                                         </caption>
-                                        <thead className="bg-white/4 text-muted">
+                                        <thead className="bg-highlight/4 text-muted">
                                             <tr>
                                                 {[
                                                     'محصول',
@@ -401,7 +406,7 @@ export default function OrderResponse({
                                                 ))}
                                             </tr>
                                         </thead>
-                                        <tbody className="divide-y divide-white/6">
+                                        <tbody className="divide-y divide-border/30">
                                             {order.items.map((item) => {
                                                 const product = item.product;
                                                 const image =
@@ -409,11 +414,11 @@ export default function OrderResponse({
                                                 return (
                                                     <tr
                                                         key={item.id}
-                                                        className="text-zinc-200 hover:bg-white/3"
+                                                        className="text-foreground hover:bg-highlight/3"
                                                     >
                                                         <td className="px-3 py-2">
                                                             <div className="flex min-w-40 items-center gap-2">
-                                                                <span className="relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-white">
+                                                                <span className="relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border/50 bg-white">
                                                                     <Package
                                                                         size={
                                                                             17
@@ -459,7 +464,7 @@ export default function OrderResponse({
                                                                 'fa-IR',
                                                             )}
                                                         </td>
-                                                        <td className="px-3 py-2 font-medium whitespace-nowrap text-violet-200 tabular-nums">
+                                                        <td className="px-3 py-2 font-medium whitespace-nowrap text-highlight tabular-nums">
                                                             {item.total_price.toLocaleString(
                                                                 'fa-IR',
                                                             )}
@@ -473,7 +478,7 @@ export default function OrderResponse({
                             </section>
                         )}
                     </div>
-                )}
+                </div>
             </div>
         </article>
     );

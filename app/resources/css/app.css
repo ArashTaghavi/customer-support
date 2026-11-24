@@ -3,70 +3,415 @@
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-
-/* Activate dark: utilities when the root element has the dark class */
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root,
 :root.dark {
     color-scheme: dark;
-    --brand: #a78bfa;
-    --brand-hover: #c4b5fd;
-    --primary: #6200ee;
-    --primary-hover: #7c24ff;
-    --primary-pressed: #4a00b8;
-    --foreground: #e4e4e7;
-    --muted: #b4b4bf;
-    --surface: #050505;
-    --surface-secondary: #101012;
-    --border: #242426;
+    --canvas: #08060d;
+    --sidebar: #100b19;
+    --surface: #181024;
+    --elevated: #221532;
+    --hover: #35204d;
+    --input: #100c17;
+    --deep: #5b21b6;
+    --primary: #7c3aed;
+    --accent: #9333ea;
+    --glow: #a855f7;
+    --highlight: #c4b5fd;
+    --foreground: #f5f3ff;
+    --secondary: #b8a9ce;
+    --muted: #a092b1;
+    --outline: #e8dfce;
+    --border: color-mix(in srgb, var(--outline) 22%, transparent);
+    --border-hover: color-mix(in srgb, var(--outline) 38%, transparent);
+    --border-focus: color-mix(in srgb, var(--outline) 70%, transparent);
+    --success: #34d399;
+    --warning: #fbbf24;
+    --danger: #fb7185;
+    --info: #60a5fa;
+    --processing: #a78bfa;
+    --node-core: #e9d5ff;
+    --brand: var(--highlight);
+    --brand-hover: var(--foreground);
+    --surface-secondary: var(--elevated);
+    --gradient-primary: linear-gradient(
+        180deg,
+        var(--accent) 0%,
+        var(--primary) 45%,
+        var(--deep) 100%
+    );
+    --gradient-glass: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--elevated) 90%, transparent),
+        color-mix(in srgb, var(--surface) 94%, transparent) 55%,
+        var(--sidebar)
+    );
+    --gradient-sidebar: linear-gradient(
+        180deg,
+        var(--surface) -45%,
+        var(--sidebar) 65%
+    );
+    --ambient: radial-gradient(
+        ellipse at 50% 35%,
+        color-mix(in srgb, var(--deep) 15%, transparent),
+        transparent 65%
+    );
+    --highlight-edge: inset 0 1px 0
+        color-mix(in srgb, var(--outline) 12%, transparent);
+    --glass-shadow: var(--highlight-edge), 0 8px 28px -14px rgb(0 0 0 / 60%);
+    --glow-shadow:
+        var(--highlight-edge),
+        0 8px 28px -12px color-mix(in srgb, var(--deep) 48%, transparent);
+    --modal-shadow:
+        var(--highlight-edge), 0 24px 90px rgb(0 0 0 / 55%),
+        0 0 60px -24px color-mix(in srgb, var(--deep) 35%, transparent);
+    --focus-ring: 0 0 0 3px color-mix(in srgb, var(--glow) 16%, transparent);
+    --duration-ui: 200ms;
+    --ease-ui: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-@layer components {
-    .button-primary {
-        background-color: var(--primary);
-        background-image: linear-gradient(180deg, rgb(255 255 255 / 12%), transparent 65%);
-        color: #fff;
-        box-shadow: 0 3px 8px rgb(98 0 238 / 28%);
-    }
-
-    .button-primary:hover:not(:disabled) {
-        background-color: var(--primary-hover);
-        box-shadow: 0 5px 14px rgb(98 0 238 / 38%);
-    }
-
-    .button-primary:active:not(:disabled) {
-        background-color: var(--primary-pressed);
-        box-shadow: 0 1px 3px rgb(98 0 238 / 20%);
-    }
-}
 @theme {
-    /* Default UI font */
-    --font-sans:
-        'Vazirmatn', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-
-    /* Base text size and line height; other sizes such as text-sm are independent */
+    --font-sans: 'Vazirmatn', ui-sans-serif, system-ui, sans-serif;
     --text-base: 1rem;
     --text-base--line-height: 1.75;
+    --radius-xl: 0.75rem;
+    --radius-2xl: 1rem;
+    --radius-3xl: 1.5rem;
+    --default-transition-duration: 200ms;
 }
 
-/* Semantic utilities resolve to the active mode's colors */
 @theme inline {
-    --color-brand: var(--brand);
-    --color-brand-hover: var(--brand-hover);
-    /* Primary text: chat messages, headings, and main content */
-    --color-foreground: var(--foreground);
-    /* Secondary text: timestamps, dates, and supporting details */
-    --color-muted: var(--muted);
+    --color-canvas: var(--canvas);
+    --color-sidebar: var(--sidebar);
     --color-surface: var(--surface);
-    --color-surface-secondary: var(--surface-secondary);
+    --color-surface-secondary: var(--elevated);
+    --color-elevated: var(--elevated);
+    --color-hover: var(--hover);
+    --color-input: var(--input);
+    --color-deep: var(--deep);
+    --color-primary: var(--primary);
+    --color-accent: var(--accent);
+    --color-glow: var(--glow);
+    --color-highlight: var(--highlight);
+    --color-brand: var(--highlight);
+    --color-brand-hover: var(--foreground);
+    --color-foreground: var(--foreground);
+    --color-secondary: var(--secondary);
+    --color-muted: var(--muted);
+    --color-outline: var(--outline);
     --color-border: var(--border);
+    --color-border-hover: var(--border-hover);
+    --color-success: var(--success);
+    --color-warning: var(--warning);
+    --color-danger: var(--danger);
+    --color-info: var(--info);
+    --color-processing: var(--processing);
+    --color-ui-secondary: var(--secondary);
+    --color-ui-soft: var(--secondary);
+    --color-ui-muted: var(--muted);
+    --color-ui-subtle: var(--muted);
+    --color-ui-border: var(--border);
+    --color-ui-border-muted: var(--border);
+    --color-ui-border-subtle: var(--border);
+    --color-ui-border-strong: var(--border-hover);
+    --shadow-glass: var(--glass-shadow);
+    --shadow-glow: var(--glow-shadow);
+    --shadow-modal: var(--modal-shadow);
+    --background-image-ambient: var(--ambient);
 }
 
 @layer base {
-    /* Shared page defaults; individual component classes can override them */
     body {
-        @apply bg-surface font-sans text-base text-foreground;
+        @apply bg-canvas font-sans text-base text-foreground antialiased;
+    }
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--border) transparent;
+    }
+    *::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    *::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 99px;
+    }
+    *::-webkit-scrollbar-thumb:hover {
+        background: var(--border-hover);
+    }
+    ::selection {
+        background: color-mix(in srgb, var(--primary) 40%, transparent);
+        color: var(--foreground);
+    }
+    button,
+    a,
+    input,
+    select,
+    textarea {
+        -webkit-tap-highlight-color: transparent;
+    }
+    input:not([type='checkbox']):not([type='radio']):not([type='file']),
+    select,
+    textarea {
+        background-color: var(--input);
+        border-color: var(--border);
+        color: var(--foreground);
+        transition:
+            border-color var(--duration-ui),
+            box-shadow var(--duration-ui),
+            background-color var(--duration-ui);
+    }
+    input::placeholder,
+    textarea::placeholder {
+        color: var(--muted);
+        opacity: 1;
+    }
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+        border-color: var(--border-focus);
+        box-shadow: var(--focus-ring);
+        outline: none;
+    }
+    input[aria-invalid='true'] {
+        border-color: var(--danger);
+    }
+    input[aria-invalid='true']:focus-visible {
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--danger) 16%, transparent);
+    }
+    input[type='checkbox'],
+    input[type='radio'] {
+        accent-color: var(--primary);
+    }
+    option {
+        background: var(--input);
+        color: var(--foreground);
+    }
+    dialog:not([data-sidebar]),
+    [popover] {
+        background: var(--gradient-glass);
+        border-color: var(--border-hover);
+        box-shadow: var(--modal-shadow);
+        color: var(--foreground);
+    }
+    dialog::backdrop {
+        background: color-mix(in srgb, var(--canvas) 76%, transparent);
+        backdrop-filter: blur(6px);
+    }
+    dialog[open],
+    [popover]:popover-open {
+        animation: glass-enter var(--duration-ui) var(--ease-ui);
+    }
+}
+
+@layer components {
+    .button-primary,
+    .button-secondary,
+    .glass-nav,
+    .glass-icon {
+        border: 1px solid var(--border);
+        box-shadow: var(--glass-shadow);
+        transition:
+            background-color var(--duration-ui),
+            border-color var(--duration-ui),
+            box-shadow var(--duration-ui);
+    }
+    .button-primary {
+        background: var(--gradient-primary);
+        color: var(--foreground);
+        box-shadow:
+            inset 0 1px 0 color-mix(in srgb, var(--outline) 45%, transparent),
+            0 4px 18px -6px color-mix(in srgb, var(--primary) 60%, transparent);
+    }
+    .button-primary:not(.cart-add-button):hover:not(:disabled) {
+        border-color: var(--border-hover);
+        box-shadow:
+            var(--highlight-edge),
+            0 5px 24px -6px color-mix(in srgb, var(--primary) 75%, transparent);
+    }
+    .button-secondary,
+    .glass-nav,
+    .glass-icon {
+        background: var(--gradient-glass);
+        color: var(--secondary);
+    }
+    .button-secondary:hover:not(:disabled),
+    .glass-nav:hover,
+    .glass-icon:hover {
+        background-color: var(--hover);
+        border-color: var(--border-hover);
+        color: var(--foreground);
+        box-shadow: var(--glow-shadow);
+    }
+    .button-primary:disabled,
+    .button-secondary:disabled {
+        opacity: 0.45;
+        box-shadow: none;
+    }
+    .glass-card {
+        background: var(--gradient-glass);
+        border: 1px solid var(--border);
+        box-shadow: var(--glass-shadow);
+        border-radius: var(--radius-2xl);
+    }
+    .product-card {
+        transition:
+            box-shadow var(--duration-ui),
+            border-color var(--duration-ui);
+    }
+    .product-card:hover {
+        border-color: var(--border-hover);
+        box-shadow: var(--glow-shadow);
+    }
+    .order-card {
+        transition:
+            border-color var(--duration-ui),
+            box-shadow var(--duration-ui);
+    }
+    .order-card:hover {
+        border-color: var(--border-hover);
+        box-shadow: var(--glow-shadow);
+    }
+    .order-card::before {
+        content: '';
+        position: absolute;
+        inset: 0 1.5rem auto;
+        height: 1px;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            color-mix(in srgb, var(--outline) 35%, transparent),
+            transparent
+        );
+        pointer-events: none;
+    }
+    .glass-composer {
+        background: var(--gradient-glass);
+        border: 1px solid var(--border);
+        box-shadow: var(--glass-shadow);
+    }
+    .glass-composer:focus-visible {
+        border-color: var(--border-focus);
+        box-shadow: var(--focus-ring), var(--glass-shadow);
+    }
+    .neural-ambient {
+        background: radial-gradient(
+            ellipse 60% 55% at 50% 50%,
+            color-mix(in srgb, var(--deep) 20%, transparent),
+            transparent
+        );
+    }
+    .neural-grid {
+        background-image: radial-gradient(
+            color-mix(in srgb, var(--highlight) 5%, transparent) 1px,
+            transparent 1px
+        );
+    }
+    .neural-network {
+        color: color-mix(in srgb, var(--processing) 14%, transparent);
+        mask-image: radial-gradient(
+            ellipse at center,
+            rgb(0 0 0 / 30%),
+            black 75%
+        );
+    }
+    .neural-nodes {
+        color: color-mix(in srgb, var(--outline) 35%, transparent);
+    }
+    .neural-pulse {
+        color: var(--glow);
+    }
+    .neural-core {
+        fill: var(--node-core);
+    }
+    .neural-light {
+        filter: drop-shadow(0 0 4px var(--glow));
+    }
+    .sidebar-surface {
+        background: var(--gradient-sidebar);
+    }
+    .active-indicator {
+        box-shadow: 0 0 8px color-mix(in srgb, var(--glow) 45%, transparent);
+    }
+    .order-details {
+        display: grid;
+        grid-template-rows: 0fr;
+        opacity: 0;
+        visibility: hidden;
+        transition:
+            grid-template-rows var(--duration-ui),
+            opacity var(--duration-ui),
+            visibility var(--duration-ui);
+    }
+    .order-details[data-open='true'] {
+        grid-template-rows: 1fr;
+        opacity: 1;
+        visibility: visible;
+    }
+    .order-details-clip {
+        min-height: 0;
+        overflow: hidden;
+    }
+    .button-secondary[aria-pressed='true'],
+    .glass-nav[aria-current='page'] {
+        border-color: var(--border-hover);
+        color: var(--highlight);
+        box-shadow: var(--glow-shadow);
+    }
+}
+
+/* Keep native dialog focus management while animating the top layer. */
+dialog:not([data-sidebar]) {
+    opacity: 0;
+    transform: scale(0.985);
+    transition:
+        opacity var(--duration-ui),
+        transform var(--duration-ui),
+        display var(--duration-ui) allow-discrete,
+        overlay var(--duration-ui) allow-discrete;
+}
+dialog[open]:not([data-sidebar]) {
+    opacity: 1;
+    transform: scale(1);
+}
+dialog::backdrop {
+    transition:
+        opacity var(--duration-ui),
+        display var(--duration-ui) allow-discrete,
+        overlay var(--duration-ui) allow-discrete;
+    opacity: 0;
+}
+dialog[open]::backdrop {
+    opacity: 1;
+}
+@starting-style {
+    dialog[open]:not([data-sidebar]) {
+        opacity: 0;
+        transform: scale(0.985);
+    }
+    dialog[open]::backdrop {
+        opacity: 0;
+    }
+}
+
+@keyframes glass-enter {
+    from {
+        opacity: 0;
+        transform: translateY(4px) scale(0.985);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }
