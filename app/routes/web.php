@@ -7,6 +7,7 @@ use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\OrderCancellationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OtpAuthenticationController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\RequireRecentOtp;
@@ -22,6 +23,7 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+    Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 
     Route::patch('/user/profile', [UserController::class, 'update'])->name('user.update');

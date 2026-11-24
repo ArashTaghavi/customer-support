@@ -1,6 +1,7 @@
 import { Package } from 'lucide-react';
 import AddToCart from '../cart/add_to_cart';
-import { usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
+import { show } from '@/actions/App/Http/Controllers/ProductController';
 import type { CartResponse } from '@/types/cart';
 import type { ProductData } from '@/types/chat_response';
 
@@ -64,7 +65,9 @@ export default function ProductsResponse({
                                     dir="auto"
                                     className="line-clamp-2 min-h-12 text-start text-sm leading-6 font-semibold wrap-anywhere text-foreground"
                                 >
-                                    {product.title}
+                                    <Link href={show(product.id)} className="after:absolute after:inset-0 focus-visible:outline-2 focus-visible:outline-glow">
+                                        {product.title}
+                                    </Link>
                                 </h3>
                                 <span
                                     className={`inline-flex items-center gap-1.5 self-start text-xs ${available ? 'text-success' : 'text-danger'}`}
@@ -79,7 +82,7 @@ export default function ProductsResponse({
                                 </span>
                             </div>
 
-                            <div className="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-outline/15 pt-3">
+                            <div className="relative z-10 mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-outline/15 pt-3">
                                 <AddToCart
                                     product={product}
                                     quantity={quantity}
