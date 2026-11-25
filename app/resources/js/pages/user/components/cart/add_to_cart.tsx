@@ -1,6 +1,7 @@
+import { login } from '@/routes';
 import { LoaderCircle, Minus, Plus, ShoppingCart } from 'lucide-react';
 import type { ProductData } from '@/types/chat_response';
-import { router } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 import { useRef, useState } from 'react';
 import { add, remove } from '@/routes/cart';
 
@@ -10,12 +11,17 @@ type AddToCartProps = {
 };
 
 export default function AddToCart({ product, quantity }: AddToCartProps) {
+    const { auth } = usePage<{ auth: { user: unknown | null } }>().props;
     const available = quantity < product.stock;
 
     const [processing, setProcessing] = useState(false);
     const requestPending = useRef(false);
 
     function updateCart(action: 'add' | 'remove') {
+        if (!auth.user) {
+            router.get(login.url());
+            return;
+        }
         if (
             requestPending.current ||
             (action === 'add' && !available) ||

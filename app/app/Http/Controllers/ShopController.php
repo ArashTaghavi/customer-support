@@ -21,10 +21,10 @@ class ShopController extends Controller
             ->paginate(12)
             ->withQueryString();
 
-        return Inertia::render('user/shop/index', [
+        return Inertia::render('site/shop/index', [
             'categories' => ProductCategoryResource::collection(ProductCategory::orderBy('title')->get()),
             'products' => ProductResource::collection($products),
-            'category' => $request->input('category'),
+            'category' => $request->filled('category') ? $request->integer('category') : null,
         ]);
     }
 }

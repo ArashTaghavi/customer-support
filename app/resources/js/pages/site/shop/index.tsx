@@ -7,11 +7,11 @@ import {
     ArrowUpDown,
     LayoutGrid,
 } from 'lucide-react';
-import AppLayout from '../layout';
-import ListingPage from '../components/listing_page';
-import ProductsResponse from '../components/chat_response/products_response';
-import PagePagination from '../components/page_pagination';
-import { productSchema } from '../components/chat_response/parse_response';
+import SiteLayout from '../layout';
+import ListingPage from '../../user/components/listing_page';
+import ProductsResponse from '../../user/components/chat_response/products_response';
+import PagePagination from '../../user/components/page_pagination';
+import { productSchema } from '../../user/components/chat_response/parse_response';
 import { shop } from '@/routes';
 import type { Paginated } from '@/types/pagination';
 
@@ -164,4 +164,4 @@ export default function Shop({ categories, products, category }: Props) {
     );
 }
 
-Shop.layout = AppLayout;
+Shop.layout = SiteLayout;

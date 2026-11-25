@@ -21,11 +21,10 @@ Route::middleware('guest')->group(function () {
     Route::delete('/login/otp', [OtpAuthenticationController::class, 'destroy'])->name('otp.destroy');
 });
 
-Route::redirect('/', '/user');
+Route::get('/', [ShopController::class, 'index'])->name('shop');
+Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
 Route::middleware('auth')->prefix('user')->group(function () {
-    Route::get('/shop', [ShopController::class, 'index'])->name('shop');
-    Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 
     Route::patch('/profile', [UserController::class, 'update'])->name('user.update');

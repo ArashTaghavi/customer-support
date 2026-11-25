@@ -3,9 +3,9 @@ import { Package } from 'lucide-react';
 import { shop } from '@/routes';
 import type { ProductData } from '@/types/chat_response';
 import type { CartResponse } from '@/types/cart';
-import AppLayout from '../layout';
-import ListingPage from '../components/listing_page';
-import AddToCart from '../components/cart/add_to_cart';
+import SiteLayout from '../layout';
+import ListingPage from '../../user/components/listing_page';
+import AddToCart from '../../user/components/cart/add_to_cart';
 
 type Props = {
     product: { data: ProductData & { product_category?: { id: number; title: string } | null } };
@@ -44,4 +44,4 @@ export default function Show({ product: { data: product } }: Props) {
     );
 }
 
-Show.layout = AppLayout;
+Show.layout = SiteLayout;

@@ -232,7 +232,7 @@ function SidebarContent({
                         {
                             label: 'فروشگاه',
                             href: shop(),
-                            component: 'user/shop/index',
+                            component: 'site/shop/index',
                             Icon: ShoppingBag,
                         },
                         {
