@@ -10,13 +10,16 @@ use Inertia\Inertia;
 
 class ConversationController extends Controller
 {
-    public function __construct(private ConversationService $conversationService) {}
+    public function __construct(public ConversationService $conversationService) {}
 
     public function store(Request $request): RedirectResponse
     {
         $question = $request->input('question', null);
 
-        $conversation = $this->conversationService->store(user: $request->user(), question: $question);
+        $conversation = $this->conversationService->store(
+            user: $request->user(),
+            question: $question
+        );
 
         return to_route('conversations.show', [
             'conversation' => $conversation->uuid,
@@ -27,7 +30,10 @@ class ConversationController extends Controller
     {
         return Inertia::render('app/conversation/index', [
             'selectedConversation' => $conversation,
-            'messages' => $conversation->messages()->oldest()->orderBy('created_at')->get(),
+            'messages' => $conversation->messages()
+                ->oldest()
+                ->orderBy('created_at')
+                ->get(),
         ]);
     }
 
@@ -38,7 +44,10 @@ class ConversationController extends Controller
 
     public function ask(Request $request, Conversation $conversation): RedirectResponse
     {
-        $message = $this->conversationService->ask(conversation: $conversation, question: $request->input('question'));
+        $message = $this->conversationService->ask(
+            conversation: $conversation,
+            question: $request->input('question')
+        );
 
         return back()->with('newMessage', $message);
     }

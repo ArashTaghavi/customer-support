@@ -12,7 +12,8 @@ class ChatResponseController extends Controller
 {
     public function orders(ChatResponseRequest $request): AnonymousResourceCollection
     {
-        $orders = $request->user()->orders()
+        $orders = $request->user()
+            ->orders()
             ->with([
                 'orderItems' => [
                     'product' => [
@@ -20,7 +21,7 @@ class ChatResponseController extends Controller
                     ],
                 ], 'payments'])
             ->whereIn('id', $request->array('ids'))
-            ->orderBy('id')
+            ->latest()
             ->paginate(5)
             ->withQueryString();
 
@@ -31,7 +32,7 @@ class ChatResponseController extends Controller
     {
 
         $products = Product::whereIn('id', $request->array('ids'))
-            ->orderBy('id')
+            ->latest()
             ->paginate(5)
             ->withQueryString();
 

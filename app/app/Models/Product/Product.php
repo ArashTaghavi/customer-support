@@ -4,6 +4,8 @@ namespace App\Models\Product;
 
 use App\Models\Cart\CartItem;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -50,5 +52,12 @@ class Product extends Model
         return Attribute::make(
             get: fn () => asset("{$this->image}"),
         );
+    }
+
+    #[Scope]
+    public function search(Builder $builder, ?int $categoryId, ?string $sort): Builder
+    {
+        return $builder->when($categoryId, fn (Builder $query, int $value): Builder => $query->where('product_category_id', $value))
+            ->when($sort, fn (Builder $query, $value): Builder => $query->orderBy('price', $value == 'price_desc' ? 'desc' : 'asc'));
     }
 }

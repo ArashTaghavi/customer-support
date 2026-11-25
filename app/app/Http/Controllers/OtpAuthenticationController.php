@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Fortify\CreateNewUser;
+use App\Http\Requests\OtpStoreRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -19,15 +20,8 @@ class OtpAuthenticationController extends Controller
         ]);
     }
 
-    public function store(Request $request, CreateNewUser $createNewUser): RedirectResponse
+    public function store(OtpStoreRequest $request, CreateNewUser $createNewUser): RedirectResponse
     {
-        $validated = $request->validate([
-            'mobile_number' => ['required', 'string', 'regex:/\A09[0-9]{9}\z/'],
-        ], [
-            'mobile_number.required' => 'شماره موبایل را وارد کنید.',
-            'mobile_number.string' => 'شماره موبایل باید به‌صورت متن وارد شود.',
-            'mobile_number.regex' => 'شماره موبایل معتبر وارد کنید؛ مانند 09123456789.',
-        ]);
 
         if (max($request->session()->get('otp.challenge.resend_at', 0), $request->session()->get('otp.resend_at', 0)) > now()->timestamp) {
             throw ValidationException::withMessages([
@@ -35,7 +29,9 @@ class OtpAuthenticationController extends Controller
             ]);
         }
 
-        $user = $createNewUser->create($validated);
+        $user = $createNewUser->create([
+            'mobile_number' => $request->input('mobile_number'),
+        ]);
         abort_unless($user->is_active, 403, 'امکان ورود به این حساب وجود ندارد.');
         $otp = $user->otp;
 

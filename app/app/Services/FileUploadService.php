@@ -8,9 +8,9 @@ use RuntimeException;
 
 class FileUploadService
 {
-    private string $disk = 'local';
+    private string $disk = 'public';
 
-    public function disk(string $disk = 'local'): static
+    public function disk(string $disk = 'public'): static
     {
         $this->disk = $disk;
 

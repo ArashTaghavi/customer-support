@@ -7,6 +7,8 @@ use App\Enums\PaymentStatusEnum;
 use App\Models\User;
 use Database\Factories\Order\OrderFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -58,5 +60,18 @@ class Order extends Model
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
+    }
+
+    #[Scope]
+    public function search(
+        Builder $builder,
+        ?string $orderStatus,
+        ?string $dateFrom,
+        ?string $dateTo
+    ): Builder {
+        return $builder
+            ->when($orderStatus, fn ($query, string $value) => $query->where('order_status', $value))
+            ->when($dateFrom, fn ($query, string $value) => $query->whereDate('created_at', '>=', $value))
+            ->when($dateTo, fn ($query, string $value) => $query->whereDate('created_at', '<=', $value));
     }
 }

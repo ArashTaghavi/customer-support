@@ -3,25 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Events\MessageAnswered;
+use App\Http\Requests\OrderCancellationRequest;
 use App\Models\Conversation\Message;
 use App\Services\AIClient;
 use App\Services\ChatResponsePayload;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class OrderCancellationController extends Controller
 {
-    public function __invoke(Request $request, Message $message, AIClient $aiClient): JsonResponse
+    public function __invoke(OrderCancellationRequest $request, Message $message, AIClient $aiClient): JsonResponse
     {
         $user = $request->user();
-
-        $validated = $request->validate([
-            'confirmed' => ['required', 'boolean'],
-            'interrupt_id' => ['required', 'string', 'max:255'],
-        ]);
 
         $lock = Cache::lock('order-cancellation:'.$message->conversation_id, 150);
         abort_unless($lock->get(), 409, 'درخواست قبلی هنوز در حال پردازش است.');
@@ -33,7 +28,7 @@ class OrderCancellationController extends Controller
                 is_array($confirmation)
                 && ($confirmation['type'] ?? null) === 'order_cancellation_confirmation'
                 && ($confirmation['thread_id'] ?? null) === $message->conversation->uuid
-                && ($confirmation['interrupt_id'] ?? null) === $validated['interrupt_id'],
+                && ($confirmation['interrupt_id'] ?? null) === $request->input('interrupt_id'),
                 409,
                 'این درخواست تأیید دیگر معتبر نیست.',
             );

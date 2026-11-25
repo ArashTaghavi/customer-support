@@ -10,7 +10,7 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class CartController extends Controller
 {
-    public function __construct(private CartService $cartService) {}
+    public function __construct(public CartService $cartService) {}
 
     public function index(Request $request): AnonymousResourceCollection
     {
