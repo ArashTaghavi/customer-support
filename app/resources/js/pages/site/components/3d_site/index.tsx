@@ -17,7 +17,9 @@ import {
 } from '@react-three/drei';
 import { EffectComposer, Bloom, N8AO } from '@react-three/postprocessing';
 import * as THREE from 'three';
+import { Eye, EyeOff, Info } from 'lucide-react';
 import { ShowroomFloor, TableFinish, tableCenters, tableZ } from './surfaces';
+import RobotController from './robot_controller';
 import './showroom.css';
 import font from '../../../../../fonts/vazirmatn-400-normal-GKyMcI03.woff';
 type V = [number, number, number];
@@ -776,7 +778,7 @@ function Scene({
                 />
             ))}
             <Suspense fallback={null}>
-                <ProductModel name="unitree-g1" p={[0, 0, 2.5]} height={1.6} />
+                <RobotController />
             </Suspense>
             <Lounge side={-1} />
             <Lounge side={1} />
@@ -793,7 +795,13 @@ function Scene({
                 ref={controls}
                 makeDefault
                 enableDamping
-                enablePan={false}
+                enablePan
+                screenSpacePanning
+                mouseButtons={{
+                    LEFT: THREE.MOUSE.ROTATE,
+                    MIDDLE: THREE.MOUSE.DOLLY,
+                    RIGHT: THREE.MOUSE.PAN,
+                }}
                 minDistance={2.5}
                 maxDistance={22.4}
                 minPolarAngle={0.25}
@@ -826,32 +834,33 @@ export default function ThreeDSite() {
     return (
         <InterfaceVisible.Provider value={interfaceVisible}>
             <main
-                className={`imported-showroom${interfaceVisible ? '' : 'interface-hidden'}`}
+                className={
+                    interfaceVisible
+                        ? 'imported-showroom'
+                        : 'imported-showroom interface-hidden'
+                }
                 dir="ltr"
             >
                 <button
                     type="button"
                     className="interface-toggle"
                     aria-label={
-                        interfaceVisible
-                            ? 'Hide text and controls'
-                            : 'Show text and controls'
+                        interfaceVisible ? 'Hide controls' : 'Show controls'
                     }
+                    title={interfaceVisible ? 'Hide controls' : 'Show controls'}
                     aria-pressed={interfaceVisible}
                     onClick={() => {
                         setInterfaceVisible((value) => !value);
                         setSelected('');
                     }}
                 >
-                    {interfaceVisible ? 'HIDE UI' : 'SHOW UI'}
+                    {interfaceVisible ? (
+                        <EyeOff size={20} aria-hidden="true" />
+                    ) : (
+                        <Eye size={20} aria-hidden="true" />
+                    )}
                 </button>
                 <header>
-                    <div>
-                        <small>IMMERSIVE RETAIL EXPERIENCE</small>
-                        <h1>
-                            NOVA<span> / </span>SHOWROOM III
-                        </h1>
-                    </div>
                     <button onClick={() => setQuality(!quality)}>
                         {quality ? 'HIGH QUALITY' : 'PERFORMANCE'}
                     </button>
@@ -876,21 +885,10 @@ export default function ThreeDSite() {
                             />
                         </Suspense>
                     </Canvas>
-                    <div className="overlay">
-                        <small>01 / VIRTUAL SHOWROOM</small>
-                        <h2>
-                            Technology.
-                            <br />
-                            Reimagined.
-                        </h2>
-                        <p>Drag to orbit · Scroll to zoom</p>
-                    </div>
                     {selected && (
                         <aside>
                             <button onClick={() => setSelected('')}>×</button>
-                            <small>SELECTED PRODUCT</small>
                             <h3>{selected}</h3>
-                            <p>External GLB model · CC BY 4.0</p>
                         </aside>
                     )}
                 </section>
@@ -914,7 +912,33 @@ export default function ThreeDSite() {
                     ))}
                 </nav>
                 <footer>
-                    3D assets: vinish.dev · CC BY 4.0 <span>● INTERACTIVE</span>
+                    <details className="asset-credits">
+                        <summary
+                            aria-label="3D asset credits"
+                            title="3D asset credits"
+                        >
+                            <Info size={18} aria-hidden="true" />
+                        </summary>
+                        <p>
+                            3D assets by{' '}
+                            <a
+                                href="https://vinish.dev/free-3d-models/"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                vinish.dev
+                            </a>
+                            ,{' '}
+                            <a
+                                href="https://creativecommons.org/licenses/by/4.0/"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                CC BY 4.0
+                            </a>
+                            . Robot: Unitree Robotics, BSD-3-Clause.
+                        </p>
+                    </details>
                 </footer>
             </main>
         </InterfaceVisible.Provider>

@@ -72,7 +72,7 @@
     "source": "https://github.com/unitreerobotics/unitree_ros/tree/master/robots/g1_description",
     "license": "BSD-3-Clause",
     "licenseFile": "unitree-g1-LICENSE.txt",
-    "modifications": "Converted official G1 29-DOF hand-equipped URDF/STL to Y-up GLB; neutral standing pose; PBR materials; geometry optimized for web display.",
-    "sha256": "3c4587624420dae306dc5010848e68117587a8df5df5ea16daf858bd3ba78c77"
+    "modifications": "Converted official G1 29-DOF hand-equipped URDF/STL to Y-up GLB; neutral standing pose; PBR materials; geometry optimized for web display. Added fitted opaque face visor and removed chest logo geometry.",
+    "sha256": "d8bb71869611e2f583bf29adc5ea410aece78d81aa9d1116aab5e074d38ca724"
   }
 ]
