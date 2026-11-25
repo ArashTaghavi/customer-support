@@ -22,6 +22,7 @@ import './showroom.css';
 import font from '../../../../../fonts/vazirmatn-400-normal-GKyMcI03.woff';
 type V = [number, number, number];
 const purple = '#a35bff';
+const InterfaceVisible = React.createContext(false);
 function Box({
     p = [0, 0, 0],
     s,
@@ -72,6 +73,8 @@ function Sign({
     children: React.ReactNode;
     size?: number;
 }) {
+    const visible = React.useContext(InterfaceVisible);
+    if (!visible) return null;
     return (
         <Text
             font={font}
@@ -159,12 +162,28 @@ function ProductModel({
             if (o instanceof THREE.Mesh) {
                 o.castShadow = true;
                 o.receiveShadow = true;
+                if (name === 'executive-chair') {
+                    const blackMaterial = (material: THREE.Material) => {
+                        const copy = material.clone();
+                        if (copy instanceof THREE.MeshStandardMaterial) {
+                            copy.color.set('#080808');
+                            copy.map = null;
+                            copy.emissive.set('#000000');
+                            copy.emissiveMap = null;
+                            copy.roughness = 0.58;
+                        }
+                        return copy;
+                    };
+                    o.material = Array.isArray(o.material)
+                        ? o.material.map(blackMaterial)
+                        : blackMaterial(o.material);
+                }
             }
         });
         wrapper.add(copy);
         wrapper.scale.setScalar(height / Math.max(size.y, 0.001));
         return wrapper;
-    }, [scene, height]);
+    }, [scene, height, name]);
     return (
         <primitive
             name={name}
@@ -342,6 +361,41 @@ function Glass({ p, s }: { p: V; s: V }) {
     );
 }
 
+function GlassDoor({ side, width }: { side: number; width: number }) {
+    const [open, setOpen] = useState(false);
+    const hinge = useRef<THREE.Group>(null);
+    useFrame((_, dt) => {
+        if (hinge.current) {
+            hinge.current.rotation.y = THREE.MathUtils.damp(
+                hinge.current.rotation.y,
+                open ? -side * Math.PI / 2 : 0,
+                7,
+                dt,
+            );
+        }
+    });
+    const center = -side * width / 2;
+    return (
+        <group
+            ref={hinge}
+            position={[side * width / 2, 0, officeFrontZ]}
+            onClick={(event) => {
+                event.stopPropagation();
+                setOpen((value) => !value);
+            }}
+        >
+            <Glass p={[center, 1.38, 0]} s={[width - 0.07, 2.66, 0.035]} />
+            {[0.055, 2.705].map((y) => (
+                <Box key={y} p={[center, y, 0]} s={[width - 0.04, 0.045, 0.055]} c="#726879" />
+            ))}
+            {[-1, 1].map((edge) => (
+                <Box key={edge} p={[center + edge * (width / 2 - 0.035), 1.38, 0]} s={[0.035, 2.65, 0.055]} c="#726879" />
+            ))}
+            <Box p={[-side * (width - 0.15), 1.2, 0.08]} s={[0.035, 0.34, 0.055]} c="#bcb8c3" metal={0.9} />
+        </group>
+    );
+}
+
 function Office({ x, label }: { x: number; label: string }) {
     const doorSide = Math.sign(x);
     const entranceWidth = 1.18;
@@ -396,6 +450,7 @@ function Office({ x, label }: { x: number; label: string }) {
                     </group>
                 );
             })}
+            <GlassDoor side={doorSide} width={entranceWidth} />
             <Box
                 p={[0, deskTop - 0.06, deskZ]}
                 s={[2.7, 0.12, 1.05]}
@@ -726,80 +781,95 @@ function Scene({
     );
 }
 export default function ThreeDSite() {
+    const [interfaceVisible, setInterfaceVisible] = useState(false);
     const [view, setView] = useState('overview'),
         [quality, setQuality] = useState(true),
         [selected, setSelected] = useState('');
     return (
-        <main className="imported-showroom" dir="ltr">
-            <header>
-                <div>
-                    <small>IMMERSIVE RETAIL EXPERIENCE</small>
-                    <h1>
-                        NOVA<span> / </span>SHOWROOM III
-                    </h1>
-                </div>
-                <button onClick={() => setQuality(!quality)}>
-                    {quality ? 'HIGH QUALITY' : 'PERFORMANCE'}
-                </button>
-            </header>
-            <section className="viewport">
-                <Canvas
-                    shadows
-                    dpr={[1, quality ? 2 : 1]}
-                    camera={{ position: [12, 10, 15], fov: 43 }}
-                    gl={{
-                        antialias: true,
-                        toneMapping: THREE.ACESFilmicToneMapping,
+        <InterfaceVisible.Provider value={interfaceVisible}>
+            <main className={`imported-showroom${interfaceVisible ? '' : ' interface-hidden'}`} dir="ltr">
+                <button
+                    type="button"
+                    className="interface-toggle"
+                    aria-label={interfaceVisible ? 'مخفی کردن متن‌ها و دکمه‌ها' : 'نمایش متن‌ها و دکمه‌ها'}
+                    aria-pressed={interfaceVisible}
+                    onClick={() => {
+                        setInterfaceVisible((value) => !value);
+                        setSelected('');
                     }}
                 >
-                    <Suspense fallback={null}>
-                        <Scene
-                            view={view}
-                            quality={quality}
-                            onPick={setSelected}
-                        />
-                    </Suspense>
-                </Canvas>
-                <div className="overlay">
-                    <small>01 / VIRTUAL SHOWROOM</small>
-                    <h2>
-                        Technology.
-                        <br />
-                        Reimagined.
-                    </h2>
-                    <p>Drag to orbit · Scroll to zoom</p>
-                </div>
-                {selected && (
-                    <aside>
-                        <button onClick={() => setSelected('')}>×</button>
-                        <small>SELECTED PRODUCT</small>
-                        <h3>{selected}</h3>
-                        <p>External GLB model · CC BY 4.0</p>
-                    </aside>
-                )}
-            </section>
-            <nav>
-                {Object.entries({
-                    overview: 'Overview',
-                    phones: 'Smartphones',
-                    laptops: 'Laptops',
-                    audio: 'Audio',
-                    management: 'Management',
-                    user: 'User studio',
-                    lounge: 'Lounge',
-                }).map(([k, v]) => (
-                    <button
-                        className={view === k ? 'active' : ''}
-                        key={k}
-                        onClick={() => setView(k)}
-                    >
-                        {v}
+                    {interfaceVisible ? 'مخفی کردن رابط' : 'نمایش رابط'}
+                </button>
+                <header>
+                    <div>
+                        <small>IMMERSIVE RETAIL EXPERIENCE</small>
+                        <h1>
+                            NOVA<span> / </span>SHOWROOM III
+                        </h1>
+                    </div>
+                    <button onClick={() => setQuality(!quality)}>
+                        {quality ? 'HIGH QUALITY' : 'PERFORMANCE'}
                     </button>
-                ))}
-            </nav>
-            <footer>
-                3D assets: vinish.dev · CC BY 4.0 <span>● INTERACTIVE</span>
-            </footer>
-        </main>
+                </header>
+                <section className="viewport">
+                    <Canvas
+                        shadows
+                        dpr={[1, quality ? 2 : 1]}
+                        camera={{ position: [12, 10, 15], fov: 43 }}
+                        gl={{
+                            antialias: true,
+                            toneMapping: THREE.ACESFilmicToneMapping,
+                        }}
+                    >
+                        <Suspense fallback={null}>
+                            <Scene
+                                view={view}
+                                quality={quality}
+                                onPick={(name) => { if (interfaceVisible) setSelected(name); }}
+                            />
+                        </Suspense>
+                    </Canvas>
+                    <div className="overlay">
+                        <small>01 / VIRTUAL SHOWROOM</small>
+                        <h2>
+                            Technology.
+                            <br />
+                            Reimagined.
+                        </h2>
+                        <p>Drag to orbit · Scroll to zoom</p>
+                    </div>
+                    {selected && (
+                        <aside>
+                            <button onClick={() => setSelected('')}>×</button>
+                            <small>SELECTED PRODUCT</small>
+                            <h3>{selected}</h3>
+                            <p>External GLB model · CC BY 4.0</p>
+                        </aside>
+                    )}
+                </section>
+                <nav>
+                    {Object.entries({
+                        overview: 'Overview',
+                        phones: 'Smartphones',
+                        laptops: 'Laptops',
+                        audio: 'Audio',
+                        management: 'Management',
+                        user: 'User studio',
+                        lounge: 'Lounge',
+                    }).map(([k, v]) => (
+                        <button
+                            className={view === k ? 'active' : ''}
+                            key={k}
+                            onClick={() => setView(k)}
+                        >
+                            {v}
+                        </button>
+                    ))}
+                </nav>
+                <footer>
+                    3D assets: vinish.dev · CC BY 4.0 <span>● INTERACTIVE</span>
+                </footer>
+            </main>
+        </InterfaceVisible.Provider>
     );
 }

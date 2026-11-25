@@ -198,3 +198,22 @@
         top: 95px;
     }
 }
+
+.imported-showroom .interface-toggle {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 4;
+    min-height: 44px;
+    font-size: 14px;
+}
+.imported-showroom:not(.interface-hidden) > header {
+    right: 180px;
+}
+.imported-showroom.interface-hidden > header,
+.imported-showroom.interface-hidden > nav,
+.imported-showroom.interface-hidden > footer,
+.imported-showroom.interface-hidden .overlay,
+.imported-showroom.interface-hidden aside {
+    display: none;
+}
