@@ -1,0 +1,69 @@
+[
+  {
+    "file": "executive-chair.glb",
+    "copyright": "Executive chair with headrest (Downtown Office Interiors), 3D Assets",
+    "source": "https://3dassets.dev/assets/downtown-office-interiors-executive-chair-9801b58f",
+    "license": "CC0-1.0",
+    "sha256": "b462f45bd114f57620bae6f7e331e50ef207b017fcb02ddc71010fedbe9b0560"
+  },
+  {
+    "file": "business-laptop.glb",
+    "copyright": "\"Business Laptop\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "license": "CC-BY-4.0",
+    "sha256": "3be25fa98701cf7c8d98bc74f0e6ba60dc174741cd25d70e2f8b23a16c39794f"
+  },
+  {
+    "file": "camera-phone.glb",
+    "copyright": "\"Camera Phone\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "license": "CC-BY-4.0",
+    "sha256": "bfb3fedc6e9da67e4602010876d085f343ffbfe02019a0a26e24e59f0dc0a338"
+  },
+  {
+    "file": "foldable-phone.glb",
+    "copyright": "\"Foldable Phone\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "license": "CC-BY-4.0",
+    "sha256": "c671339267b499a247907a48849728b95ffbbf65ce8b07e8fedc4b4de7bd78d2"
+  },
+  {
+    "file": "gaming-headset.glb",
+    "copyright": "\"Gaming Headset\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "license": "CC-BY-4.0",
+    "sha256": "af572ffbb91d1be528267969523111c042079f07ad82777c90366ea95df5480e"
+  },
+  {
+    "file": "gaming-laptop.glb",
+    "copyright": "\"Gaming Laptop\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "license": "CC-BY-4.0",
+    "sha256": "198db81713a46fba58710ddc88dc63cf476f93c65a404792067a99203b75bf22"
+  },
+  {
+    "file": "over-ear-headphones.glb",
+    "copyright": "\"Over-Ear Headphones\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "license": "CC-BY-4.0",
+    "sha256": "125ef84ec04797cd99c898539a6edfb38024faf557cb078b79e9b82c8cab297c"
+  },
+  {
+    "file": "smartphone.glb",
+    "copyright": "\"Smartphone\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "license": "CC-BY-4.0",
+    "sha256": "4f5502ceeedb7adeb523a6b054a56616a1f3ad027033033f3a9e3feb70575561"
+  },
+  {
+    "file": "studio-headphones.glb",
+    "copyright": "\"Studio Headphones\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "license": "CC-BY-4.0",
+    "sha256": "29346d0b92769c1ba7ebb47abab003e60a91155add185c7b3cc8a1b66b252cbe"
+  },
+  {
+    "file": "thin-laptop.glb",
+    "copyright": "\"Thin Laptop\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "license": "CC-BY-4.0",
+    "sha256": "646e48513a3dab2d5dc87e89a4eaa19a04f29896a98a6219ab65cb181ec55ba9"
+  },
+  {
+    "file": "wireless-earbuds.glb",
+    "copyright": "\"Wireless Earbuds\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "license": "CC-BY-4.0",
+    "sha256": "d78fd797d03d4868a122044c7e90feeffcb516498115a1fa35f992399839914c"
+  }
+]
