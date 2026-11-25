@@ -49,8 +49,10 @@ async function request(url: string, body?: unknown) {
 
 export default function PasskeyButton({
     register = false,
+    onAuthenticated,
 }: {
     register?: boolean;
+    onAuthenticated?: () => Promise<void> | void;
 }) {
     const [supported, setSupported] = useState(false);
     const [busy, setBusy] = useState(false);
@@ -85,7 +87,12 @@ export default function PasskeyButton({
                 ...(register ? { name: 'Passkey' } : {}),
             });
             if (register) setMessage('کلید ورود ثبت شد.');
-            else router.visit(index.url());
+            else if (onAuthenticated) {
+                router.reload({
+                    only: ['auth'],
+                    onSuccess: () => onAuthenticated(),
+                });
+            } else router.visit(index.url());
         } catch (error) {
             setMessage(
                 error instanceof DOMException &&

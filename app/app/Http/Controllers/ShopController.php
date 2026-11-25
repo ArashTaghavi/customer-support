@@ -24,6 +24,8 @@ class ShopController extends Controller
         return Inertia::render('site/shop/index', [
             'categories' => ProductCategoryResource::collection(ProductCategory::orderBy('title')->get()),
             'products' => ProductResource::collection($products),
+            'otp' => $request->user() ? null : $request->session()->get('otp.challenge'),
+            'resendAt' => max($request->session()->get('otp.challenge.resend_at', 0), $request->session()->get('otp.resend_at', 0)),
             'category' => $request->filled('category') ? $request->integer('category') : null,
         ]);
     }

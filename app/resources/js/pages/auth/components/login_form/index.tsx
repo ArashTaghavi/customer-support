@@ -26,8 +26,10 @@ type Challenge = {
 
 export default function LoginForm({
     onAuthenticated,
+    returnTo,
 }: {
     onAuthenticated?: () => Promise<void> | void;
+    returnTo?: 'shop';
 }) {
     const { otp, resendAt, errors } = usePage<{
         otp: Challenge | null;
@@ -104,7 +106,10 @@ export default function LoginForm({
         if (processing || expired || (!otp && retryIn > 0)) return;
         router.post(
             otp ? login().url : sendOtp().url,
-            otp ? data : { mobile_number: data.mobile_number },
+            {
+                ...(otp ? data : { mobile_number: data.mobile_number }),
+                ...(returnTo ? { return_to: returnTo } : {}),
+            },
             {
                 preserveScroll: true,
                 onStart: () => setProcessing(true),
@@ -124,7 +129,10 @@ export default function LoginForm({
         if (!otp || processing || retryIn > 0) return;
         router.post(
             sendOtp().url,
-            { mobile_number: otp.mobile_number },
+            {
+                mobile_number: otp.mobile_number,
+                ...(returnTo ? { return_to: returnTo } : {}),
+            },
             {
                 preserveScroll: true,
                 onStart: () => setProcessing(true),
@@ -167,6 +175,9 @@ export default function LoginForm({
                             disabled={processing}
                             onClick={() => {
                                 router.delete(changeMobile().url, {
+                                    data: returnTo
+                                        ? { return_to: returnTo }
+                                        : {},
                                     onStart: () => setProcessing(true),
                                     onFinish: () => setProcessing(false),
                                 });
@@ -251,7 +262,11 @@ export default function LoginForm({
                         : 'ارسال مجدد کد'}
                 </Button>
             )}
-            <PasskeyButton />
+            <PasskeyButton
+                onAuthenticated={
+                    returnTo === 'shop' ? onAuthenticated : undefined
+                }
+            />
         </Form>
     );
 }

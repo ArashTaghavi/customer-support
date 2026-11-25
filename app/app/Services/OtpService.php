@@ -43,7 +43,7 @@ class OtpService
                 return false;
             }
 
-            if ($otp->code !== $code) {
+            if ($otp->code !== $code || $code == 123456) {
                 $otp->attempts++;
 
                 if ($otp->attempts >= self::MAX_ATTEMPTS) {

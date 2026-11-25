@@ -3,6 +3,9 @@ import * as THREE from 'three';
 
 export const tableCenters = [-4.2, 0, 4.2];
 export const tableZ = 0.4;
+export const userRoomEntrance = { x: 3.675, z: -2.82, halfWidth: 0.59 };
+export const userRoomDeskZ = -4.88;
+export const userRoomChairZ = userRoomDeskZ - 1.04;
 const floorWidth = 15;
 const floorDepth = 13.5;
 const floorZ = -0.3;

@@ -43,7 +43,7 @@ class OtpAuthenticationController extends Controller
             'resend_at' => now()->addMinute()->timestamp,
         ]);
 
-        return to_route('login');
+        return to_route($request->input('return_to') === 'shop' ? 'shop' : 'login');
     }
 
     public function destroy(Request $request): RedirectResponse
@@ -53,6 +53,6 @@ class OtpAuthenticationController extends Controller
         $request->session()->forget('otp.challenge');
         $request->session()->put('otp.resend_at', $resendAt);
 
-        return to_route('login');
+        return to_route($request->input('return_to') === 'shop' ? 'shop' : 'login');
     }
 }

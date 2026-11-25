@@ -18,7 +18,14 @@ import {
 import { EffectComposer, Bloom, N8AO } from '@react-three/postprocessing';
 import * as THREE from 'three';
 import { Eye, EyeOff, Info } from 'lucide-react';
-import { ShowroomFloor, TableFinish, tableCenters, tableZ } from './surfaces';
+import {
+    ShowroomFloor,
+    TableFinish,
+    tableCenters,
+    tableZ,
+    userRoomEntrance,
+    userRoomDeskZ,
+} from './surfaces';
 import RobotController from './robot_controller';
 import './showroom.css';
 import font from '../../../../../fonts/vazirmatn-400-normal-GKyMcI03.woff';
@@ -70,13 +77,15 @@ function Sign({
     p,
     children,
     size = 0.22,
+    alwaysVisible = false,
 }: {
     p: V;
     children: React.ReactNode;
     size?: number;
+    alwaysVisible?: boolean;
 }) {
     const visible = React.useContext(InterfaceVisible);
-    if (!visible) return null;
+    if (!visible && !alwaysVisible) return null;
     return (
         <Text
             font={font}
@@ -337,13 +346,13 @@ function Lounge({ side }: { side: -1 | 1 }) {
 // The exterior walls enclose both rooms. Only the divider and the two
 // glazed shopfronts are interior walls. Dimensions refer to finished faces.
 const rearZ = -6.9,
-    officeFrontZ = -2.82,
+    officeFrontZ = userRoomEntrance.z,
     sideWallX = 7.35,
     wallThickness = 0.15;
 const innerEdgeX = sideWallX - wallThickness / 2;
 const roomWidth = innerEdgeX - wallThickness / 2;
-const officeCenter = (innerEdgeX + wallThickness / 2) / 2;
-const deskZ = -4.88,
+const officeCenter = userRoomEntrance.x;
+const deskZ = userRoomDeskZ,
     deskTop = 0.83;
 
 function Glass({ p, s }: { p: V; s: V }) {
@@ -363,14 +372,22 @@ function Glass({ p, s }: { p: V; s: V }) {
     );
 }
 
-function GlassDoor({ side, width }: { side: number; width: number }) {
+function GlassDoor({
+    side,
+    width,
+    autoOpen = false,
+}: {
+    side: number;
+    width: number;
+    autoOpen?: boolean;
+}) {
     const [open, setOpen] = useState(false);
     const hinge = useRef<THREE.Group>(null);
     useFrame((_, dt) => {
         if (hinge.current) {
             hinge.current.rotation.y = THREE.MathUtils.damp(
                 hinge.current.rotation.y,
-                open ? (-side * Math.PI) / 2 : 0,
+                open || autoOpen ? (-side * Math.PI) / 2 : 0,
                 7,
                 dt,
             );
@@ -380,6 +397,7 @@ function GlassDoor({ side, width }: { side: number; width: number }) {
     return (
         <group
             ref={hinge}
+            name="office-door"
             position={[(side * width) / 2, 0, officeFrontZ]}
             onClick={(event) => {
                 event.stopPropagation();
@@ -413,7 +431,15 @@ function GlassDoor({ side, width }: { side: number; width: number }) {
     );
 }
 
-function Office({ x, label }: { x: number; label: string }) {
+function Office({
+    x,
+    label,
+    entering = false,
+}: {
+    x: number;
+    label: string;
+    entering?: boolean;
+}) {
     const doorSide = Math.sign(x);
     const entranceWidth = 1.18;
     const glassWidth = (roomWidth - entranceWidth) / 2;
@@ -443,7 +469,11 @@ function Office({ x, label }: { x: number; label: string }) {
                 intensity={10}
                 distance={5.4}
             />
-            <Sign p={[0, 2.9, officeFrontZ + 0.087]} size={0.185}>
+            <Sign
+                p={[0, 2.9, officeFrontZ + 0.087]}
+                size={0.185}
+                alwaysVisible={label === 'USER PANEL'}
+            >
                 {label}
             </Sign>
             {[-1, 1].map((side) => {
@@ -482,7 +512,11 @@ function Office({ x, label }: { x: number; label: string }) {
                     </group>
                 );
             })}
-            <GlassDoor side={doorSide} width={entranceWidth} />
+            <GlassDoor
+                side={doorSide}
+                width={entranceWidth}
+                autoOpen={entering}
+            />
             <Box
                 p={[0, deskTop - 0.06, deskZ]}
                 s={[2.7, 0.12, 1.05]}
@@ -662,12 +696,22 @@ function Scene({
     view,
     onPick,
     quality,
+    robotEnabled,
+    onUserRoomEnter,
+    panelEntering,
+    panelSeated,
+    onPanelSeated,
 }: {
     view: string;
     onPick: (s: string) => void;
     quality: boolean;
+    robotEnabled: boolean;
+    panelEntering: boolean;
+    panelSeated: boolean;
+    onPanelSeated?: () => void;
+    onUserRoomEnter?: () => void;
 }) {
-    const { camera: responsiveCamera, size } = useThree();
+    const { camera: responsiveCamera, size, scene } = useThree();
     useEffect(() => {
         if (responsiveCamera instanceof THREE.PerspectiveCamera) {
             responsiveCamera.fov = size.width < size.height ? 75 : 43;
@@ -711,9 +755,33 @@ function Scene({
         [dest.current, target.current] = map[view] || map.overview;
         moving.current = true;
     }, [view]);
+    const actor = useRef<THREE.Object3D | null>(null);
+    useEffect(() => {
+        moving.current = !panelEntering;
+    }, [panelEntering]);
     const moving = useRef(true);
     const waypoint = React.useMemo(() => new THREE.Vector3(), []);
     useFrame(({ camera }, dt) => {
+        if (panelEntering && controls.current) {
+            actor.current ??= scene.getObjectByName('controlled-robot') ?? null;
+            camera.position.lerp(
+                panelSeated
+                    ? waypoint.set(officeCenter + 0.15, 1.65, deskZ + 0.9)
+                    : waypoint.set(6.4, 3.15, -0.8),
+                1 - Math.exp(-dt * (panelSeated ? 3.5 : 2.5)),
+            );
+            const robot = actor.current;
+            controls.current.target.lerp(
+                waypoint.set(
+                    robot?.position.x ?? officeCenter,
+                    panelSeated ? 1.05 : 0.95,
+                    robot?.position.z ?? deskZ,
+                ),
+                1 - Math.exp(-dt * 4),
+            );
+            controls.current.update();
+            return;
+        }
         if (moving.current && controls.current) {
             camera.position.lerp(
                 waypoint.set(...dest.current),
@@ -767,7 +835,11 @@ function Scene({
             <ShowroomFloor />
             <Architecture />
             <Office x={-officeCenter} label="MANAGEMENT" />
-            <Office x={officeCenter} label="USER STUDIO" />
+            <Office
+                x={officeCenter}
+                label="USER PANEL"
+                entering={panelEntering}
+            />
             {tableCenters.map((x, i) => (
                 <Table
                     key={x}
@@ -778,7 +850,12 @@ function Scene({
                 />
             ))}
             <Suspense fallback={null}>
-                <RobotController />
+                <RobotController
+                    enabled={robotEnabled}
+                    onUserRoomEnter={onUserRoomEnter}
+                    panelEntering={panelEntering}
+                    onPanelSeated={onPanelSeated}
+                />
             </Suspense>
             <Lounge side={-1} />
             <Lounge side={1} />
@@ -794,6 +871,7 @@ function Scene({
             <OrbitControls
                 ref={controls}
                 makeDefault
+                enabled={!panelEntering}
                 enableDamping
                 enablePan
                 screenSpacePanning
@@ -809,10 +887,10 @@ function Scene({
                 onStart={() => (moving.current = false)}
             />
             {quality && (
-                <EffectComposer multisampling={2}>
+                <EffectComposer multisampling={4}>
                     <N8AO
-                        halfRes
-                        quality="performance"
+                        halfRes={false}
+                        quality="high"
                         aoRadius={0.45}
                         intensity={1.3}
                     />
@@ -826,19 +904,34 @@ function Scene({
         </>
     );
 }
-export default function ThreeDSite() {
+export default function ThreeDSite({
+    onUserRoomEnter,
+    robotEnabled = true,
+    panelEntering = false,
+    panelSeated = false,
+    onPanelSeated,
+}: {
+    onUserRoomEnter?: () => void;
+    robotEnabled?: boolean;
+    panelEntering?: boolean;
+    panelSeated?: boolean;
+    onPanelSeated?: () => void;
+}) {
     const [interfaceVisible, setInterfaceVisible] = useState(false);
-    const [view, setView] = useState('overview'),
-        [quality, setQuality] = useState(true),
-        [selected, setSelected] = useState('');
+    const [quality, setQuality] = useState(true);
+    const [view, setView] = useState('overview');
+    const [selected, setSelected] = useState('');
     return (
         <InterfaceVisible.Provider value={interfaceVisible}>
             <main
-                className={
-                    interfaceVisible
-                        ? 'imported-showroom'
-                        : 'imported-showroom interface-hidden'
-                }
+                className={[
+                    'imported-showroom',
+                    !interfaceVisible && 'interface-hidden',
+                    panelEntering && 'panel-entering',
+                ]
+                    .filter(Boolean)
+                    .join(' ')}
+                aria-busy={panelEntering}
                 dir="ltr"
             >
                 <button
@@ -861,14 +954,22 @@ export default function ThreeDSite() {
                     )}
                 </button>
                 <header>
-                    <button onClick={() => setQuality(!quality)}>
+                    <button
+                        onClick={() => setQuality(!quality)}
+                        aria-pressed={quality}
+                        title={
+                            quality
+                                ? 'Switch to performance mode'
+                                : 'Switch to high quality'
+                        }
+                    >
                         {quality ? 'HIGH QUALITY' : 'PERFORMANCE'}
                     </button>
                 </header>
                 <section className="viewport">
                     <Canvas
                         shadows
-                        dpr={[1, quality ? 2 : 1]}
+                        dpr={quality ? 2 : 1}
                         camera={{ position: [12, 10, 15], fov: 43 }}
                         gl={{
                             antialias: true,
@@ -879,6 +980,11 @@ export default function ThreeDSite() {
                             <Scene
                                 view={view}
                                 quality={quality}
+                                robotEnabled={robotEnabled}
+                                panelEntering={panelEntering}
+                                panelSeated={panelSeated}
+                                onPanelSeated={onPanelSeated}
+                                onUserRoomEnter={onUserRoomEnter}
                                 onPick={(name) => {
                                     if (interfaceVisible) setSelected(name);
                                 }}
@@ -899,7 +1005,7 @@ export default function ThreeDSite() {
                         laptops: 'Laptops',
                         audio: 'Audio',
                         management: 'Management',
-                        user: 'User studio',
+                        user: 'User panel',
                         lounge: 'Lounge',
                     }).map(([k, v]) => (
                         <button
