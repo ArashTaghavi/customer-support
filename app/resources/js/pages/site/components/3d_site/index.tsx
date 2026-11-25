@@ -368,17 +368,17 @@ function GlassDoor({ side, width }: { side: number; width: number }) {
         if (hinge.current) {
             hinge.current.rotation.y = THREE.MathUtils.damp(
                 hinge.current.rotation.y,
-                open ? -side * Math.PI / 2 : 0,
+                open ? (-side * Math.PI) / 2 : 0,
                 7,
                 dt,
             );
         }
     });
-    const center = -side * width / 2;
+    const center = (-side * width) / 2;
     return (
         <group
             ref={hinge}
-            position={[side * width / 2, 0, officeFrontZ]}
+            position={[(side * width) / 2, 0, officeFrontZ]}
             onClick={(event) => {
                 event.stopPropagation();
                 setOpen((value) => !value);
@@ -386,12 +386,27 @@ function GlassDoor({ side, width }: { side: number; width: number }) {
         >
             <Glass p={[center, 1.38, 0]} s={[width - 0.07, 2.66, 0.035]} />
             {[0.055, 2.705].map((y) => (
-                <Box key={y} p={[center, y, 0]} s={[width - 0.04, 0.045, 0.055]} c="#726879" />
+                <Box
+                    key={y}
+                    p={[center, y, 0]}
+                    s={[width - 0.04, 0.045, 0.055]}
+                    c="#726879"
+                />
             ))}
             {[-1, 1].map((edge) => (
-                <Box key={edge} p={[center + edge * (width / 2 - 0.035), 1.38, 0]} s={[0.035, 2.65, 0.055]} c="#726879" />
+                <Box
+                    key={edge}
+                    p={[center + edge * (width / 2 - 0.035), 1.38, 0]}
+                    s={[0.035, 2.65, 0.055]}
+                    c="#726879"
+                />
             ))}
-            <Box p={[-side * (width - 0.15), 1.2, 0.08]} s={[0.035, 0.34, 0.055]} c="#bcb8c3" metal={0.9} />
+            <Box
+                p={[-side * (width - 0.15), 1.2, 0.08]}
+                s={[0.035, 0.34, 0.055]}
+                c="#bcb8c3"
+                metal={0.9}
+            />
         </group>
     );
 }
@@ -414,8 +429,18 @@ function Office({ x, label }: { x: number; label: string }) {
                 c={purple}
                 glow
             />
-            <Box p={[0, 2.74, officeFrontZ - 0.025]} s={[roomWidth - 0.10, 0.018, 0.055]} c="#c998ff" glow />
-            <pointLight position={[0, 2.35, rearZ + 0.85]} color="#bb81ff" intensity={10} distance={5.4} />
+            <Box
+                p={[0, 2.74, officeFrontZ - 0.025]}
+                s={[roomWidth - 0.1, 0.018, 0.055]}
+                c="#c998ff"
+                glow
+            />
+            <pointLight
+                position={[0, 2.35, rearZ + 0.85]}
+                color="#bb81ff"
+                intensity={10}
+                distance={5.4}
+            />
             <Sign p={[0, 2.9, officeFrontZ + 0.087]} size={0.185}>
                 {label}
             </Sign>
@@ -423,7 +448,12 @@ function Office({ x, label }: { x: number; label: string }) {
                 const panelX = (side * (entranceWidth + glassWidth)) / 2;
                 return (
                     <group key={side}>
-                        <Box p={[panelX, 0.068, officeFrontZ + 0.021]} s={[glassWidth - 0.06, 0.015, 0.026]} c="#9752d8" glow />
+                        <Box
+                            p={[panelX, 0.068, officeFrontZ + 0.021]}
+                            s={[glassWidth - 0.06, 0.015, 0.026]}
+                            c="#9752d8"
+                            glow
+                        />
                         <Glass
                             p={[panelX, 1.39, officeFrontZ]}
                             s={[glassWidth - 0.035, 2.72, 0.028]}
@@ -482,7 +512,12 @@ function Office({ x, label }: { x: number; label: string }) {
             >
                 <Box p={[0, 0.37, 0]} s={[1.9, 0.74, 0.49]} c="#302d36" />
                 <Box p={[0, 1.24, -0.225]} s={[1.9, 1.0, 0.048]} c="#513c36" />
-                <pointLight position={[0, 1.58, 0.05]} color="#ffc291" intensity={1.3} distance={1.85} />
+                <pointLight
+                    position={[0, 1.58, 0.05]}
+                    color="#ffc291"
+                    intensity={1.3}
+                    distance={1.85}
+                />
                 {[1.21, 1.77].map((y) => (
                     <group key={y}>
                         <Box
@@ -740,6 +775,9 @@ function Scene({
                     onPick={onPick}
                 />
             ))}
+            <Suspense fallback={null}>
+                <ProductModel name="unitree-g1" p={[0, 0, 2.5]} height={1.6} />
+            </Suspense>
             <Lounge side={-1} />
             <Lounge side={1} />
             <ContactShadows
@@ -787,18 +825,25 @@ export default function ThreeDSite() {
         [selected, setSelected] = useState('');
     return (
         <InterfaceVisible.Provider value={interfaceVisible}>
-            <main className={`imported-showroom${interfaceVisible ? '' : ' interface-hidden'}`} dir="ltr">
+            <main
+                className={`imported-showroom${interfaceVisible ? '' : 'interface-hidden'}`}
+                dir="ltr"
+            >
                 <button
                     type="button"
                     className="interface-toggle"
-                    aria-label={interfaceVisible ? 'مخفی کردن متن‌ها و دکمه‌ها' : 'نمایش متن‌ها و دکمه‌ها'}
+                    aria-label={
+                        interfaceVisible
+                            ? 'Hide text and controls'
+                            : 'Show text and controls'
+                    }
                     aria-pressed={interfaceVisible}
                     onClick={() => {
                         setInterfaceVisible((value) => !value);
                         setSelected('');
                     }}
                 >
-                    {interfaceVisible ? 'مخفی کردن رابط' : 'نمایش رابط'}
+                    {interfaceVisible ? 'HIDE UI' : 'SHOW UI'}
                 </button>
                 <header>
                     <div>
@@ -825,7 +870,9 @@ export default function ThreeDSite() {
                             <Scene
                                 view={view}
                                 quality={quality}
-                                onPick={(name) => { if (interfaceVisible) setSelected(name); }}
+                                onPick={(name) => {
+                                    if (interfaceVisible) setSelected(name);
+                                }}
                             />
                         </Suspense>
                     </Canvas>

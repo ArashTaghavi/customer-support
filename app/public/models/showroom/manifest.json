@@ -65,5 +65,14 @@
     "copyright": "\"Wireless Earbuds\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
     "license": "CC-BY-4.0",
     "sha256": "d78fd797d03d4868a122044c7e90feeffcb516498115a1fa35f992399839914c"
+  },
+  {
+    "file": "unitree-g1.glb",
+    "copyright": "Copyright (c) 2016-2022 HangZhou YuShu TECHNOLOGY CO.,LTD. (Unitree Robotics)",
+    "source": "https://github.com/unitreerobotics/unitree_ros/tree/master/robots/g1_description",
+    "license": "BSD-3-Clause",
+    "licenseFile": "unitree-g1-LICENSE.txt",
+    "modifications": "Converted official G1 29-DOF hand-equipped URDF/STL to Y-up GLB; neutral standing pose; PBR materials; geometry optimized for web display.",
+    "sha256": "3c4587624420dae306dc5010848e68117587a8df5df5ea16daf858bd3ba78c77"
   }
 ]
