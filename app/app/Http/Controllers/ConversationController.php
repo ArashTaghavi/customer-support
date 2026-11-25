@@ -28,7 +28,7 @@ class ConversationController extends Controller
 
     public function show(Conversation $conversation)
     {
-        return Inertia::render('app/conversation/index', [
+        return Inertia::render('user/conversation/index', [
             'selectedConversation' => $conversation,
             'messages' => $conversation->messages()
                 ->oldest()

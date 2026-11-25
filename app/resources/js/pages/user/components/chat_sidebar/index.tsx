@@ -232,13 +232,13 @@ function SidebarContent({
                         {
                             label: 'فروشگاه',
                             href: shop(),
-                            component: 'app/shop/index',
+                            component: 'user/shop/index',
                             Icon: ShoppingBag,
                         },
                         {
                             label: 'سفارشات',
                             href: ordersIndex(),
-                            component: 'app/orders/index',
+                            component: 'user/orders/index',
                             Icon: ReceiptText,
                         },
                     ].map(({ label, href, component, Icon }) => (

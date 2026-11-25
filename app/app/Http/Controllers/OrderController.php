@@ -29,7 +29,7 @@ class OrderController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return Inertia::render('app/orders/index', [
+        return Inertia::render('user/orders/index', [
             'orders' => OrderResource::collection($orders),
         ]);
     }

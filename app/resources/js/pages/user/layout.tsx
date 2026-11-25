@@ -9,7 +9,7 @@ type AppLayoutProps = { children: ReactNode };
 
 export default function AppLayout({ children }: AppLayoutProps) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const isShop = usePage().component === 'app/shop/index';
+    const isShop = usePage().component === 'user/shop/index';
 
     return (
         <div

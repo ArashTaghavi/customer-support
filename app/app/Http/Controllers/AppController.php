@@ -11,6 +11,6 @@ class AppController extends Controller
     {
         $conversations = Conversation::all();
 
-        return Inertia::render('app/index', compact('conversations'));
+        return Inertia::render('user/index', compact('conversations'));
     }
 }

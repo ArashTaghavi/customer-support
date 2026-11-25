@@ -21,7 +21,7 @@ class ShopController extends Controller
             ->paginate(12)
             ->withQueryString();
 
-        return Inertia::render('app/shop/index', [
+        return Inertia::render('user/shop/index', [
             'categories' => ProductCategoryResource::collection(ProductCategory::orderBy('title')->get()),
             'products' => ProductResource::collection($products),
             'category' => $request->input('category'),

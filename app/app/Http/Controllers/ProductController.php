@@ -11,7 +11,7 @@ class ProductController extends Controller
 {
     public function show(Product $product): Response
     {
-        return Inertia::render('app/products/show', [
+        return Inertia::render('user/products/show', [
             'product' => ProductResource::make($product->load('productCategory')),
         ]);
     }
