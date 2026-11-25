@@ -42,3 +42,7 @@ yarn-error.log
 /boost.json
 /opencode.json
 /opencode.jsonc
+
+/public/products/models/
+
+/public/products/images/

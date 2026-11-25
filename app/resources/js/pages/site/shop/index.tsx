@@ -2,8 +2,13 @@ import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { Head, router, usePage } from '@inertiajs/react';
 import { index as panel } from '@/routes/app';
 import LoginModal from '../components/login_modal';
+import type { ShowroomTable } from '../components/3d_site/types';
 const ThreeDSite = lazy(() => import('../components/3d_site'));
-export default function Shop() {
+export default function Shop({
+    showroomTables = [],
+}: {
+    showroomTables?: ShowroomTable[];
+}) {
     const { auth } = usePage<{ auth: { user: unknown | null } }>().props;
     const [loginOpen, setLoginOpen] = useState(false);
     const [entryStage, setEntryStage] = useState<
@@ -43,6 +48,7 @@ export default function Shop() {
             <Suspense fallback={<div className="fixed inset-0 bg-[#090810]" />}>
                 {mounted ? (
                     <ThreeDSite
+                        tables={showroomTables}
                         onUserRoomEnter={enterUserPanel}
                         robotEnabled={!loginOpen && !enteringPanel}
                         panelEntering={enteringPanel}

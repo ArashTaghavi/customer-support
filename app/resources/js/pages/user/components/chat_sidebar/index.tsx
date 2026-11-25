@@ -15,6 +15,7 @@ import { Button, Tooltip } from '@/components/ui';
 import { show, store } from '@/routes/conversations';
 import { logout, shop } from '@/routes';
 import { index as ordersIndex } from '@/routes/orders';
+import { index as catalogIndex } from '@/routes/admin/products';
 import { messageDate } from '@/utils/message_dates';
 import type { ConversationResponse } from '@/types/conversation';
 import Cart from '../cart';
@@ -229,6 +230,12 @@ function SidebarContent({
                 <div className="mb-2 space-y-2">
                     {' '}
                     {[
+                        {
+                            label: 'Catalog',
+                            href: catalogIndex(),
+                            component: 'admin/products/index',
+                            Icon: ShoppingBag,
+                        },
                         {
                             label: 'فروشگاه',
                             href: shop(),

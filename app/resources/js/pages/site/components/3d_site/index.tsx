@@ -14,10 +14,15 @@ import {
     Text,
     ContactShadows,
     useGLTF,
+    Html,
 } from '@react-three/drei';
 import { EffectComposer, Bloom, N8AO } from '@react-three/postprocessing';
 import * as THREE from 'three';
-import { Eye, EyeOff, Info } from 'lucide-react';
+import { Link } from '@inertiajs/react';
+import { show as showProduct } from '@/routes/products';
+import { clone as cloneModel } from 'three/addons/utils/SkeletonUtils.js';
+import type { ShowroomProduct, ShowroomTable } from './types';
+import { Eye, EyeOff, Info, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import {
     ShowroomFloor,
     TableFinish,
@@ -139,30 +144,42 @@ function Slats({
         </instancedMesh>
     );
 }
-const models = [
-    ['smartphone', 'camera-phone', 'foldable-phone'],
-    ['gaming-laptop', 'thin-laptop', 'business-laptop'],
-    [
-        'over-ear-headphones',
-        'studio-headphones',
-        'gaming-headset',
-        'wireless-earbuds',
-    ],
-];
+class ProductModelBoundary extends React.Component<
+    { children: React.ReactNode },
+    { failed: boolean }
+> {
+    state = { failed: false };
+    static getDerivedStateFromError() {
+        return { failed: true };
+    }
+    render() {
+        return this.state.failed ? (
+            <Box p={[0, 0.13, 0]} s={[0.2, 0.25, 0.2]} c="#59456d" />
+        ) : (
+            this.props.children
+        );
+    }
+}
 function ProductModel({
     name,
     p,
     height,
     yaw = 0,
+    url,
+    maxWidth,
+    maxDepth,
 }: {
     name: string;
     p: V;
     height: number;
     yaw?: number;
+    url?: string;
+    maxWidth?: number;
+    maxDepth?: number;
 }) {
-    const { scene } = useGLTF('/models/showroom/' + name + '.glb');
+    const { scene } = useGLTF(url ?? '/models/showroom/' + name + '.glb');
     const object = React.useMemo(() => {
-        const copy = scene.clone(true);
+        const copy = cloneModel(scene);
         copy.updateMatrixWorld(true);
         const bounds = new THREE.Box3().setFromObject(copy, true);
         const size = bounds.getSize(new THREE.Vector3());
@@ -173,7 +190,7 @@ function ProductModel({
             if (o instanceof THREE.Mesh) {
                 o.castShadow = true;
                 o.receiveShadow = true;
-                if (name === 'executive-chair') {
+                if (!url && name === 'executive-chair') {
                     const blackMaterial = (material: THREE.Material) => {
                         const copy = material.clone();
                         if (copy instanceof THREE.MeshStandardMaterial) {
@@ -192,9 +209,19 @@ function ProductModel({
             }
         });
         wrapper.add(copy);
-        wrapper.scale.setScalar(height / Math.max(size.y, 0.001));
+        wrapper.scale.setScalar(
+            Math.min(
+                height / Math.max(size.y, 0.001),
+                maxWidth === undefined
+                    ? Infinity
+                    : maxWidth / Math.max(size.x, 0.001),
+                maxDepth === undefined
+                    ? Infinity
+                    : maxDepth / Math.max(size.z, 0.001),
+            ),
+        );
         return wrapper;
-    }, [scene, height, name]);
+    }, [scene, height, name, url, maxWidth, maxDepth]);
     return (
         <primitive
             name={name}
@@ -209,13 +236,21 @@ function Table({
     p,
     label,
     kind,
+    products,
     onPick,
 }: {
     p: V;
     label: string;
     kind: number;
-    onPick: (s: string) => void;
+    products: ShowroomProduct[];
+    onPick: (product: ShowroomProduct) => void;
 }) {
+    const visible = React.useContext(InterfaceVisible);
+    const [page, setPage] = useState(0);
+    const capacity = kind === 1 ? 3 : 4;
+    const pages = Math.max(1, Math.ceil(products.length / capacity));
+    const current = Math.min(page, pages - 1);
+    const items = products.slice(current * capacity, (current + 1) * capacity);
     return (
         <group name={label} position={p}>
             <Box p={[0, 0.09, 0]} s={[3.55, 0.18, 1.45]} c="#171720" />
@@ -239,42 +274,94 @@ function Table({
             >
                 <TableFinish fluted />
             </Slats>
-            <Sign p={[0, 0.75, 0.47]} size={0.18}>
+            <Sign p={[0, 0.75, 0.47]} size={0.18} alwaysVisible>
                 {label}
             </Sign>
-            {Array.from({ length: models[kind].length }, (_, i) => (
+            {items.map((product, i) => (
                 <group
-                    key={i}
+                    key={`${product.id}:${product.model_url}`}
+                    name={`product-${product.id}`}
+                    userData={{
+                        productId: product.id,
+                        modelUrl: product.model_url,
+                    }}
                     position={[
-                        (i - (models[kind].length - 1) / 2) *
+                        (i - (items.length - 1) / 2) *
                             (kind === 1 ? 1.13 : 0.86),
                         1.25,
                         0,
                     ]}
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        onPick(models[kind][i]);
+                    onClick={(event) => {
+                        event.stopPropagation();
+                        onPick(product);
                     }}
                 >
-                    <Box p={[0, 0.035, 0]} s={[0.65, 0.07, 0.55]} c="#35313d" />
-                    <ProductModel
-                        name={models[kind][i]}
-                        p={[0, 0.07, 0]}
-                        height={
-                            kind === 0
-                                ? 0.42
-                                : kind === 1
-                                  ? 0.4
-                                  : i === 3
-                                    ? 0.12
-                                    : 0.34
-                        }
+                    <Box
+                        p={[0, 0.035, 0]}
+                        s={[
+                            kind === 1 ? 0.98 : 0.65,
+                            0.07,
+                            kind === 1 ? 0.75 : 0.55,
+                        ]}
+                        c="#35313d"
                     />
-                    <Sign p={[0, 0.035, 0.31]} size={0.065}>
-                        {models[kind][i].replaceAll('-', ' ')}
+                    <ProductModelBoundary key={product.model_url}>
+                        <Suspense
+                            fallback={
+                                <Box
+                                    p={[0, 0.1, 0]}
+                                    s={[0.12, 0.12, 0.12]}
+                                    c={purple}
+                                />
+                            }
+                        >
+                            <ProductModel
+                                name={product.title}
+                                url={product.model_url}
+                                p={[0, 0.07, 0]}
+                                height={
+                                    kind === 0 ? 0.42 : kind === 1 ? 0.4 : 0.34
+                                }
+                                maxWidth={kind === 1 ? 1.03 : 0.65}
+                                maxDepth={kind === 1 ? 0.8 : 0.55}
+                            />
+                        </Suspense>
+                    </ProductModelBoundary>
+                    <Sign p={[0, 0.035, kind === 1 ? 0.41 : 0.31]} size={0.065}>
+                        {product.title.length > 24
+                            ? product.title.slice(0, 23) + '?'
+                            : product.title}
                     </Sign>
                 </group>
             ))}
+            {visible && pages > 1 && (
+                <Html position={[0, 0.45, 0.7]} center distanceFactor={8}>
+                    <div
+                        className="table-pagination"
+                        onPointerDown={(event) => event.stopPropagation()}
+                    >
+                        <button
+                            type="button"
+                            disabled={current === 0}
+                            aria-label={`Previous ${label} products`}
+                            onClick={() => setPage(current - 1)}
+                        >
+                            <ChevronLeft size={16} />
+                        </button>
+                        <span>
+                            {current + 1} / {pages}
+                        </span>
+                        <button
+                            type="button"
+                            disabled={current + 1 >= pages}
+                            aria-label={`Next ${label} products`}
+                            onClick={() => setPage(current + 1)}
+                        >
+                            <ChevronRight size={16} />
+                        </button>
+                    </div>
+                </Html>
+            )}
         </group>
     );
 }
@@ -694,6 +781,7 @@ function Architecture() {
 }
 function Scene({
     view,
+    tables,
     onPick,
     quality,
     robotEnabled,
@@ -703,7 +791,8 @@ function Scene({
     onPanelSeated,
 }: {
     view: string;
-    onPick: (s: string) => void;
+    tables: ShowroomTable[];
+    onPick: (product: ShowroomProduct) => void;
     quality: boolean;
     robotEnabled: boolean;
     panelEntering: boolean;
@@ -845,7 +934,11 @@ function Scene({
                     key={x}
                     p={[x, 0, tableZ]}
                     kind={i}
-                    label={['SMARTPHONES', 'LAPTOPS', 'AUDIO'][i]}
+                    label={
+                        tables[i]?.category?.title ??
+                        ['phone', 'laptop', 'headphone'][i]
+                    }
+                    products={tables[i]?.products ?? []}
                     onPick={onPick}
                 />
             ))}
@@ -905,12 +998,14 @@ function Scene({
     );
 }
 export default function ThreeDSite({
+    tables = [],
     onUserRoomEnter,
     robotEnabled = true,
     panelEntering = false,
     panelSeated = false,
     onPanelSeated,
 }: {
+    tables?: ShowroomTable[];
     onUserRoomEnter?: () => void;
     robotEnabled?: boolean;
     panelEntering?: boolean;
@@ -920,7 +1015,7 @@ export default function ThreeDSite({
     const [interfaceVisible, setInterfaceVisible] = useState(false);
     const [quality, setQuality] = useState(true);
     const [view, setView] = useState('overview');
-    const [selected, setSelected] = useState('');
+    const [selected, setSelected] = useState<ShowroomProduct | null>(null);
     return (
         <InterfaceVisible.Provider value={interfaceVisible}>
             <main
@@ -944,7 +1039,7 @@ export default function ThreeDSite({
                     aria-pressed={interfaceVisible}
                     onClick={() => {
                         setInterfaceVisible((value) => !value);
-                        setSelected('');
+                        setSelected(null);
                     }}
                 >
                     {interfaceVisible ? (
@@ -979,31 +1074,55 @@ export default function ThreeDSite({
                         <Suspense fallback={null}>
                             <Scene
                                 view={view}
+                                tables={tables}
                                 quality={quality}
                                 robotEnabled={robotEnabled}
                                 panelEntering={panelEntering}
                                 panelSeated={panelSeated}
                                 onPanelSeated={onPanelSeated}
                                 onUserRoomEnter={onUserRoomEnter}
-                                onPick={(name) => {
-                                    if (interfaceVisible) setSelected(name);
-                                }}
+                                onPick={setSelected}
                             />
                         </Suspense>
                     </Canvas>
                     {selected && (
-                        <aside>
-                            <button onClick={() => setSelected('')}>×</button>
-                            <h3>{selected}</h3>
+                        <aside
+                            className="product-details"
+                            aria-label="Selected product"
+                        >
+                            <button
+                                type="button"
+                                aria-label="Close product details"
+                                onClick={() => setSelected(null)}
+                            >
+                                <X size={16} />
+                            </button>
+                            <h3 dir="auto">{selected.title}</h3>
+                            <p>
+                                {selected.price > 0
+                                    ? selected.price.toLocaleString()
+                                    : 'Price not set'}
+                            </p>
+                            <p>
+                                {selected.stock > 0
+                                    ? `${selected.stock} in stock`
+                                    : 'Out of stock'}
+                            </p>
+                            <Link
+                                href={showProduct(selected.id)}
+                                className="product-detail-link"
+                            >
+                                View product
+                            </Link>
                         </aside>
                     )}
                 </section>
                 <nav>
                     {Object.entries({
                         overview: 'Overview',
-                        phones: 'Smartphones',
-                        laptops: 'Laptops',
-                        audio: 'Audio',
+                        phones: tables[0]?.category?.title ?? 'phone',
+                        laptops: tables[1]?.category?.title ?? 'laptop',
+                        audio: tables[2]?.category?.title ?? 'headphone',
                         management: 'Management',
                         user: 'User panel',
                         lounge: 'Lounge',

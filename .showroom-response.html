@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="dark">
+    <head>
+        <meta charset="utf-8">
+        <meta name="csrf-token" content="AwG20vlHTEdQx7ElD3evl1A3V2TLjExKLnNiSScf">
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+
+        <link rel="icon" href="/favicon.ico" sizes="any">
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+        <script type="module" >
+    import RefreshRuntime from 'http://[::1]:5173/@react-refresh'
+    RefreshRuntime.injectIntoGlobalHook(window)
+    window.$RefreshReg$ = () => {}
+    window.$RefreshSig$ = () => (type) => type
+    window.__vite_plugin_react_preamble_installed__ = true
+</script>        <script type="module" src="http://[::1]:5173/@vite/client"></script><link rel="stylesheet" href="http://[::1]:5173/resources/css/app.css" /><script type="module" src="http://[::1]:5173/resources/js/app.tsx"></script><script type="module" src="http://[::1]:5173/resources/js/pages/site/shop/index.tsx"></script>        <title data-inertia="">NOVA Showroom - Laravel</title>
+    <script id="browser-logger-active">
+(function() {
+    const ENDPOINT = 'http://127.0.0.1:8000/_boost/browser-logs';
+    const logQueue = [];
+    let flushTimeout = null;
+    const captureTypes = ["error","warning","info","log","debug","table"];
+
+    console.log('🔍 Browser logger active (MCP server detected). Posting to: ' + ENDPOINT);
+
+    // Store original console methods
+    const originalConsole = {
+        log: console.log,
+        debug: console.debug,
+        info: console.info,
+        error: console.error,
+        warn: console.warn,
+        table: console.table
+    };
+
+    // Walk own enumerable keys so JSON.stringify cannot auto-invoke a proxy fake toJSON (e.g. Livewire's `$wire`) and fire a real request.
+    function toSafeValue(value, seen) {
+        if (value === null || typeof value !== 'object') {
+            return value;
+        }
+        if (value instanceof Error) {
+            return { name: value.name, message: value.message, stack: value.stack };
+        }
+        // Date has no own enumerable keys, so the walk below would collapse it to {}.
+        if (value instanceof Date) {
+            return value.toISOString();
+        }
+        if (seen.has(value)) {
+            return '[Circular]';
+        }
+        seen.add(value);
+        if (Array.isArray(value)) {
+            return value.map((item) => toSafeValue(item, seen));
+        }
+        const plain = {};
+        for (const key of Object.keys(value)) {
+            if (key === 'toJSON') continue;
+            try {
+                plain[key] = toSafeValue(value[key], seen);
+            } catch (e) {
+                plain[key] = '[Unreadable]';
+            }
+        }
+        return plain;
+    }
+
+    // Helper to safely stringify values
+    function safeStringify(obj) {
+        return JSON.stringify(toSafeValue(obj, new WeakSet()));
+    }
+
+    // Normalize log type for consistency (e.g., 'warn' to 'warning')
+    function normalizeType(type) {
+        return type === 'warn' ? 'warning' : type;
+    }
+
+    // Determine if a log type should be captured based on configured levels
+    function shouldCapture(type) {
+        return captureTypes.includes(normalizeType(type));
+    }
+
+    // Batch and send logs
+    function flushLogs() {
+        if (logQueue.length === 0) return;
+
+        const batch = logQueue.splice(0, logQueue.length);
+
+        fetch(ENDPOINT, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({ logs: batch })
+        }).catch(err => {
+            // Silently fail to avoid infinite loops
+            originalConsole.error('Failed to send logs:', err);
+        });
+    }
+
+    // Debounced flush (100ms)
+    function scheduleFlush() {
+        if (flushTimeout) clearTimeout(flushTimeout);
+        flushTimeout = setTimeout(flushLogs, 100);
+    }
+
+    // Intercept console methods
+    ['log', 'debug', 'info', 'error', 'warn', 'table'].forEach(method => {
+        console[method] = function(...args) {
+            // Call original method
+            originalConsole[method].apply(console, args);
+
+            // Capture log data
+            try {
+                if (!shouldCapture(method)) {
+                    return;
+                }
+
+                logQueue.push({
+                    type: method,
+                    timestamp: new Date().toISOString(),
+                    data: args.map(arg => {
+                        try {
+                            return typeof arg === 'object' ? JSON.parse(safeStringify(arg)) : arg;
+                        } catch (e) {
+                            return String(arg);
+                        }
+                    }),
+                    url: window.location.href,
+                    userAgent: navigator.userAgent
+                });
+
+                scheduleFlush();
+            } catch (e) {
+                // Fail silently
+            }
+        };
+    });
+
+    // Global error handlers for uncaught errors
+    const originalOnError = window.onerror;
+    window.onerror = function boostErrorHandler(errorMsg, url, lineNumber, colNumber, error) {
+        try {
+            if (shouldCapture('error')) {
+                logQueue.push({
+                    type: 'uncaught_error',
+                    timestamp: new Date().toISOString(),
+                    data: [{
+                        message: errorMsg,
+                        filename: url,
+                        lineno: lineNumber,
+                        colno: colNumber,
+                        error: error ? {
+                            name: error.name,
+                            message: error.message,
+                            stack: error.stack
+                        } : null
+                    }],
+                    url: window.location.href,
+                    userAgent: navigator.userAgent
+                });
+
+                scheduleFlush();
+            }
+
+        } catch (e) {
+            // Fail silently
+        }
+
+        // Call original handler if it exists
+        if (originalOnError && typeof originalOnError === 'function') {
+            return originalOnError(errorMsg, url, lineNumber, colNumber, error);
+        }
+
+        // Let the error continue to propagate
+        return false;
+    }
+    window.addEventListener('error', (event) => {
+        try {
+            if (!shouldCapture('error')) {
+                return false;
+            }
+
+            logQueue.push({
+                type: 'window_error',
+                timestamp: new Date().toISOString(),
+                data: [{
+                    message: event.message,
+                    filename: event.filename,
+                    lineno: event.lineno,
+                    colno: event.colno,
+                    error: event.error ? {
+                        name: event.error.name,
+                        message: event.error.message,
+                        stack: event.error.stack
+                    } : null
+                }],
+                url: window.location.href,
+                userAgent: navigator.userAgent
+            });
+
+            scheduleFlush();
+        } catch (e) {
+            // Fail silently
+        }
+
+        // Let the error continue to propagate
+        return false;
+    });
+    window.addEventListener('unhandledrejection', (event) => {
+        try {
+            if (!shouldCapture('error')) {
+                return false;
+            }
+
+            logQueue.push({
+                type: 'error',
+                timestamp: new Date().toISOString(),
+                data: [{
+                    message: 'Unhandled Promise Rejection',
+                    reason: toSafeValue(event.reason, new WeakSet())
+                }],
+                url: window.location.href,
+                userAgent: navigator.userAgent
+            });
+
+            scheduleFlush();
+        } catch (e) {
+            // Fail silently
+        }
+
+        // Let the rejection continue to propagate
+        return false;
+    });
+
+    // Flush on page unload
+    window.addEventListener('beforeunload', () => {
+        if (logQueue.length > 0) {
+            navigator.sendBeacon(ENDPOINT, JSON.stringify({ logs: logQueue }));
+        }
+    });
+})();
+</script>
+</head>
+    <body class="font-sans antialiased">
+        <script data-page="app" type="application/json">{"component":"site\/shop\/index","props":{"errors":{},"name":"Laravel","auth":{"user":null},"conversations":[],"cart":[],"showroomTables":[{"slot":"phone","category":{"id":1,"title":"phone","showroom_slot":"phone","product_count":3,"created_at":"2026-11-25T14:40:09.000000Z"},"products":[{"id":3,"title":"Foldable phone","description":"3D product model by vinish.dev, licensed under CC BY 4.0.","price":0,"stock":1,"product_category_id":1,"image":null,"image_url":"http:\/\/127.0.0.1:8000\/","model_url":"http:\/\/127.0.0.1:8000\/products\/models\/showroom\/foldable-phone.glb","created_at":"2026-11-25T14:40:09.000000Z"},{"id":2,"title":"Camera phone","description":"3D product model by vinish.dev, licensed under CC BY 4.0.","price":0,"stock":1,"product_category_id":1,"image":null,"image_url":"http:\/\/127.0.0.1:8000\/","model_url":"http:\/\/127.0.0.1:8000\/products\/models\/showroom\/camera-phone.glb","created_at":"2026-11-25T14:40:09.000000Z"},{"id":1,"title":"Smartphone","description":"3D product model by vinish.dev, licensed under CC BY 4.0.","price":0,"stock":1,"product_category_id":1,"image":null,"image_url":"http:\/\/127.0.0.1:8000\/","model_url":"http:\/\/127.0.0.1:8000\/products\/models\/showroom\/smartphone.glb","created_at":"2026-11-25T14:40:09.000000Z"}]},{"slot":"laptop","category":{"id":2,"title":"laptop","showroom_slot":"laptop","product_count":3,"created_at":"2026-11-25T14:40:09.000000Z"},"products":[{"id":6,"title":"Business laptop","description":"3D product model by vinish.dev, licensed under CC BY 4.0.","price":0,"stock":1,"product_category_id":2,"image":null,"image_url":"http:\/\/127.0.0.1:8000\/","model_url":"http:\/\/127.0.0.1:8000\/products\/models\/showroom\/business-laptop.glb","created_at":"2026-11-25T14:40:09.000000Z"},{"id":5,"title":"Thin laptop","description":"3D product model by vinish.dev, licensed under CC BY 4.0.","price":0,"stock":1,"product_category_id":2,"image":null,"image_url":"http:\/\/127.0.0.1:8000\/","model_url":"http:\/\/127.0.0.1:8000\/products\/models\/showroom\/thin-laptop.glb","created_at":"2026-11-25T14:40:09.000000Z"},{"id":4,"title":"Gaming laptop","description":"3D product model by vinish.dev, licensed under CC BY 4.0.","price":0,"stock":1,"product_category_id":2,"image":null,"image_url":"http:\/\/127.0.0.1:8000\/","model_url":"http:\/\/127.0.0.1:8000\/products\/models\/showroom\/gaming-laptop.glb","created_at":"2026-11-25T14:40:09.000000Z"}]},{"slot":"headphone","category":{"id":3,"title":"headphone","showroom_slot":"headphone","product_count":4,"created_at":"2026-11-25T14:40:09.000000Z"},"products":[{"id":10,"title":"Wireless earbuds","description":"3D product model by vinish.dev, licensed under CC BY 4.0.","price":0,"stock":1,"product_category_id":3,"image":null,"image_url":"http:\/\/127.0.0.1:8000\/","model_url":"http:\/\/127.0.0.1:8000\/products\/models\/showroom\/wireless-earbuds.glb","created_at":"2026-11-25T14:40:09.000000Z"},{"id":9,"title":"Gaming headset","description":"3D product model by vinish.dev, licensed under CC BY 4.0.","price":0,"stock":1,"product_category_id":3,"image":null,"image_url":"http:\/\/127.0.0.1:8000\/","model_url":"http:\/\/127.0.0.1:8000\/products\/models\/showroom\/gaming-headset.glb","created_at":"2026-11-25T14:40:09.000000Z"},{"id":8,"title":"Studio headphones","description":"3D product model by vinish.dev, licensed under CC BY 4.0.","price":0,"stock":1,"product_category_id":3,"image":null,"image_url":"http:\/\/127.0.0.1:8000\/","model_url":"http:\/\/127.0.0.1:8000\/products\/models\/showroom\/studio-headphones.glb","created_at":"2026-11-25T14:40:09.000000Z"},{"id":7,"title":"Over-ear headphones","description":"3D product model by vinish.dev, licensed under CC BY 4.0.","price":0,"stock":1,"product_category_id":3,"image":null,"image_url":"http:\/\/127.0.0.1:8000\/","model_url":"http:\/\/127.0.0.1:8000\/products\/models\/showroom\/over-ear-headphones.glb","created_at":"2026-11-25T14:40:09.000000Z"}]}],"categories":{"data":[{"id":3,"title":"headphone","showroom_slot":"headphone","product_count":4,"created_at":"2026-11-25T14:40:09.000000Z"},{"id":2,"title":"laptop","showroom_slot":"laptop","product_count":3,"created_at":"2026-11-25T14:40:09.000000Z"},{"id":1,"title":"phone","showroom_slot":"phone","product_count":3,"created_at":"2026-11-25T14:40:09.000000Z"}]},"products":{"data":[{"id":1,"title":"Smartphone","description":"3D product model by vinish.dev, licensed under CC BY 4.0.","price":0,"stock":1,"product_category_id":1,"image":null,"image_url":"http:\/\/127.0.0.1:8000\/","model_url":"http:\/\/127.0.0.1:8000\/products\/models\/showroom\/smartphone.glb","created_at":"2026-11-25T14:40:09.000000Z","product_category":{"id":1,"title":"phone","showroom_slot":"phone","product_count":3,"created_at":"2026-11-25T14:40:09.000000Z"}},{"id":2,"title":"Camera phone","description":"3D product model by vinish.dev, licensed under CC BY 4.0.","price":0,"stock":1,"product_category_id":1,"image":null,"image_url":"http:\/\/127.0.0.1:8000\/","model_url":"http:\/\/127.0.0.1:8000\/products\/models\/showroom\/camera-phone.glb","created_at":"2026-11-25T14:40:09.000000Z","product_category":{"id":1,"title":"phone","showroom_slot":"phone","product_count":3,"created_at":"2026-11-25T14:40:09.000000Z"}},{"id":3,"title":"Foldable phone","description":"3D product model by vinish.dev, licensed under CC BY 4.0.","price":0,"stock":1,"product_category_id":1,"image":null,"image_url":"http:\/\/127.0.0.1:8000\/","model_url":"http:\/\/127.0.0.1:8000\/products\/models\/showroom\/foldable-phone.glb","created_at":"2026-11-25T14:40:09.000000Z","product_category":{"id":1,"title":"phone","showroom_slot":"phone","product_count":3,"created_at":"2026-11-25T14:40:09.000000Z"}},{"id":4,"title":"Gaming laptop","description":"3D product model by vinish.dev, licensed under CC BY 4.0.","price":0,"stock":1,"product_category_id":2,"image":null,"image_url":"http:\/\/127.0.0.1:8000\/","model_url":"http:\/\/127.0.0.1:8000\/products\/models\/showroom\/gaming-laptop.glb","created_at":"2026-11-25T14:40:09.000000Z","product_category":{"id":2,"title":"laptop","showroom_slot":"laptop","product_count":3,"created_at":"2026-11-25T14:40:09.000000Z"}},{"id":5,"title":"Thin laptop","description":"3D product model by vinish.dev, licensed under CC BY 4.0.","price":0,"stock":1,"product_category_id":2,"image":null,"image_url":"http:\/\/127.0.0.1:8000\/","model_url":"http:\/\/127.0.0.1:8000\/products\/models\/showroom\/thin-laptop.glb","created_at":"2026-11-25T14:40:09.000000Z","product_category":{"id":2,"title":"laptop","showroom_slot":"laptop","product_count":3,"created_at":"2026-11-25T14:40:09.000000Z"}},{"id":6,"title":"Business laptop","description":"3D product model by vinish.dev, licensed under CC BY 4.0.","price":0,"stock":1,"product_category_id":2,"image":null,"image_url":"http:\/\/127.0.0.1:8000\/","model_url":"http:\/\/127.0.0.1:8000\/products\/models\/showroom\/business-laptop.glb","created_at":"2026-11-25T14:40:09.000000Z","product_category":{"id":2,"title":"laptop","showroom_slot":"laptop","product_count":3,"created_at":"2026-11-25T14:40:09.000000Z"}},{"id":7,"title":"Over-ear headphones","description":"3D product model by vinish.dev, licensed under CC BY 4.0.","price":0,"stock":1,"product_category_id":3,"image":null,"image_url":"http:\/\/127.0.0.1:8000\/","model_url":"http:\/\/127.0.0.1:8000\/products\/models\/showroom\/over-ear-headphones.glb","created_at":"2026-11-25T14:40:09.000000Z","product_category":{"id":3,"title":"headphone","showroom_slot":"headphone","product_count":4,"created_at":"2026-11-25T14:40:09.000000Z"}},{"id":8,"title":"Studio headphones","description":"3D product model by vinish.dev, licensed under CC BY 4.0.","price":0,"stock":1,"product_category_id":3,"image":null,"image_url":"http:\/\/127.0.0.1:8000\/","model_url":"http:\/\/127.0.0.1:8000\/products\/models\/showroom\/studio-headphones.glb","created_at":"2026-11-25T14:40:09.000000Z","product_category":{"id":3,"title":"headphone","showroom_slot":"headphone","product_count":4,"created_at":"2026-11-25T14:40:09.000000Z"}},{"id":9,"title":"Gaming headset","description":"3D product model by vinish.dev, licensed under CC BY 4.0.","price":0,"stock":1,"product_category_id":3,"image":null,"image_url":"http:\/\/127.0.0.1:8000\/","model_url":"http:\/\/127.0.0.1:8000\/products\/models\/showroom\/gaming-headset.glb","created_at":"2026-11-25T14:40:09.000000Z","product_category":{"id":3,"title":"headphone","showroom_slot":"headphone","product_count":4,"created_at":"2026-11-25T14:40:09.000000Z"}},{"id":10,"title":"Wireless earbuds","description":"3D product model by vinish.dev, licensed under CC BY 4.0.","price":0,"stock":1,"product_category_id":3,"image":null,"image_url":"http:\/\/127.0.0.1:8000\/","model_url":"http:\/\/127.0.0.1:8000\/products\/models\/showroom\/wireless-earbuds.glb","created_at":"2026-11-25T14:40:09.000000Z","product_category":{"id":3,"title":"headphone","showroom_slot":"headphone","product_count":4,"created_at":"2026-11-25T14:40:09.000000Z"}}],"links":{"first":"http:\/\/127.0.0.1:8000?page=1","last":"http:\/\/127.0.0.1:8000?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":1,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","page":null,"active":false},{"url":"http:\/\/127.0.0.1:8000?page=1","label":"1","page":1,"active":true},{"url":null,"label":"Next &raquo;","page":null,"active":false}],"path":"http:\/\/127.0.0.1:8000","per_page":12,"to":10,"total":10}},"otp":null,"resendAt":0,"category":null},"url":"\/","version":"d874a937bf7e150a901ca30c5dcdd4b7","sharedProps":["errors","name","auth","conversations","cart"]}</script><div data-server-rendered="true" id="app"><!--$--><div class="fixed inset-0 bg-[#090810]"></div><!--/$--></div>
+    <script data-inertia-devtools-id type="application/json">"01M89K7NVBMDJBT51GCBBE53J9"</script></body>
+</html>

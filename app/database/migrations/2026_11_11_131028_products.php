@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedSmallInteger('stock')->default(1);
             $table->foreignId('product_category_id')->constrained();
             $table->string('image')->nullable();
+            $table->string('model_file')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

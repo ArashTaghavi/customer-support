@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ChatResponseController;
@@ -74,4 +75,11 @@ Route::middleware(['auth', RequireRecentOtp::class, 'throttle:6,1'])->group(func
     Route::get('/user/passkeys/options', [PasskeyRegistrationController::class, 'index'])->name('passkey.registration-options');
     Route::post('/user/passkeys', [PasskeyRegistrationController::class, 'store'])->name('passkey.store');
     Route::delete('/user/passkeys/{passkey}', [PasskeyRegistrationController::class, 'destroy'])->name('passkey.destroy');
+});
+
+Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [App\Http\Controllers\Admin\ProductController::class, 'index'])->name('index');
+    Route::resource('products', App\Http\Controllers\Admin\ProductController::class)->except('show');
+    Route::resource('product-categories', ProductCategoryController::class)
+        ->parameters(['product-categories' => 'productCategory'])->except('show');
 });

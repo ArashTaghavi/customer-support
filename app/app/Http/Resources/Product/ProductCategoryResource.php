@@ -20,7 +20,7 @@ class ProductCategoryResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
+            'title' => $this->title, 'showroom_slot' => $this->showroom_slot,
             'product_count' => $this->product_count,
             'created_at' => $this->created_at,
         ];
