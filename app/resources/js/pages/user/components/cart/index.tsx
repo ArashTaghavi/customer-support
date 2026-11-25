@@ -6,7 +6,7 @@ import CartProduct from './cart_product';
 import EmptyCart from './empty_cart';
 import CartSummary from './cart_summary';
 
-export default function Cart() {
+export default function Cart({ variant = 'default' }: { variant?: 'default' | 'header' }) {
     const { cart = [] } = usePage<{ cart?: CartResponse[] }>().props;
     const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
     const total = cart.reduce(
@@ -22,7 +22,21 @@ export default function Cart() {
 
     return (
         <>
-            <button
+            {variant === 'header' ? (
+                <button
+                    type="button"
+                    onClick={() => dialogRef.current?.showModal()}
+                    aria-haspopup="dialog"
+                    aria-label={`سبد خرید، ${itemCount.toLocaleString('fa-IR')} کالا`}
+                    className="site-cart-trigger"
+                >
+                    <span className="site-cart-icon">
+                        <ShoppingBag size={20} strokeWidth={1.7} aria-hidden="true" />
+                        <span className="site-cart-count" aria-live="polite" aria-atomic="true">{itemCount.toLocaleString('fa-IR')}</span>
+                    </span>
+                    <span className="site-cart-label">سبد خرید</span>
+                </button>
+            ) : <button
                 type="button"
                 onClick={() => dialogRef.current?.showModal()}
                 aria-haspopup="dialog"
@@ -54,7 +68,7 @@ export default function Cart() {
                     className="text-foreground/60 transition-colors group-hover:text-foreground"
                     aria-hidden="true"
                 />
-            </button>
+            </button>}
 
             <dialog
                 ref={dialogRef}

@@ -24,7 +24,7 @@ type Props = {
 
 export default function Shop({ categories, products, category }: Props) {
     const { url } = usePage();
-    const [columns, setColumns] = useState<3 | 4 | 5>(5);
+    const [columns, setColumns] = useState<3 | 4 | 5>(4);
     const [sorting, setSorting] = useState(false);
     const query = new URLSearchParams(url.split('?')[1] ?? '');
     const sort = query.get('sort');
@@ -70,10 +70,10 @@ export default function Shop({ categories, products, category }: Props) {
                 />
             }
         >
-            <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <nav
                     aria-label="دسته‌بندی محصولات"
-                    className="flex min-w-0 flex-1 flex-wrap gap-2"
+                    className="site-categories flex w-full min-w-0 flex-1 flex-nowrap gap-2 overflow-x-auto overscroll-x-contain py-1"
                 >
                     {[
                         { id: null, title: 'همه محصولات' },
@@ -107,7 +107,7 @@ export default function Shop({ categories, products, category }: Props) {
                         </Link>
                     ))}
                 </nav>
-                <div className="flex shrink-0 flex-wrap items-center gap-2">
+                <div className="flex shrink-0 items-center justify-end gap-2">
                     <Button
                         size="sm"
                         variant="secondary"
