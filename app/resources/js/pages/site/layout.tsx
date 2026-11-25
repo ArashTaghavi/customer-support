@@ -1,5 +1,6 @@
 import { Link, usePage } from '@inertiajs/react';
-import type { ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
+import AiPointer, { type AiPointerHandle } from './components/ai_pointer';
 import { ShoppingBag, UserRound } from 'lucide-react';
 import { login, shop } from '@/routes';
 import { index as panel } from '@/routes/app';
@@ -8,6 +9,22 @@ import './site.css';
 import CommandWidget from './components/command_widget';
 
 export default function SiteLayout({ children }: { children: ReactNode }) {
+    const pointer = useRef<AiPointerHandle>(null);
+
+    useEffect(() => {
+        let cancelled = false;
+        const timer = window.setTimeout(() => {
+            async function preview() {
+                await pointer.current?.moveTo({
+                    x: Math.min(110, window.innerWidth - 40),
+                    y: Math.max(100, window.innerHeight - 200),
+                });
+                if (!cancelled) await pointer.current?.click();
+            }
+            void preview();
+        }, 400);
+        return () => { cancelled = true; window.clearTimeout(timer); };
+    }, []);
     const page = usePage<{ auth: { user: unknown | null } }>();
 
     return (
@@ -38,6 +55,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
             </header>
             <main className="min-h-0 flex-1">{children}</main>
             <CommandWidget />
+            <AiPointer ref={pointer} />
         </div>
     );
 }
