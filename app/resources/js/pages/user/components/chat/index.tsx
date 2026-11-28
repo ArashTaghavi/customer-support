@@ -104,7 +104,10 @@ export default function Chat({
             {(!selectedConversation || messages.length === 0) && (
                 <PublicBackground />
             )}
-            <ChatMessages messagesRef={messagesRef} label="پیام‌های گفت‌وگو">
+            <ChatMessages
+                messagesRef={messagesRef}
+                label="Conversation messages"
+            >
                 {selectedConversation && messages.length > 0 ? (
                     <MessageHistory
                         key={selectedConversation.uuid}
@@ -120,7 +123,7 @@ export default function Chat({
                 sendQuestion={sendQuestion}
                 asking={asking}
                 hasQuestion={hasQuestion}
-                placeholder="پیام خود را بنویسید…"
+                placeholder="Write a message…"
             />
         </div>
     );

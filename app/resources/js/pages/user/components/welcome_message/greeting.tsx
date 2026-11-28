@@ -1,18 +1,12 @@
 import Typewriter from '@/components/Typewriter';
 import { typingText, type TypingSegment } from '@/components/TypingTimeline';
 
-const title = 'سلام! چطوری می‌تونم کمکت کنم؟';
+const title = 'How can I help you today?';
 const description: readonly TypingSegment[] = [
     {
-        text: 'من اینجام تا خریدت راحت‌تر پیش بره. می‌خوای سفراشت',
-        correction: 'من اینجام تا خریدت راحت‌تر پیش بره. می‌خوای سفارشت',
+        text: 'Track an order, find a product, or get help with your purchase. ',
     },
-    {
-        text: ' رو پیگیری کنی، یه محصول پیدا کنی یا قبل از خرید بیشتر بدونی؟ هر سؤالی داری بنویس؛ با هم برسی',
-        correction:
-            ' رو پیگیری کنی، یه محصول پیدا کنی یا قبل از خرید بیشتر بدونی؟ هر سؤالی داری بنویس؛ با هم بررسی',
-    },
-    { text: ' می‌کنیم و قدم‌به‌قدم جلو می‌ریم.' },
+    { text: 'Ask a question and we will take it from there.' },
 ];
 
 export default function Greeting({ animated = false }: { animated?: boolean }) {

@@ -7,6 +7,8 @@ import {
     userRoomEntrance,
     userRoomDeskZ,
     userRoomChairZ,
+    checkoutEntrance,
+    checkoutBackZ,
 } from './surfaces';
 
 const controlKeys = new Set([
@@ -36,6 +38,7 @@ const robotRadius = 0.32;
 const up = new THREE.Vector3(0, 1, 0);
 const jointAxis = new THREE.Vector3(0, 1, 0);
 const obstacles = [
+    { x: checkoutEntrance.x, z: userRoomDeskZ, halfX: 1.35, halfZ: 0.525 },
     ...tablePositions.map(([x, z]) => ({ x, z, halfX: 1.9, halfZ: 0.84 })),
     ...[-1, 1].flatMap((side) => [
         { x: side * 6.38, z: 3.95, halfX: 0.55, halfZ: 1.5 },
@@ -44,12 +47,20 @@ const obstacles = [
 ];
 
 function canStandAt(x: number, z: number) {
-    if (
-        Math.abs(x) > 7.275 - robotRadius ||
-        z < -2.82 + robotRadius ||
-        z > 6.39 - robotRadius
-    ) {
+    if (Math.abs(x) > 7.275 - robotRadius || z > 6.39 - robotRadius) {
         return false;
+    }
+    if (z < userRoomEntrance.z + robotRadius) {
+        if (x > -0.075 - robotRadius || z < checkoutBackZ + robotRadius) {
+            return false;
+        }
+        if (
+            z > checkoutEntrance.z - robotRadius - 0.08 &&
+            Math.abs(x - checkoutEntrance.x) >
+                checkoutEntrance.halfWidth - robotRadius
+        ) {
+            return false;
+        }
     }
     return obstacles.every((obstacle) => {
         const dx = Math.max(0, Math.abs(x - obstacle.x) - obstacle.halfX);

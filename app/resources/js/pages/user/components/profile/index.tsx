@@ -42,7 +42,7 @@ export default function Profile() {
     const methods = useForm<ProfileValues>({ defaultValues: valuesFor(user) });
     const file = useWatch({ control: methods.control, name: 'avatar' });
     const name =
-        [user.first_name, user.last_name].filter(Boolean).join(' ') || 'کاربر';
+        [user.first_name, user.last_name].filter(Boolean).join(' ') || 'User';
     const avatar = user.avatar_url;
     const source = preview ?? avatar;
 
@@ -103,10 +103,10 @@ export default function Profile() {
                 variant="tab"
                 size="icon"
                 onClick={show}
-                aria-label="ویرایش پروفایل"
+                aria-label="Edit profile"
                 aria-haspopup="dialog"
                 aria-expanded={open}
-                tooltip="ویرایش پروفایل"
+                tooltip="Edit profile"
                 className="size-11! shrink-0 overflow-hidden rounded-full! border! border-outline/30! bg-linear-to-br from-glow/10 to-surface/30 p-0! text-foreground! shadow-glass hover:border-outline/60! hover:bg-glow/20!"
             >
                 {avatar && failedImage !== avatar ? (
@@ -122,7 +122,7 @@ export default function Profile() {
             </Button>
             <dialog
                 ref={dialog}
-                dir="rtl"
+                dir="ltr"
                 aria-labelledby={titleId}
                 aria-busy={processing}
                 onCancel={(event) => {
@@ -138,14 +138,14 @@ export default function Profile() {
             >
                 <div className="relative z-10 flex items-center justify-between border-b border-outline/15 bg-black px-5 py-3">
                     <h2 id={titleId} className="text-base font-semibold">
-                        ویرایش پروفایل
+                        Edit profile
                     </h2>
                     <Button
                         variant="tab"
                         size="icon"
                         onClick={close}
                         disabled={processing}
-                        aria-label="بستن پروفایل"
+                        aria-label="Close profile"
                     >
                         <X size={18} aria-hidden="true" />
                     </Button>
@@ -161,7 +161,7 @@ export default function Profile() {
                             {source && failedImage !== source ? (
                                 <img
                                     src={source}
-                                    alt="تصویر پروفایل"
+                                    alt="Profile photo"
                                     className="size-full object-cover"
                                     onError={() => setFailedImage(source)}
                                 />
@@ -176,29 +176,29 @@ export default function Profile() {
                     <FileInput<ProfileValues>
                         key={fileVersion}
                         name="avatar"
-                        label="تصویر پروفایل"
-                        hint="فرمت‌های JPG، PNG و WebP؛ حداکثر ۲ مگابایت"
+                        label="Profile photo"
+                        hint="JPG, PNG or WebP. Up to 2 MB."
                         accept="image/jpeg,image/png,image/webp"
                         disabled={processing}
                     />
                     <div className="col-span-2 grid grid-cols-2 gap-3">
                         <Input<ProfileValues>
                             name="first_name"
-                            label="نام"
+                            label="First name"
                             maxLength={255}
                             disabled={processing}
                             autoFocus
                         />
                         <Input<ProfileValues>
                             name="last_name"
-                            label="نام خانوادگی"
+                            label="Last name"
                             maxLength={255}
                             disabled={processing}
                         />
                     </div>
                     <Input<ProfileValues>
                         name="username"
-                        label="نام کاربری"
+                        label="Username"
                         dir="ltr"
                         maxLength={255}
                         spellCheck={false}
@@ -206,7 +206,7 @@ export default function Profile() {
                     />
                     <Input<ProfileValues>
                         name="email"
-                        label="ایمیل"
+                        label="Email"
                         type="email"
                         dir="ltr"
                         maxLength={255}
@@ -217,7 +217,7 @@ export default function Profile() {
                         role="status"
                         className="col-span-2 text-sm text-success"
                     >
-                        {saved ? 'اطلاعات پروفایل ذخیره شد.' : ''}
+                        {saved ? 'Your profile has been saved.' : ''}
                     </p>
                     <div className="col-span-2 flex gap-3 border-t border-border/40 pt-3">
                         <Button
@@ -227,7 +227,7 @@ export default function Profile() {
                             disabled={processing}
                             startIcon={<Save size={17} aria-hidden="true" />}
                         >
-                            ذخیره تغییرات
+                            Save changes
                         </Button>
                     </div>
                     <div className="col-span-2">

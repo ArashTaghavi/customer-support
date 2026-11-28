@@ -3,8 +3,8 @@ export function messageDate(timestamp: string) {
     if (Number.isNaN(date.getTime())) return { iso: '', full: '', time: '' };
     return {
         iso: date.toISOString(),
-        full: date.toLocaleString('fa-IR'),
-        time: date.toLocaleTimeString('fa-IR', {
+        full: date.toLocaleString('en-US'),
+        time: date.toLocaleTimeString('en-US', {
             hour: '2-digit',
             minute: '2-digit',
         }),
@@ -25,7 +25,7 @@ export function groupMessagesByDay<T extends { created_at: string }>(
         if (!group) {
             group = {
                 day,
-                label: valid ? date.toLocaleDateString('fa-IR') : '',
+                label: valid ? date.toLocaleDateString('en-US') : '',
                 turns: [],
             };
             groups.push(group);

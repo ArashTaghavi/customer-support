@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronRight, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui';
 import type { Paginated } from '@/types/pagination';
 
@@ -36,30 +36,30 @@ export default function PagePagination({ meta, onPage }: Props) {
     return (
         <footer className="flex shrink-0 flex-col items-center justify-center gap-3 border-t border-outline/10 bg-sidebar/95 px-4 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] backdrop-blur-xl sm:flex-row sm:justify-between">
             <p className="text-[11px] text-muted sm:text-xs" aria-live="polite">
-                صفحهٔ{' '}
+                Page{' '}
                 <span className="font-medium text-foreground">
-                    {current.toLocaleString('fa-IR')}
+                    {current.toLocaleString('en-US')}
                 </span>{' '}
-                از {last.toLocaleString('fa-IR')}
+                of {last.toLocaleString('en-US')}
                 <span aria-hidden="true" className="mx-2 text-foreground/30">
                     ·
                 </span>
-                {meta.total.toLocaleString('fa-IR')} مورد
+                {meta.total.toLocaleString('en-US')} results
             </p>
             <nav
-                aria-label="صفحه‌بندی"
+                aria-label="Pagination"
                 className="flex items-center gap-1"
-                dir="rtl"
+                dir="ltr"
             >
                 <Button
                     variant="tab"
                     size="icon"
                     className={controlClass}
-                    aria-label="صفحه قبلی"
-                    tooltip="صفحه قبلی"
+                    aria-label="Previous page"
+                    tooltip="Previous page"
                     disabled={current <= 1}
                     onClick={() => onPage(current - 1)}
-                    startIcon={<ChevronRight size={16} aria-hidden="true" />}
+                    startIcon={<ChevronLeft size={16} aria-hidden="true" />}
                 />
                 {pages.map((page, index) => (
                     <Fragment key={page}>
@@ -74,14 +74,14 @@ export default function PagePagination({ meta, onPage }: Props) {
                         <Button
                             variant="tab"
                             size="icon"
-                            aria-label={`صفحه ${page.toLocaleString('fa-IR')}`}
+                            aria-label={`Page ${page.toLocaleString('en-US')}`}
                             aria-current={page === current ? 'page' : undefined}
                             onClick={() => {
                                 if (page !== current) onPage(page);
                             }}
                             className={`size-7! rounded-lg! text-xs! tabular-nums transition-all sm:size-9! sm:rounded-xl! ${page === current ? 'bg-primary/25! font-semibold! text-foreground! shadow-glass' : 'text-secondary! hover:bg-glow/10! hover:text-foreground!'}`}
                         >
-                            {page.toLocaleString('fa-IR')}
+                            {page.toLocaleString('en-US')}
                         </Button>
                     </Fragment>
                 ))}
@@ -89,11 +89,11 @@ export default function PagePagination({ meta, onPage }: Props) {
                     variant="tab"
                     size="icon"
                     className={controlClass}
-                    aria-label="صفحه بعدی"
-                    tooltip="صفحه بعدی"
+                    aria-label="Next page"
+                    tooltip="Next page"
                     disabled={current >= last}
                     onClick={() => onPage(current + 1)}
-                    startIcon={<ChevronLeft size={16} aria-hidden="true" />}
+                    startIcon={<ChevronRight size={16} aria-hidden="true" />}
                 />
             </nav>
         </footer>

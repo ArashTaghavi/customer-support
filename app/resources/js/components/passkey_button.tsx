@@ -38,10 +38,10 @@ async function request(url: string, body?: unknown) {
     if (!response.ok) {
         throw new Error(
             response.status === 403
-                ? 'برای ثبت کلید، دوباره با کد یک‌بارمصرف وارد شوید.'
+                ? 'Sign in again with a one-time code to register a passkey.'
                 : response.status === 429
-                  ? 'تلاش‌ها بیش از حد مجاز است؛ کمی صبر کنید.'
-                  : 'عملیات انجام نشد؛ دوباره تلاش کنید.',
+                  ? 'Too many attempts. Please wait and try again.'
+                  : 'Something went wrong. Please try again.',
         );
     }
     return data;
@@ -86,7 +86,7 @@ export default function PasskeyButton({
                 credential: credential.toJSON(),
                 ...(register ? { name: 'Passkey' } : {}),
             });
-            if (register) setMessage('کلید ورود ثبت شد.');
+            if (register) setMessage('Passkey registered.');
             else if (onAuthenticated) {
                 router.reload({
                     only: ['auth'],
@@ -97,10 +97,10 @@ export default function PasskeyButton({
             setMessage(
                 error instanceof DOMException &&
                     error.name === 'NotAllowedError'
-                    ? 'عملیات لغو شد یا زمان آن به پایان رسید.'
+                    ? 'The request was cancelled or timed out.'
                     : error instanceof Error
                       ? error.message
-                      : 'عملیات انجام نشد.',
+                      : 'The request could not be completed.',
             );
         } finally {
             setBusy(false);
@@ -111,9 +111,9 @@ export default function PasskeyButton({
         <div className="space-y-2">
             {register && (
                 <p className="text-xs leading-6 text-secondary">
-                    برای ورودهای بعدی با اثر انگشت، تشخیص چهره یا PIN دستگاه، یک
-                    Passkey ثبت کنید. ثبت کلید نیاز به ورود اخیر با کد
-                    یک‌بارمصرف دارد.
+                    Register a passkey to sign in with your fingerprint, face or
+                    device PIN. A recent sign-in with a one-time code is
+                    required.
                 </p>
             )}
             <Button
@@ -126,13 +126,12 @@ export default function PasskeyButton({
                 onClick={run}
                 startIcon={<Fingerprint size={17} />}
             >
-                {register ? 'ثبت Passkey برای ورود بعدی' : 'ورود با Passkey'}
+                {register ? 'Register a passkey' : 'Sign in with a passkey'}
             </Button>
             {!supported && (
                 <p role="status" className="text-xs leading-6 text-secondary">
-                    برای استفاده از Passkey، صفحه را با HTTPS یا localhost در
-                    مرورگر به‌روز باز کنید. همچنان می‌توانید با کد یک‌بارمصرف
-                    وارد شوید.
+                    Use HTTPS or localhost in an up-to-date browser to enable
+                    passkeys. You can also sign in with a one-time code.
                 </p>
             )}
             {message && (

@@ -12,7 +12,7 @@ class ConversationService
 {
     public function store(User $user, ?string $question): Conversation
     {
-        $conversation = $user->conversations()->create(['title' => 'چت جدید']);
+        $conversation = $user->conversations()->create(['title' => 'New chat']);
         if ($question) {
             $this->_ask(conversation: $conversation, question: $question);
         }
@@ -33,7 +33,7 @@ class ConversationService
 
         if (isset($latestAnswer['confirmation'])) {
             throw ValidationException::withMessages([
-                'question' => 'ابتدا درخواست لغو سفارش را تأیید یا رد کنید.',
+                'question' => 'Confirm or decline the pending order cancellation first.',
             ]);
         }
         $message = $conversation->messages()

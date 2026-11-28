@@ -60,12 +60,12 @@ export default function ListingFilters({ kind }: Props) {
     const fields =
         kind === 'products'
             ? [
-                  ['min_price', 'حداقل قیمت (تومان)', 'number'],
-                  ['max_price', 'حداکثر قیمت (تومان)', 'number'],
+                  ['min_price', 'Minimum price (Toman)', 'number'],
+                  ['max_price', 'Maximum price (Toman)', 'number'],
               ]
             : [
-                  ['date_from', 'از تاریخ', 'date'],
-                  ['date_to', 'تا تاریخ', 'date'],
+                  ['date_from', 'From date', 'date'],
+                  ['date_to', 'To date', 'date'],
               ];
     const inputClass = 'h-9! rounded-lg! px-3! text-xs! [color-scheme:dark]';
     return (
@@ -89,19 +89,19 @@ export default function ListingFilters({ kind }: Props) {
             ))}
             {kind === 'orders' && (
                 <label className="flex w-full flex-col gap-1.5 text-xs text-secondary sm:w-44">
-                    <span>وضعیت سفارش</span>
+                    <span>Order status</span>
                     <select
                         {...methods.register('status')}
                         disabled={loading}
                         className="h-9 w-full rounded-lg border border-outline/30 bg-input px-3 text-xs text-foreground [color-scheme:dark] outline-none focus:border-outline/70"
                     >
-                        <option value="">همه وضعیت‌ها</option>
+                        <option value="">All statuses</option>
                         {Object.entries({
-                            PENDING: 'در انتظار',
-                            PROCESSING: 'در حال پردازش',
-                            SHIPPED: 'ارسال شده',
-                            DELIVERED: 'تحویل داده شده',
-                            CANCELLED: 'لغو شده',
+                            PENDING: 'Pending',
+                            PROCESSING: 'Processing',
+                            SHIPPED: 'Shipped',
+                            DELIVERED: 'Delivered',
+                            CANCELLED: 'Cancelled',
                         }).map(([value, label]) => (
                             <option key={value} value={value}>
                                 {label}
@@ -117,7 +117,7 @@ export default function ListingFilters({ kind }: Props) {
                 size="sm"
                 className="h-9! shrink-0 border-0! px-3!"
             >
-                اعمال فیلتر
+                Apply filters
             </Button>
             <Button
                 variant="tab"
@@ -127,7 +127,7 @@ export default function ListingFilters({ kind }: Props) {
                 size="sm"
                 className="h-9! shrink-0 px-3!"
             >
-                پاک کردن
+                Clear
             </Button>
         </Form>
     );

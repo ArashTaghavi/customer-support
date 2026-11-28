@@ -84,7 +84,7 @@
 }
 
 @theme {
-    --font-sans: 'Vazirmatn', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'Inter', 'Vazirmatn', ui-sans-serif, system-ui, sans-serif;
     --text-base: 1rem;
     --text-base--line-height: 1.75;
     --radius-xl: 0.75rem;

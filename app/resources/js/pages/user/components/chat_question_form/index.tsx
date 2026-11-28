@@ -34,7 +34,7 @@ export default function ChatQuestionForm({
             >
                 <Textarea<AskRequest>
                     name="question"
-                    label="پیام شما"
+                    label="Your message"
                     placeholder={placeholder}
                     autoComplete="off"
                     disabled={asking}
@@ -60,7 +60,7 @@ export default function ChatQuestionForm({
                     loading={asking}
                     disabled={!hasQuestion || asking}
                     startIcon={<Send size={16} />}
-                    aria-label="ارسال پیام"
+                    aria-label="Send message"
                 ></Button>
             </Form>
         </>

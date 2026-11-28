@@ -88,7 +88,7 @@ export default function MessageHistory({
                                 <span className="flex size-6 items-center justify-center rounded-lg border border-outline/20 bg-highlight/15">
                                     <UserRound size={13} aria-hidden="true" />
                                 </span>
-                                شما
+                                You
                             </div>
                             <p
                                 dir="auto"

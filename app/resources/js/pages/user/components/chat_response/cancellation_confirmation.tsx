@@ -44,7 +44,7 @@ export default function CancellationConfirmation({
             onAnswer(answer);
         } catch {
             setError(
-                'ثبت پاسخ انجام نشد. دوباره تلاش کنید؛ وضعیت سفارش را هم می‌توانید مجدداً بپرسید.',
+                'Could not submit your response. Please try again or ask for the order status.',
             );
         } finally {
             busy.current = false;
@@ -53,27 +53,27 @@ export default function CancellationConfirmation({
 
     return (
         <section
-            dir="rtl"
-            aria-label="تأیید لغو سفارش"
+            dir="ltr"
+            aria-label="Confirm cancellation"
             aria-busy={processing}
             className="min-w-0 space-y-3 rounded-2xl border border-warning/20 bg-warning/5 p-4"
         >
             <h3 className="flex items-center gap-2 text-sm font-medium text-warning">
                 <ShieldQuestion size={18} aria-hidden="true" />
-                تأیید لغو سفارش
+                Confirm cancellation
             </h3>
             <p className="text-xs leading-7 wrap-anywhere text-foreground">
                 {confirmation.message}
             </p>
             <p className="text-xs text-muted">
-                مبلغ سفارش:{' '}
+                Order total:{' '}
                 <span className="tabular-nums">
-                    {confirmation.total_amount.toLocaleString('fa-IR')} تومان
+                    {confirmation.total_amount.toLocaleString('en-US')} Toman
                 </span>
             </p>
             <p className="text-[11px] leading-6 text-muted">
-                تا تأیید نکنید، سفارش لغو نمی‌شود. بازگشت وجه فرایند جداگانه‌ای
-                دارد.
+                The order will only be cancelled after you confirm. Refunds are
+                handled separately.
             </p>
             {error && (
                 <p role="alert" className="text-xs leading-6 text-danger">
@@ -88,7 +88,7 @@ export default function CancellationConfirmation({
                     onClick={() => void respond(true)}
                     startIcon={<Check size={14} aria-hidden="true" />}
                 >
-                    تأیید لغو سفارش
+                    Confirm cancellation
                 </Button>
                 <Button
                     variant="secondary"
@@ -97,7 +97,7 @@ export default function CancellationConfirmation({
                     onClick={() => void respond(false)}
                     startIcon={<X size={14} aria-hidden="true" />}
                 >
-                    سفارش را نگه دار
+                    Keep order
                 </Button>
             </div>
         </section>

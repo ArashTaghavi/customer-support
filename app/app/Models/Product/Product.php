@@ -60,7 +60,19 @@ class Product extends Model
 
     protected function modelUrl(): Attribute
     {
-        return Attribute::make(get: fn (): ?string => $this->model_file ? asset($this->model_file) : null);
+        return Attribute::make(get: function (): ?string {
+            if (! $this->model_file) {
+                return null;
+            }
+            if (str_starts_with($this->model_file, self::uploadPath.'/models/showroom/')) {
+                $bundledModel = 'models/showroom/'.basename($this->model_file);
+                if (is_file(public_path($bundledModel))) {
+                    return asset($bundledModel);
+                }
+            }
+
+            return asset($this->model_file);
+        });
     }
 
     #[Scope]

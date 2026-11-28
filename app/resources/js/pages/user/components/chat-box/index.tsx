@@ -9,11 +9,11 @@ type ChatBoxProps = {
 export default function ChatBox({ message, date, isUser }: ChatBoxProps) {
     return (
         <div
-            dir="rtl"
-            className={`flex w-full ${isUser ? 'justify-start' : 'justify-end'}`}
+            dir="ltr"
+            className={`flex w-full ${isUser ? 'justify-end' : 'justify-start'}`}
         >
             <article
-                aria-label={isUser ? 'پیام شما' : 'پاسخ هوش مصنوعی'}
+                aria-label={isUser ? 'Your message' : 'Assistant response'}
                 className={`${styles.bubble} ${isUser ? styles.user : styles.assistant} flex w-fit max-w-[95%] min-w-0 flex-col gap-2 px-3 py-2.5 text-foreground sm:max-w-[90%]`}
             >
                 <p

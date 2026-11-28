@@ -674,5 +674,13 @@
     "download_url": "https://vinish-models.pages.dev/batteries-and-chargers/portable-power-station.glb",
     "license": "CC-BY-4.0",
     "sha256": "9f11bdda32cf42b45a3416ddf1da06c3b6514affcf6b05ea615b8ec3a9398318"
+  },
+  {
+    "file": "cashier-seated.glb",
+    "copyright": "Authored by Innerscene Corp (innerscene.com). Public domain: dedicated under CC0 1.0 Universal, https://creativecommons.org/publicdomain/zero/1.0/. Free to use, modify and redistribute for any purpose, with no credit required.",
+    "source": "https://www.innerscene.com/tools/library/3d-parts/seated-office-figure-79182d38",
+    "download_url": "https://www.innerscene.com/api/library/seated-office-figure-79182d38/download",
+    "license": "CC0-1.0",
+    "sha256": "96926bb4bda181d42a9377597023f78384762d9a18c3a8c4bd433e2b87548c24"
   }
 ]

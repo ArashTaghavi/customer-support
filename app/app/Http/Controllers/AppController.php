@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Conversation\Conversation;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class AppController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
-        $conversations = Conversation::all();
-
-        return Inertia::render('user/index', compact('conversations'));
+        return Inertia::render('user/index');
     }
 }

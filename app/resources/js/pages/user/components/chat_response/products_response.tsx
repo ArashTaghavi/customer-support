@@ -40,7 +40,7 @@ export default function ProductsResponse({
                     return (
                         <article
                             key={product.id}
-                            dir="rtl"
+                            dir="ltr"
                             className="group glass-card product-card relative isolate flex min-w-0 flex-col gap-3 overflow-hidden rounded-2xl p-3 text-foreground shadow-glass transition-colors hover:border-outline/45"
                         >
                             <div className="relative flex aspect-4/3 w-full shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white">
@@ -65,7 +65,10 @@ export default function ProductsResponse({
                                     dir="auto"
                                     className="line-clamp-2 min-h-12 text-start text-sm leading-6 font-semibold wrap-anywhere text-foreground"
                                 >
-                                    <Link href={show(product.id)} className="after:absolute after:inset-0 focus-visible:outline-2 focus-visible:outline-glow">
+                                    <Link
+                                        href={show(product.id)}
+                                        className="after:absolute after:inset-0 focus-visible:outline-2 focus-visible:outline-glow"
+                                    >
                                         {product.title}
                                     </Link>
                                 </h3>
@@ -77,8 +80,8 @@ export default function ProductsResponse({
                                         className={`size-1.5 shrink-0 rounded-full ${available ? 'bg-success' : 'bg-danger'}`}
                                     />
                                     {available
-                                        ? `${remainingStock.toLocaleString('fa-IR')} عدد موجود`
-                                        : 'ناموجود'}
+                                        ? `${remainingStock.toLocaleString('en-US')} available`
+                                        : 'Out of stock'}
                                 </span>
                             </div>
 
@@ -88,9 +91,9 @@ export default function ProductsResponse({
                                     quantity={quantity}
                                 />
                                 <span className="text-base font-semibold text-foreground tabular-nums">
-                                    {product.price.toLocaleString('fa-IR')}
+                                    {product.price.toLocaleString('en-US')}
                                     <span className="ms-1 text-[10px] font-normal text-muted">
-                                        تومان
+                                        Toman
                                     </span>
                                 </span>
                             </div>

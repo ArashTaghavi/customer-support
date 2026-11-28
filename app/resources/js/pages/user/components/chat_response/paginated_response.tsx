@@ -162,18 +162,18 @@ export default function PaginatedResponse({ type, data: ids }: ChatBlock) {
         >
             {!visible && ids.length > 0 ? (
                 <div className="flex min-h-40 items-center justify-center rounded-xl border border-border/40 bg-highlight/3 text-xs text-muted">
-                    اطلاعات هنگام مشاهده پیام دریافت می‌شود.
+                    Details load when this message is visible.
                 </div>
             ) : loading && !result ? (
                 <div
                     role="status"
                     className="animate-pulse rounded-xl border border-border p-4 text-sm text-muted"
                 >
-                    در حال دریافت اطلاعات…
+                    Loading details…
                 </div>
             ) : current?.error ? (
                 <div role="alert" className="space-y-2 text-sm text-muted">
-                    <p>دریافت اطلاعات انجام نشد.</p>
+                    <p>Could not load details.</p>
                     <Button
                         variant="secondary"
                         size="sm"
@@ -185,11 +185,11 @@ export default function PaginatedResponse({ type, data: ids }: ChatBlock) {
                             setRetry((value) => value + 1);
                         }}
                     >
-                        تلاش دوباره
+                        Try again
                     </Button>
                 </div>
             ) : !pagination?.total ? (
-                <p className="text-sm text-muted">موردی برای نمایش پیدا نشد.</p>
+                <p className="text-sm text-muted">No results found.</p>
             ) : (
                 <>
                     {type === 'products' ? (
@@ -218,7 +218,7 @@ export default function PaginatedResponse({ type, data: ids }: ChatBlock) {
             )}
             {pagination && pagination.total > 0 && (
                 <nav
-                    aria-label="صفحه‌بندی نتایج"
+                    aria-label="Results pagination"
                     className="flex justify-center py-1"
                 >
                     <div className="flex flex-wrap items-center justify-center gap-1.5">
@@ -244,7 +244,7 @@ export default function PaginatedResponse({ type, data: ids }: ChatBlock) {
                                     }
                                     size="icon"
                                     type="button"
-                                    aria-label={`صفحه ${pageNumber.toLocaleString('fa-IR')}`}
+                                    aria-label={`Page ${pageNumber.toLocaleString('en-US')}`}
                                     aria-current={
                                         page === pageNumber ? 'page' : undefined
                                     }
@@ -252,7 +252,7 @@ export default function PaginatedResponse({ type, data: ids }: ChatBlock) {
                                     onClick={() => setPage(pageNumber)}
                                     className={`flex size-7! items-center justify-center rounded-lg border text-[11px]! transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${page === pageNumber ? 'border-outline/50 bg-glow/20 font-semibold text-foreground shadow-glass' : 'border-border/40 bg-highlight/3 text-muted hover:border-outline/30 hover:text-foreground'}`}
                                 >
-                                    {pageNumber.toLocaleString('fa-IR')}
+                                    {pageNumber.toLocaleString('en-US')}
                                 </Button>
                             </span>
                         ))}

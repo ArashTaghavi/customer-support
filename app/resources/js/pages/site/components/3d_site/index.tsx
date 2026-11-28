@@ -18,11 +18,19 @@ import {
 } from '@react-three/drei';
 import { EffectComposer, Bloom, N8AO } from '@react-three/postprocessing';
 import * as THREE from 'three';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
+import type { CartResponse } from '@/types/cart';
 import { show as showProduct } from '@/routes/products';
 import { clone as cloneModel } from 'three/addons/utils/SkeletonUtils.js';
 import type { ShowroomProduct, ShowroomTable } from './types';
-import { Eye, EyeOff, Info, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import {
+    Eye,
+    EyeOff,
+    X,
+    ChevronLeft,
+    ChevronRight,
+    ShoppingCart,
+} from 'lucide-react';
 import {
     ShowroomFloor,
     TableFinish,
@@ -30,11 +38,14 @@ import {
     tableViews,
     userRoomEntrance,
     userRoomDeskZ,
+    checkoutStop,
 } from './surfaces';
 import RobotController, { type RobotDestination } from './robot_controller';
 import CategoryModal from './category_modal';
+import CartModal from './cart_modal';
+import Cashier from './cashier';
 import './showroom.css';
-import font from '../../../../../fonts/vazirmatn-400-normal-GKyMcI03.woff';
+import font from '../../../../../fonts/Inter-Variable.ttf';
 type V = [number, number, number];
 const purple = '#a35bff';
 const InterfaceVisible = React.createContext(false);
@@ -536,10 +547,12 @@ function Office({
     x,
     label,
     entering = false,
+    cashier = false,
 }: {
     x: number;
     label: string;
     entering?: boolean;
+    cashier?: boolean;
 }) {
     const doorSide = Math.sign(x);
     const entranceWidth = 1.18;
@@ -573,7 +586,7 @@ function Office({
             <Sign
                 p={[0, 2.9, officeFrontZ + 0.087]}
                 size={0.185}
-                alwaysVisible={label === 'USER PANEL'}
+                alwaysVisible={cashier || label === 'USER PANEL'}
             >
                 {label}
             </Sign>
@@ -616,7 +629,7 @@ function Office({
             <GlassDoor
                 side={doorSide}
                 width={entranceWidth}
-                autoOpen={entering}
+                autoOpen={entering || cashier}
             />
             <Box
                 p={[0, deskTop - 0.06, deskZ]}
@@ -632,17 +645,60 @@ function Office({
                     c="#292832"
                 />
             ))}
-            <ProductModel
-                name="executive-chair"
-                p={[0, 0, deskZ - 1.04]}
-                height={1.45}
-            />
-            <ProductModel
-                name="thin-laptop"
-                p={[0, deskTop, deskZ - 0.08]}
-                height={0.34}
-                yaw={Math.PI}
-            />
+            {cashier ? (
+                <>
+                    <Suspense fallback={null}>
+                        <Cashier position={[0, 0.01, deskZ - 0.98]} />
+                    </Suspense>
+                    <ProductModel
+                        name="executive-chair"
+                        p={[0, 0, deskZ - 1.04]}
+                        height={1.3}
+                    />
+                    <Suspense fallback={null}>
+                        <ProductModel
+                            name="all-in-one-computer"
+                            p={[0, deskTop, deskZ - 0.08]}
+                            height={0.44}
+                            maxWidth={0.75}
+                            maxDepth={0.5}
+                            yaw={Math.PI}
+                        />
+                    </Suspense>
+                    <Box
+                        p={[0.6, deskTop + 0.12, deskZ + 0.1]}
+                        s={[0.45, 0.24, 0.16]}
+                        c="#1a1627"
+                    />
+                    <Box
+                        p={[0.6, deskTop + 0.14, deskZ + 0.19]}
+                        s={[0.36, 0.15, 0.018]}
+                        c="#7542a6"
+                        glow
+                    />
+                    <Sign
+                        p={[0.6, deskTop + 0.14, deskZ + 0.205]}
+                        size={0.07}
+                        alwaysVisible
+                    >
+                        PAY
+                    </Sign>
+                </>
+            ) : (
+                <>
+                    <ProductModel
+                        name="executive-chair"
+                        p={[0, 0, deskZ - 1.04]}
+                        height={1.45}
+                    />
+                    <ProductModel
+                        name="thin-laptop"
+                        p={[0, deskTop, deskZ - 0.08]}
+                        height={0.34}
+                        yaw={Math.PI}
+                    />
+                </>
+            )}
             <group
                 name="wall-cabinet"
                 position={[doorSide * 2.22, 0, rearZ + 0.31]}
@@ -849,7 +905,7 @@ function Scene({
                     ];
                 }),
             ),
-            management: [
+            checkout: [
                 [-4.6, 2.15, -0.4],
                 [-officeCenter, 0.95, deskZ],
             ],
@@ -964,7 +1020,7 @@ function Scene({
             />
             <ShowroomFloor />
             <Architecture />
-            <Office x={-officeCenter} label="MANAGEMENT" />
+            <Office x={-officeCenter} label="CHECKOUT" cashier />
             <Office
                 x={officeCenter}
                 label="USER PANEL"
@@ -1060,8 +1116,12 @@ export default function ThreeDSite({
     panelSeated?: boolean;
     onPanelSeated?: () => void;
 }) {
+    const { cart = [] } = usePage<{ cart?: CartResponse[] }>().props;
+    const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
+    const [cartMode, setCartMode] = useState<'cart' | 'checkout' | null>(null);
+    const [checkoutWalking, setCheckoutWalking] = useState(false);
     const [interfaceVisible, setInterfaceVisible] = useState(false);
-    const [quality, setQuality] = useState(true);
+    const [quality, setQuality] = useState(false);
     const [view, setView] = useState('overview');
     const [destination, setDestination] = useState<RobotDestination | null>(
         null,
@@ -1069,13 +1129,19 @@ export default function ThreeDSite({
     const [activeTable, setActiveTable] = useState<number | null>(null);
     const navigationId = useRef(0);
     function navigate(next: string) {
-        setView(next);
+        setCartMode(next === 'cart' ? 'cart' : null);
+        setCheckoutWalking(next === 'checkout');
         setSelected(null);
         setActiveTable(null);
+        if (next === 'cart') {
+            setDestination(null);
+            return;
+        }
+        setView(next);
         const index = tableViews.indexOf(next);
         const positions: Record<string, [number, number, number]> = {
             overview: [0, 2.5, Math.PI],
-            management: [-userRoomEntrance.x, -2.1, Math.PI],
+            checkout: [checkoutStop.x, checkoutStop.z, Math.PI],
             user: [userRoomEntrance.x, -2.1, Math.PI],
             lounge: [3.8, 3.95, Math.PI / 2],
         };
@@ -1150,6 +1216,13 @@ export default function ThreeDSite({
                                 destination={destination}
                                 onArrive={(reached) => {
                                     setDestination(null);
+                                    if (view === 'checkout') {
+                                        setCheckoutWalking(false);
+                                        setCartMode(
+                                            reached ? 'checkout' : 'cart',
+                                        );
+                                        return;
+                                    }
                                     if (!reached) return;
                                     const index = tableViews.indexOf(view);
                                     if (index >= 0) setActiveTable(index);
@@ -1160,7 +1233,9 @@ export default function ThreeDSite({
                                 tables={tables}
                                 quality={quality}
                                 robotEnabled={
-                                    robotEnabled && activeTable === null
+                                    robotEnabled &&
+                                    activeTable === null &&
+                                    cartMode === null
                                 }
                                 panelEntering={panelEntering}
                                 panelSeated={panelSeated}
@@ -1210,55 +1285,69 @@ export default function ThreeDSite({
                         gaming: tables[2]?.category?.title ?? 'Gaming',
                         accessories:
                             tables[3]?.category?.title ?? 'Accessories',
-                        management: 'Management',
+                        cart: 'Cart',
                         user: 'User panel',
-                        lounge: 'Lounge',
                     }).map(([k, v]) => (
                         <button
-                            className={view === k ? 'active' : ''}
+                            className={[
+                                k === 'cart' && 'showroom-cart-nav',
+                                (k === 'cart'
+                                    ? cartMode !== null || view === 'checkout'
+                                    : view === k) && 'active',
+                            ]
+                                .filter(Boolean)
+                                .join(' ')}
+                            aria-label={
+                                k === 'cart'
+                                    ? `Cart, ${cartCount} items`
+                                    : undefined
+                            }
                             key={k}
                             disabled={panelEntering}
                             onClick={() => navigate(k)}
                         >
-                            {v}
+                            {k === 'cart' ? (
+                                <>
+                                    <ShoppingCart
+                                        size={18}
+                                        aria-hidden="true"
+                                    />
+                                    <span>{v}</span>
+                                    <span
+                                        className="showroom-cart-badge"
+                                        aria-live="polite"
+                                        aria-atomic="true"
+                                    >
+                                        {cartCount.toLocaleString('en-US')}
+                                    </span>
+                                </>
+                            ) : (
+                                v
+                            )}
                         </button>
                     ))}
                 </nav>
+                {checkoutWalking && (
+                    <div className="showroom-checkout-status" role="status">
+                        Heading to the checkout counter...
+                    </div>
+                )}
+                {cartMode !== null && (
+                    <CartModal
+                        key={cartMode}
+                        mode={cartMode}
+                        onClose={() => setCartMode(null)}
+                        onCheckout={() => {
+                            if (cart.length) navigate('checkout');
+                        }}
+                    />
+                )}
                 {activeTable !== null && (
                     <CategoryModal
                         table={tables[activeTable]}
                         onClose={() => setActiveTable(null)}
                     />
                 )}
-                <footer>
-                    <details className="asset-credits">
-                        <summary
-                            aria-label="3D asset credits"
-                            title="3D asset credits"
-                        >
-                            <Info size={18} aria-hidden="true" />
-                        </summary>
-                        <p>
-                            3D assets by{' '}
-                            <a
-                                href="https://vinish.dev/free-3d-models/"
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                vinish.dev
-                            </a>
-                            ,{' '}
-                            <a
-                                href="https://creativecommons.org/licenses/by/4.0/"
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                CC BY 4.0
-                            </a>
-                            . Robot: Unitree Robotics, BSD-3-Clause.
-                        </p>
-                    </details>
-                </footer>
             </main>
         </InterfaceVisible.Provider>
     );

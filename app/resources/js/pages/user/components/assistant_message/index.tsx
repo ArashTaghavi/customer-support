@@ -21,7 +21,7 @@ export default function AssistantMessage({
                         className={styles.robot}
                     />
                 </span>
-                پشتیبان
+                Assistant
             </div>
             {children}
         </div>

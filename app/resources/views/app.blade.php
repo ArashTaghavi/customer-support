@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl" @class(['dark' => ($appearance ?? 'dark') == 'dark'])>
+<html lang="en" dir="ltr" @class(['dark' => ($appearance ?? 'dark') == 'dark'])>
     <head>
         <meta charset="utf-8">
         <meta name="csrf-token" content="{{ csrf_token() }}">

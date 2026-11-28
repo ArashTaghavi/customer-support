@@ -58,6 +58,7 @@ class HandleInertiaRequests extends Middleware
                             'id' => $cartItem->product_id,
                             'title' => $cartItem->product->title,
                             'price' => $cartItem->product->price,
+                            'stock' => $cartItem->product->stock,
                             'image' => $cartItem->product->image_url,
                         ],
                         'quantity' => $cartItem->quantity,

@@ -7,6 +7,7 @@ import {
     ShoppingBag,
     UserRound,
 } from 'lucide-react';
+import { index as dashboard } from '@/routes/admin';
 import { index as products } from '@/routes/admin/products';
 import { index as categories } from '@/routes/admin/product-categories';
 import { index as panel } from '@/routes/app';
@@ -15,6 +16,12 @@ import { shop } from '@/routes';
 export default function AdminLayout({ children }: { children: ReactNode }) {
     const page = usePage<{ notice?: string | null }>();
     const items = [
+        {
+            label: 'Overview',
+            href: dashboard(),
+            component: 'admin/index',
+            icon: LayoutDashboard,
+        },
         {
             label: 'Products',
             href: products(),
@@ -30,20 +37,18 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     ];
     return (
         <div dir="ltr" className="min-h-dvh bg-canvas text-foreground">
-            <aside className="border-b border-border bg-sidebar lg:fixed lg:inset-y-0 lg:left-0 lg:flex lg:w-64 lg:flex-col lg:border-r lg:border-b-0">
+            <aside className="border-b border-border bg-sidebar/85 backdrop-blur-xl lg:fixed lg:inset-y-0 lg:left-0 lg:flex lg:w-64 lg:flex-col lg:border-r lg:border-b-0">
                 <div className="flex items-center gap-3 px-5 py-6">
                     <span className="rounded-xl bg-primary/15 p-2.5 text-highlight">
                         <LayoutDashboard size={22} />
                     </span>
                     <div>
-                        <p className="text-lg font-semibold">Catalog</p>
-                        <p className="text-sm text-muted">
-                            Management workspace
-                        </p>
+                        <p className="text-lg font-semibold">NOVA Admin</p>
+                        <p className="text-sm text-muted">Catalog workspace</p>
                     </div>
                 </div>
                 <nav
-                    aria-label="Catalog navigation"
+                    aria-label="Admin navigation"
                     className="flex gap-2 px-4 pb-4 lg:flex-col"
                 >
                     {items.map(({ label, href, component, icon: Icon }) => (

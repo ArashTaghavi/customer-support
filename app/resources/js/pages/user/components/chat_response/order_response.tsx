@@ -13,32 +13,32 @@ import { messageDate } from '@/utils/message_dates';
 
 const orderStatuses: Record<string, { label: string; tone: StatusTone }> = {
     PENDING: {
-        label: 'در انتظار بررسی',
+        label: 'Pending review',
         tone: 'warning',
     },
     PROCESSING: {
-        label: 'در حال آماده‌سازی',
+        label: 'Preparing',
         tone: 'processing',
     },
     SHIPPED: {
-        label: 'ارسال شده',
+        label: 'Shipped',
         tone: 'info',
     },
     DELIVERED: {
-        label: 'تحویل داده شده',
+        label: 'Delivered',
         tone: 'success',
     },
     CANCELLED: {
-        label: 'لغو شده',
+        label: 'Cancelled',
         tone: 'danger',
     },
 };
 
 const paymentStatuses: Record<string, string> = {
-    UNPAID: 'پرداخت نشده',
-    PAID: 'پرداخت شده',
-    FAILED: 'ناموفق',
-    REFUNDED: 'بازگشت وجه',
+    UNPAID: 'Unpaid',
+    PAID: 'Paid',
+    FAILED: 'Failed',
+    REFUNDED: 'Refunded',
 };
 
 const paymentTones: Record<string, StatusTone> = {
@@ -49,11 +49,11 @@ const paymentTones: Record<string, StatusTone> = {
 };
 
 const paymentMethods: Record<string, string> = {
-    ONLINE: 'آنلاین',
-    WALLET: 'کیف پول',
-    CARD_TO_CARD: 'کارت به کارت',
-    CASH_ON_DELIVERY: 'پرداخت در محل',
-    BANK_TRANSFER: 'انتقال بانکی',
+    ONLINE: 'Online',
+    WALLET: 'Wallet',
+    CARD_TO_CARD: 'Card transfer',
+    CASH_ON_DELIVERY: 'Cash on delivery',
+    BANK_TRANSFER: 'Bank transfer',
 };
 
 type OrderResponseProps = {
@@ -124,7 +124,7 @@ export default function OrderResponse({
 
     return (
         <article
-            dir="rtl"
+            dir="ltr"
             className="glass-card order-card relative isolate w-full min-w-0 overflow-hidden rounded-2xl text-foreground shadow-glass"
         >
             <h3>
@@ -143,17 +143,17 @@ export default function OrderResponse({
                     <span className="flex min-w-0 flex-1 flex-wrap items-center justify-between gap-x-4 gap-y-2">
                         <span className="min-w-0 space-y-1">
                             <span className="block text-xs font-semibold wrap-anywhere text-foreground">
-                                سفارش <bdi>{order.order_number}</bdi>
+                                Order <bdi>{order.order_number}</bdi>
                             </span>
                             <span className="block text-[11px] font-normal text-muted">
-                                {open ? 'بستن جزئیات' : 'مشاهده جزئیات'}
+                                {open ? 'Hide details' : 'View details'}
                             </span>
                         </span>
                         <span className="flex flex-wrap items-center gap-2">
                             <span className="text-sm font-semibold whitespace-nowrap text-foreground tabular-nums">
-                                {order.total_amount.toLocaleString('fa-IR')}{' '}
+                                {order.total_amount.toLocaleString('en-US')}{' '}
                                 <span className="text-[10px] font-normal text-muted">
-                                    تومان
+                                    Toman
                                 </span>
                             </span>
                             <StatusBadge tone={status.tone}>
@@ -193,45 +193,46 @@ export default function OrderResponse({
                         <div className="grid min-w-0 gap-3 md:grid-cols-2">
                             <section
                                 className="min-w-0 rounded-xl border border-border/40 bg-input/70 px-3 py-2"
-                                aria-label="اطلاعات سفارش"
+                                aria-label="Order information"
                             >
                                 <h4 className="mb-1 flex items-center gap-2 border-b border-border/30 pb-2 text-xs font-medium text-foreground">
                                     <ReceiptText size={14} aria-hidden="true" />
-                                    اطلاعات سفارش
+                                    Order information
                                 </h4>
                                 <dl className="divide-y divide-border/25">
-                                    <DetailRow label="آدرس">
-                                        {order.shipping_address || 'ثبت نشده'}
+                                    <DetailRow label="Address">
+                                        {order.shipping_address ||
+                                            'Not provided'}
                                     </DetailRow>
-                                    <DetailRow label="مبلغ سفارش">
+                                    <DetailRow label="Order total">
                                         <span className="tabular-nums">
                                             {order.total_amount.toLocaleString(
-                                                'fa-IR',
+                                                'en-US',
                                             )}{' '}
-                                            تومان
+                                            Toman
                                         </span>
                                     </DetailRow>
                                     {order.tracking_code && (
-                                        <DetailRow label="کد رهگیری">
+                                        <DetailRow label="Tracking number">
                                             <bdi>{order.tracking_code}</bdi>
                                         </DetailRow>
                                     )}
                                     {order.cancellation_reason && (
-                                        <DetailRow label="علت لغو">
+                                        <DetailRow label="Cancellation reason">
                                             <span className="text-danger">
                                                 {order.cancellation_reason}
                                             </span>
                                         </DetailRow>
                                     )}
                                     <OrderDateRow
-                                        label="تاریخ سفارش"
+                                        label="Order date"
                                         timestamp={order.created_at}
                                     />
                                     {['PAID', 'REFUNDED'].includes(
                                         order.payment_status,
                                     ) && (
                                         <OrderDateRow
-                                            label="تاریخ پرداخت"
+                                            label="Payment date"
                                             timestamp={order.paid_at}
                                         />
                                     )}
@@ -239,19 +240,19 @@ export default function OrderResponse({
                                         order.order_status,
                                     ) && (
                                         <OrderDateRow
-                                            label="تاریخ ارسال"
+                                            label="Shipping date"
                                             timestamp={order.shipped_at}
                                         />
                                     )}
                                     {order.order_status === 'DELIVERED' && (
                                         <OrderDateRow
-                                            label="تاریخ تحویل"
+                                            label="Delivery date"
                                             timestamp={order.delivered_at}
                                         />
                                     )}
                                     {order.order_status === 'CANCELLED' && (
                                         <OrderDateRow
-                                            label="تاریخ لغو"
+                                            label="Cancellation date"
                                             timestamp={order.cancelled_at}
                                         />
                                     )}
@@ -265,7 +266,7 @@ export default function OrderResponse({
                                             .map((payment) => (
                                                 <OrderDateRow
                                                     key={payment.id}
-                                                    label="بازگشت وجه"
+                                                    label="Refunded"
                                                     timestamp={
                                                         payment.refunded_at
                                                     }
@@ -275,20 +276,20 @@ export default function OrderResponse({
                             </section>
                             <section
                                 className="min-w-0 rounded-xl border border-border/40 bg-input/70 px-3 py-2"
-                                aria-label="اطلاعات پرداخت"
+                                aria-label="Payment information"
                             >
                                 <h4 className="mb-1 flex items-center gap-2 border-b border-border/30 pb-2 text-xs font-medium text-foreground">
                                     <Wallet size={14} aria-hidden="true" />
-                                    اطلاعات پرداخت
+                                    Payment information
                                 </h4>
                                 <dl className="divide-y divide-border/25">
-                                    <DetailRow label="پرداخت‌شده">
+                                    <DetailRow label="Amount paid">
                                         <span className="text-success tabular-nums">
-                                            {paidAmount.toLocaleString('fa-IR')}{' '}
-                                            تومان
+                                            {paidAmount.toLocaleString('en-US')}{' '}
+                                            Toman
                                         </span>
                                     </DetailRow>
-                                    <DetailRow label="روش پرداخت">
+                                    <DetailRow label="Payment method">
                                         <span className="flex flex-wrap gap-1">
                                             {methods.length
                                                 ? methods.map((method) => (
@@ -296,10 +297,10 @@ export default function OrderResponse({
                                                           {method}
                                                       </StatusBadge>
                                                   ))
-                                                : 'ثبت نشده'}
+                                                : 'Not provided'}
                                         </span>
                                     </DetailRow>
-                                    <DetailRow label="وضعیت">
+                                    <DetailRow label="Status">
                                         <StatusBadge
                                             tone={
                                                 paymentTones[
@@ -318,13 +319,13 @@ export default function OrderResponse({
                                         key={payment.id}
                                         className="mt-2 divide-y divide-border/25 border-t border-border/40 pt-1"
                                     >
-                                        <DetailRow label="تراکنش">
+                                        <DetailRow label="Transaction">
                                             <span className="flex flex-wrap items-center gap-1.5">
                                                 <span className="tabular-nums">
                                                     {payment.amount.toLocaleString(
-                                                        'fa-IR',
+                                                        'en-US',
                                                     )}{' '}
-                                                    تومان
+                                                    Toman
                                                 </span>
                                                 <StatusBadge
                                                     tone={
@@ -340,21 +341,21 @@ export default function OrderResponse({
                                             </span>
                                         </DetailRow>
                                         {payment.transaction_id && (
-                                            <DetailRow label="شماره تراکنش">
+                                            <DetailRow label="Transaction ID">
                                                 <bdi>
                                                     {payment.transaction_id}
                                                 </bdi>
                                             </DetailRow>
                                         )}
                                         {payment.reference_id && (
-                                            <DetailRow label="شماره مرجع">
+                                            <DetailRow label="Reference number">
                                                 <bdi>
                                                     {payment.reference_id}
                                                 </bdi>
                                             </DetailRow>
                                         )}
                                         {payment.failure_reason && (
-                                            <DetailRow label="علت خطا">
+                                            <DetailRow label="Failure reason">
                                                 <span className="text-danger">
                                                     {payment.failure_reason}
                                                 </span>
@@ -367,7 +368,7 @@ export default function OrderResponse({
                         {order.items.length > 0 && (
                             <section
                                 className="min-w-0 space-y-2"
-                                aria-label="اقلام سفارش"
+                                aria-label="Order items"
                             >
                                 <h4 className="flex items-center gap-2 text-xs font-medium text-foreground">
                                     <Package
@@ -375,26 +376,26 @@ export default function OrderResponse({
                                         className="text-foreground"
                                         aria-hidden="true"
                                     />
-                                    اقلام سفارش{' '}
+                                    Order items{' '}
                                     <StatusBadge>
                                         {order.items.length.toLocaleString(
-                                            'fa-IR',
+                                            'en-US',
                                         )}{' '}
-                                        قلم
+                                        items
                                     </StatusBadge>
                                 </h4>
                                 <div className="max-w-full overflow-x-auto rounded-xl border border-border/40">
                                     <table className="w-full text-start text-xs">
                                         <caption className="sr-only">
-                                            اقلام سفارش {order.order_number}
+                                            Order items {order.order_number}
                                         </caption>
                                         <thead className="bg-highlight/4 text-muted">
                                             <tr>
                                                 {[
-                                                    'محصول',
-                                                    'تعداد',
-                                                    'قیمت واحد (تومان)',
-                                                    'قیمت کل (تومان)',
+                                                    'Product',
+                                                    'Quantity',
+                                                    'Unit price (Toman)',
+                                                    'Total price (Toman)',
                                                 ].map((label) => (
                                                     <th
                                                         key={label}
@@ -433,7 +434,7 @@ export default function OrderResponse({
                                                                             }
                                                                             alt={
                                                                                 product?.title ??
-                                                                                'محصول'
+                                                                                'Product'
                                                                             }
                                                                             loading="lazy"
                                                                             onError={(
@@ -450,23 +451,23 @@ export default function OrderResponse({
                                                                     className="max-w-64 text-start leading-5 wrap-anywhere"
                                                                 >
                                                                     {product?.title ||
-                                                                        'محصول در دسترس نیست'}
+                                                                        'Product unavailable'}
                                                                 </span>
                                                             </div>
                                                         </td>
                                                         <td className="px-3 py-2 tabular-nums">
                                                             {item.quantity.toLocaleString(
-                                                                'fa-IR',
+                                                                'en-US',
                                                             )}
                                                         </td>
                                                         <td className="px-3 py-2 whitespace-nowrap tabular-nums">
                                                             {item.unit_price.toLocaleString(
-                                                                'fa-IR',
+                                                                'en-US',
                                                             )}
                                                         </td>
                                                         <td className="px-3 py-2 font-medium whitespace-nowrap text-foreground tabular-nums">
                                                             {item.total_price.toLocaleString(
-                                                                'fa-IR',
+                                                                'en-US',
                                                             )}
                                                         </td>
                                                     </tr>

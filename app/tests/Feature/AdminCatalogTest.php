@@ -139,3 +139,32 @@ test('empty optional sort values use a valid default', function () {
     $this->get(route('admin.products.index', ['direction' => '']))->assertOk();
     $this->get(route('admin.product-categories.index', ['direction' => '']))->assertOk();
 });
+
+test('admin entry opens a dashboard with catalog counts and recent products', function () {
+    $this->actingAs(User::factory()->create());
+    $category = ProductCategory::factory()->create();
+    $photo = Product::factory()->create(['product_category_id' => $category->id, 'image' => 'products/phone.jpg']);
+    $model = Product::factory()->create(['product_category_id' => $category->id, 'model_file' => 'products/model.glb']);
+    $deleted = Product::factory()->create(['product_category_id' => $category->id, 'model_file' => 'products/deleted.glb']);
+    $deleted->delete();
+
+    $this->get(route('admin.index'))->assertOk()->assertInertia(fn (Assert $page) => $page
+        ->component('admin/index')
+        ->where('stats', ['products' => 2, 'categories' => 1, 'models' => 1])
+        ->has('recentProducts.data', 2)
+        ->where('recentProducts.data.0.id', $model->id)
+        ->where('recentProducts.data.1.id', $photo->id));
+});
+
+test('user panel only includes conversations belonging to the signed in account', function () {
+    $current = User::factory()->create();
+    $other = User::factory()->create();
+    $own = $current->conversations()->create(['title' => 'My conversation']);
+    $other->conversations()->create(['title' => 'Other account conversation']);
+    $this->actingAs($current);
+
+    $this->get(route('app.index'))->assertOk()->assertInertia(fn (Assert $page) => $page
+        ->component('user/index')
+        ->has('conversations', 1)
+        ->where('conversations.0.id', $own->id));
+});

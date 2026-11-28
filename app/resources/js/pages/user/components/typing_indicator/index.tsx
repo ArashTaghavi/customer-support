@@ -7,7 +7,7 @@ export default function TypingIndicator() {
             className="flex items-center gap-3 py-1 text-xs text-info/80"
         >
             <span>
-                در حال نوشتن<span className="sr-only">…</span>
+                Typing<span className="sr-only">…</span>
             </span>
             <span aria-hidden="true" className="flex items-center gap-1">
                 <span className={styles.dot} />

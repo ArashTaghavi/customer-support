@@ -14,7 +14,7 @@ type AddToCartProps = {
 export default function AddToCart({
     product,
     quantity,
-    locale = 'fa',
+    locale = 'en',
 }: AddToCartProps) {
     const { auth } = usePage<{ auth: { user: unknown | null } }>().props;
     const available = quantity < product.stock;
@@ -82,7 +82,7 @@ export default function AddToCart({
                         className="min-w-0 flex-1 truncate text-center text-xs font-semibold tabular-nums"
                     >
                         {quantity.toLocaleString(
-                            locale === 'en' ? 'en-US' : 'fa-IR',
+                            locale === 'en' ? 'en-US' : 'en-US',
                         )}
                     </span>
                     <button

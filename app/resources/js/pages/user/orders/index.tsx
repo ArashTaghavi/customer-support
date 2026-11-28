@@ -16,8 +16,8 @@ export default function Orders({ orders }: { orders: Paginated<unknown> }) {
     const [expanded, setExpanded] = useState<number | null>(null);
     return (
         <ListingPage
-            title="سفارشات من"
-            description={`${orders.meta.total.toLocaleString('fa-IR')} سفارش؛ برای مشاهدهٔ جزئیات روی سفارش بزنید.`}
+            title="My orders"
+            description={`${orders.meta.total.toLocaleString('en-US')} orders. Select an order to view its details.`}
             icon={ReceiptText}
             footer={
                 <PagePagination
@@ -65,14 +65,14 @@ export default function Orders({ orders }: { orders: Paginated<unknown> }) {
                         aria-hidden="true"
                     />
                     <p className="text-sm text-secondary">
-                        هنوز سفارشی ثبت نکرده‌اید.
+                        You have not placed any orders yet.
                     </p>
                     <Link
                         href={shop()}
                         className="inline-flex items-center gap-2 rounded-xl bg-glow/15 px-5 py-3 text-sm text-foreground transition-colors hover:bg-glow/25 focus-visible:outline-2 focus-visible:outline-glow"
                     >
                         <ShoppingBag size={16} aria-hidden="true" />
-                        مشاهده فروشگاه
+                        Visit showroom
                     </Link>
                 </div>
             )}

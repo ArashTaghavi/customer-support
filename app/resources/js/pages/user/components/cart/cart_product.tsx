@@ -35,21 +35,21 @@ export default function CartProduct({ item }: CartProductProps) {
                 </h3>
                 <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-muted">
                     <span className="rounded-lg border border-outline/15 bg-glow/10 px-2.5 py-1 font-medium text-foreground">
-                        {quantity.toLocaleString('fa-IR')} عدد
+                        {quantity.toLocaleString('en-US')} items
                     </span>
                     <span className="text-xs font-medium text-foreground tabular-nums">
-                        {product.price.toLocaleString('fa-IR')}
+                        {product.price.toLocaleString('en-US')}
                         <span className="ms-1.5 text-[10px] font-normal text-muted">
-                            تومان
+                            Toman
                         </span>
                     </span>
                 </div>
                 <div className="flex flex-wrap items-baseline justify-between gap-2 border-t border-border/30 pt-3">
-                    <span className="text-[11px] text-muted">مجموع</span>
+                    <span className="text-[11px] text-muted">Total</span>
                     <p className="text-sm font-semibold text-foreground tabular-nums sm:text-base">
-                        {(product.price * quantity).toLocaleString('fa-IR')}
+                        {(product.price * quantity).toLocaleString('en-US')}
                         <span className="ms-1.5 text-[10px] font-normal text-muted">
-                            تومان
+                            Toman
                         </span>
                     </p>
                 </div>
