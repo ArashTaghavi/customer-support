@@ -1,8 +1,13 @@
 import { useEffect, useMemo } from 'react';
 import * as THREE from 'three';
 
-export const tableCenters = [-4.2, 0, 4.2];
-export const tableZ = 0.4;
+export const tablePositions: [number, number][] = [
+    [-2.6, -0.7],
+    [2.6, -0.7],
+    [-2.6, 2.6],
+    [2.6, 2.6],
+];
+export const tableViews = ['phones', 'laptops', 'gaming', 'accessories'];
 export const userRoomEntrance = { x: 3.675, z: -2.82, halfWidth: 0.59 };
 export const userRoomDeskZ = -4.88;
 export const userRoomChairZ = userRoomDeskZ - 1.04;
@@ -68,11 +73,11 @@ function floorTextures() {
             stone[i + 3] = 255;
 
             let spill = 0;
-            for (const center of tableCenters) {
+            for (const [centerX, centerZ] of tablePositions) {
                 // Distance from the rounded toe kick, in metres. One floor
-                // texture carries all three diffuse reflections, in both modes.
-                const dx = Math.max(0, Math.abs(x - center) - 1.61);
-                const dz = Math.max(0, Math.abs(z - tableZ) - 0.56);
+                // texture carries all table reflections, in both modes.
+                const dx = Math.max(0, Math.abs(x - centerX) - 1.61);
+                const dz = Math.max(0, Math.abs(z - centerZ) - 0.56);
                 const distance = Math.max(0, Math.hypot(dx, dz) - 0.13);
                 spill +=
                     0.75 * Math.exp(-5.8 * distance) +

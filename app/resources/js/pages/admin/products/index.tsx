@@ -101,6 +101,15 @@ export default function Products({
                 ),
         },
         {
+            id: 'showroom_order',
+            header: 'Table order',
+            cell: (row) =>
+                row.model_url
+                    ? (row.showroom_order?.toLocaleString('en-US') ??
+                      'Automatic')
+                    : '-',
+        },
+        {
             id: 'actions',
             header: 'Actions',
             cell: (row) => (

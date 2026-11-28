@@ -13,7 +13,7 @@ class OrderSeeder extends Seeder
     public function run(): void
     {
         DB::transaction(function (): void {
-            $user = User::firstOrFail();
+            $user = User::query()->orderBy('id')->firstOrFail();
 
             Order::factory()
                 ->for($user)

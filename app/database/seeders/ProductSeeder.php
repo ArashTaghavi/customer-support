@@ -5,6 +5,9 @@ namespace Database\Seeders;
 use App\Models\Product\Product;
 use App\Models\Product\ProductCategory;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use RuntimeException;
 
 class ProductSeeder extends Seeder
 {
@@ -13,13 +16,15 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        $mobileAndTabletCategoryId = ProductCategory::query()->where('title', 'Mobile and Tablets')->firstOrFail()->getKey();
-        $laptopAndComputerCategoryId = ProductCategory::query()->where('title', 'Laptop and Computers')->firstOrFail()->getKey();
-        $gamingAndConsoleCategoryId = ProductCategory::query()->where('title', 'Gaming & Consoles')->firstOrFail()->getKey();
-        $digitalAccessoryCategoryId = ProductCategory::query()->where('title', 'Digital Accessories')->firstOrFail()->getKey();
+        $this->call(ProductCategorySeeder::class);
+
+        $mobileAndTabletCategoryId = ProductCategory::query()->where('title', 'Phone')->firstOrFail()->getKey();
+        $laptopAndComputerCategoryId = ProductCategory::query()->where('title', 'Laptop')->firstOrFail()->getKey();
+        $gamingAndConsoleCategoryId = ProductCategory::query()->where('title', 'Gaming')->firstOrFail()->getKey();
+        $digitalAccessoryCategoryId = ProductCategory::query()->where('title', 'Accessories')->firstOrFail()->getKey();
 
         $productsByCategory = [
-            'موبایل و تبلت' => [
+            'Phone' => [
                 [
                     'title' => 'Apple iPhone 16',
                     'description' => 'آیفون ۱۶ برای عکاسی روزمره، اجرای برنامه‌های iOS و استفاده از خدمات اپل؛ گزینه‌ای برای کسانی که اندازهٔ معمول گوشی را ترجیح می‌دهند.',
@@ -341,7 +346,7 @@ class ProductSeeder extends Seeder
                     'product_category_id' => $mobileAndTabletCategoryId,
                 ],
             ],
-            'لپ‌تاپ و کامپیوتر' => [
+            'Laptop' => [
                 [
                     'title' => 'Apple MacBook Air 13 M2',
                     'description' => 'مک‌بوک ایر ۱۳ اینچی M2 برای کارهای اداری، برنامه‌نویسی سبک و جابه‌جایی روزانه در اکوسیستم macOS.',
@@ -583,46 +588,6 @@ class ProductSeeder extends Seeder
                     'product_category_id' => $laptopAndComputerCategoryId,
                 ],
                 [
-                    'title' => 'Gaming PC Ryzen 5 RTX 4060',
-                    'description' => 'ترکیب Ryzen 5 و RTX 4060 برای یک سیستم گیمینگ؛ نرخ فریم به بازی، وضوح تصویر و تنظیمات گرافیکی بستگی دارد.',
-                    'price' => 92000000,
-                    'stock' => 31,
-                    'image' => 'products/gaming-pc-ryzen-5-rtx-4060.jpg',
-                    'product_category_id' => $laptopAndComputerCategoryId,
-                ],
-                [
-                    'title' => 'Gaming PC Ryzen 7 RTX 4070',
-                    'description' => 'سیستم گیمینگ Ryzen 7 با RTX 4070 برای بازی و اجرای هم‌زمان برنامه‌های جانبی مانند ابزارهای ضبط و ارتباط صوتی.',
-                    'price' => 145000000,
-                    'stock' => 38,
-                    'image' => 'products/gaming-pc-ryzen-7-rtx-4070.jpg',
-                    'product_category_id' => $laptopAndComputerCategoryId,
-                ],
-                [
-                    'title' => 'Gaming PC Core i5 RTX 4060 Ti',
-                    'description' => 'رایانهٔ گیمینگ Core i5 با RTX 4060 Ti برای بازی و استفاده از نرم‌افزارهایی که از پردازش گرافیکی پشتیبانی می‌کنند.',
-                    'price' => 108000000,
-                    'stock' => 45,
-                    'image' => 'products/gaming-pc-core-i5-rtx-4060-ti.jpg',
-                    'product_category_id' => $laptopAndComputerCategoryId,
-                ],
-                [
-                    'title' => 'Gaming PC Core i7 RTX 4070 Super',
-                    'description' => 'ترکیب Core i7 و RTX 4070 Super برای کاربرانی که از یک سیستم برای بازی، تدوین و پروژه‌های گرافیکی استفاده می‌کنند.',
-                    'price' => 175000000,
-                    'stock' => 6,
-                    'image' => 'products/gaming-pc-core-i7-rtx-4070-super.jpg',
-                    'product_category_id' => $laptopAndComputerCategoryId,
-                ],
-                [
-                    'title' => 'Gaming PC Core i9 RTX 4080 Super',
-                    'description' => 'سیستم Core i9 با RTX 4080 Super برای پردازش‌های سنگین و بازی؛ بررسی منبع تغذیه و خنک‌کنندهٔ پیکربندی اهمیت دارد.',
-                    'price' => 280000000,
-                    'stock' => 13,
-                    'image' => 'products/gaming-pc-core-i9-rtx-4080-super.jpg',
-                    'product_category_id' => $laptopAndComputerCategoryId,
-                ],
-                [
                     'title' => 'Office PC Core i3 16GB',
                     'description' => 'رایانهٔ اداری Core i3 با ۱۶ گیگابایت رم برای اتوماسیون، تایپ و مدیریت اسناد و جدول‌های کاری.',
                     'price' => 32000000,
@@ -663,7 +628,7 @@ class ProductSeeder extends Seeder
                     'product_category_id' => $laptopAndComputerCategoryId,
                 ],
             ],
-            'بازی و کنسول' => [
+            'Gaming' => [
                 [
                     'title' => 'Sony PlayStation 5 Slim Disc',
                     'description' => 'پلی‌استیشن ۵ اسلیم دیسک‌خور برای اجرای بازی‌های سازگار از روی دیسک یا نسخهٔ دیجیتال و استفاده از کنترلر DualSense.',
@@ -824,8 +789,80 @@ class ProductSeeder extends Seeder
                     'image' => 'products/sony-dualsense-wireless-controller.jpg',
                     'product_category_id' => $gamingAndConsoleCategoryId,
                 ],
+                [
+                    'title' => 'Gaming PC Ryzen 5 RTX 4060',
+                    'description' => 'ترکیب Ryzen 5 و RTX 4060 برای یک سیستم گیمینگ؛ نرخ فریم به بازی، وضوح تصویر و تنظیمات گرافیکی بستگی دارد.',
+                    'price' => 92000000,
+                    'stock' => 31,
+                    'image' => 'products/gaming-pc-ryzen-5-rtx-4060.jpg',
+                    'product_category_id' => $gamingAndConsoleCategoryId,
+                ],
+                [
+                    'title' => 'Gaming PC Ryzen 7 RTX 4070',
+                    'description' => 'سیستم گیمینگ Ryzen 7 با RTX 4070 برای بازی و اجرای هم‌زمان برنامه‌های جانبی مانند ابزارهای ضبط و ارتباط صوتی.',
+                    'price' => 145000000,
+                    'stock' => 38,
+                    'image' => 'products/gaming-pc-ryzen-7-rtx-4070.jpg',
+                    'product_category_id' => $gamingAndConsoleCategoryId,
+                ],
+                [
+                    'title' => 'Gaming PC Core i5 RTX 4060 Ti',
+                    'description' => 'رایانهٔ گیمینگ Core i5 با RTX 4060 Ti برای بازی و استفاده از نرم‌افزارهایی که از پردازش گرافیکی پشتیبانی می‌کنند.',
+                    'price' => 108000000,
+                    'stock' => 45,
+                    'image' => 'products/gaming-pc-core-i5-rtx-4060-ti.jpg',
+                    'product_category_id' => $gamingAndConsoleCategoryId,
+                ],
+                [
+                    'title' => 'Gaming PC Core i7 RTX 4070 Super',
+                    'description' => 'ترکیب Core i7 و RTX 4070 Super برای کاربرانی که از یک سیستم برای بازی، تدوین و پروژه‌های گرافیکی استفاده می‌کنند.',
+                    'price' => 175000000,
+                    'stock' => 6,
+                    'image' => 'products/gaming-pc-core-i7-rtx-4070-super.jpg',
+                    'product_category_id' => $gamingAndConsoleCategoryId,
+                ],
+                [
+                    'title' => 'Gaming PC Core i9 RTX 4080 Super',
+                    'description' => 'سیستم Core i9 با RTX 4080 Super برای پردازش‌های سنگین و بازی؛ بررسی منبع تغذیه و خنک‌کنندهٔ پیکربندی اهمیت دارد.',
+                    'price' => 280000000,
+                    'stock' => 13,
+                    'image' => 'products/gaming-pc-core-i9-rtx-4080-super.jpg',
+                    'product_category_id' => $gamingAndConsoleCategoryId,
+                ],
+                [
+                    'title' => 'Razer BlackWidow V4 Keyboard',
+                    'description' => 'کیبورد Razer BlackWidow V4 از خانوادهٔ مکانیکی گیمینگ ریزر برای کنترل بازی و تایپ؛ نوع سوییچ باید هنگام انتخاب بررسی شود.',
+                    'price' => 12500000,
+                    'stock' => 40,
+                    'image' => 'products/razer-blackwidow-v4-keyboard.jpg',
+                    'product_category_id' => $gamingAndConsoleCategoryId,
+                ],
+                [
+                    'title' => 'Logitech G Pro X Superlight 2 Mouse',
+                    'description' => 'ماوس Logitech G Pro X Superlight 2 برای بازی رقابتی و کاربرانی که وزن کم ماوس را در اولویت می‌گذارند.',
+                    'price' => 11500000,
+                    'stock' => 22,
+                    'image' => 'products/logitech-g-pro-x-superlight-2-mouse.jpg',
+                    'product_category_id' => $gamingAndConsoleCategoryId,
+                ],
+                [
+                    'title' => 'Razer DeathAdder V3 Mouse',
+                    'description' => 'ماوس Razer DeathAdder V3 با فرم راست‌دست برای بازی و حرکت‌های سریع؛ تناسب ابعاد آن با دست اهمیت دارد.',
+                    'price' => 5400000,
+                    'stock' => 36,
+                    'image' => 'products/razer-deathadder-v3-mouse.jpg',
+                    'product_category_id' => $gamingAndConsoleCategoryId,
+                ],
+                [
+                    'title' => 'Razer Gigantus V2 Mouse Pad',
+                    'description' => 'ماوس‌پد Razer Gigantus V2 برای ایجاد سطح پارچه‌ای یکنواخت زیر ماوس؛ اندازهٔ نسخهٔ انتخابی باید با فضای میز هماهنگ باشد.',
+                    'price' => 1600000,
+                    'stock' => 17,
+                    'image' => 'products/razer-gigantus-v2-mouse-pad.jpg',
+                    'product_category_id' => $gamingAndConsoleCategoryId,
+                ],
             ],
-            'لوازم جانبی دیجیتال' => [
+            'Accessories' => [
                 [
                     'title' => 'Apple 20W USB-C Power Adapter',
                     'description' => 'آداپتور USB-C اپل با توان اسمی ۲۰ وات برای شارژ دستگاه‌های سازگار؛ کابل باید متناسب با درگاه دستگاه انتخاب شود.',
@@ -867,14 +904,6 @@ class ProductSeeder extends Seeder
                     'product_category_id' => $digitalAccessoryCategoryId,
                 ],
                 [
-                    'title' => 'Razer BlackWidow V4 Keyboard',
-                    'description' => 'کیبورد Razer BlackWidow V4 از خانوادهٔ مکانیکی گیمینگ ریزر برای کنترل بازی و تایپ؛ نوع سوییچ باید هنگام انتخاب بررسی شود.',
-                    'price' => 12500000,
-                    'stock' => 40,
-                    'image' => 'products/razer-blackwidow-v4-keyboard.jpg',
-                    'product_category_id' => $digitalAccessoryCategoryId,
-                ],
-                [
                     'title' => 'Logitech K380 Keyboard',
                     'description' => 'لاجیتک K380 برای تایپ روی چند دستگاه سازگار و جابه‌جایی میان آن‌ها؛ مناسب استفاده کنار لپ‌تاپ و تبلت.',
                     'price' => 2800000,
@@ -899,27 +928,11 @@ class ProductSeeder extends Seeder
                     'product_category_id' => $digitalAccessoryCategoryId,
                 ],
                 [
-                    'title' => 'Logitech G Pro X Superlight 2 Mouse',
-                    'description' => 'ماوس Logitech G Pro X Superlight 2 برای بازی رقابتی و کاربرانی که وزن کم ماوس را در اولویت می‌گذارند.',
-                    'price' => 11500000,
-                    'stock' => 22,
-                    'image' => 'products/logitech-g-pro-x-superlight-2-mouse.jpg',
-                    'product_category_id' => $digitalAccessoryCategoryId,
-                ],
-                [
                     'title' => 'Logitech M185 Mouse',
                     'description' => 'لاجیتک M185 یک ماوس بی‌سیم برای کارهای معمول و استفاده با لپ‌تاپ از طریق گیرندهٔ USB است.',
                     'price' => 850000,
                     'stock' => 29,
                     'image' => 'products/logitech-m185-mouse.jpg',
-                    'product_category_id' => $digitalAccessoryCategoryId,
-                ],
-                [
-                    'title' => 'Razer DeathAdder V3 Mouse',
-                    'description' => 'ماوس Razer DeathAdder V3 با فرم راست‌دست برای بازی و حرکت‌های سریع؛ تناسب ابعاد آن با دست اهمیت دارد.',
-                    'price' => 5400000,
-                    'stock' => 36,
-                    'image' => 'products/razer-deathadder-v3-mouse.jpg',
                     'product_category_id' => $digitalAccessoryCategoryId,
                 ],
                 [
@@ -1051,14 +1064,6 @@ class ProductSeeder extends Seeder
                     'product_category_id' => $digitalAccessoryCategoryId,
                 ],
                 [
-                    'title' => 'Razer Gigantus V2 Mouse Pad',
-                    'description' => 'ماوس‌پد Razer Gigantus V2 برای ایجاد سطح پارچه‌ای یکنواخت زیر ماوس؛ اندازهٔ نسخهٔ انتخابی باید با فضای میز هماهنگ باشد.',
-                    'price' => 1600000,
-                    'stock' => 17,
-                    'image' => 'products/razer-gigantus-v2-mouse-pad.jpg',
-                    'product_category_id' => $digitalAccessoryCategoryId,
-                ],
-                [
                     'title' => 'Baseus Adjustable Laptop Stand',
                     'description' => 'پایهٔ قابل‌تنظیم لپ‌تاپ باسئوس برای بالاتر آوردن نمایشگر روی میز؛ سازگاری ابعاد و وزن لپ‌تاپ باید پیش از استفاده بررسی شود.',
                     'price' => 2100000,
@@ -1071,8 +1076,27 @@ class ProductSeeder extends Seeder
 
         foreach ($productsByCategory as $products) {
             foreach ($products as $product) {
-                Product::query()->create($product);
+                if (! File::isFile(public_path($product['image']))) {
+                    throw new RuntimeException('Missing product photo: '.$product['image']);
+                }
             }
         }
+
+        DB::transaction(function () use ($productsByCategory): void {
+            foreach ($productsByCategory as $products) {
+                foreach ($products as $attributes) {
+                    $product = Product::withTrashed()->firstOrNew(['image' => $attributes['image']]);
+                    if (! $product->exists) {
+                        $product->fill($attributes);
+                    }
+                    $product->product_category_id = $attributes['product_category_id'];
+                    $product->deleted_at = null;
+                    $product->save();
+                }
+            }
+            foreach (ProductCategory::all() as $category) {
+                $category->update(['product_count' => $category->products()->count()]);
+            }
+        });
     }
 }

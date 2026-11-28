@@ -14,6 +14,7 @@ type Values = {
     description: string;
     price: string;
     stock: string;
+    showroom_order: string;
     product_category_id: string;
     image: File | null;
     model_file: File | null;
@@ -35,6 +36,7 @@ export default function ProductForm({
             description: product?.description ?? '',
             price: String(product?.price ?? ''),
             stock: String(product?.stock ?? 1),
+            showroom_order: String(product?.showroom_order ?? ''),
             product_category_id: String(product?.product_category_id ?? ''),
             image: null,
             model_file: null,
@@ -62,6 +64,7 @@ export default function ProductForm({
                 description: values.description,
                 price: values.price,
                 stock: values.stock,
+                showroom_order: values.showroom_order || null,
                 product_category_id: values.product_category_id,
                 remove_image: values.remove_image,
                 remove_model_file: values.remove_model_file,
@@ -288,6 +291,25 @@ export default function ProductForm({
                                 </a>
                             </>
                         )}
+                        <Input
+                            name="showroom_order"
+                            label="Table display order"
+                            type="number"
+                            min={1}
+                            max={2147483647}
+                            step={1}
+                            readOnly={processing}
+                            placeholder="Automatic"
+                            aria-describedby="showroom-order-help"
+                        />
+                        <p
+                            id="showroom-order-help"
+                            className="text-xs leading-5 text-muted"
+                        >
+                            Lower numbers appear first on this category's table,
+                            from left to right and across pages. Leave empty to
+                            show after manually ordered models.
+                        </p>
                         <FileInput
                             name="model_file"
                             label={

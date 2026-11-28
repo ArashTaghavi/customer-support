@@ -18,7 +18,7 @@ class ProductCategory extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public const SHOWROOM_SLOTS = ['phone', 'laptop', 'headphone'];
+    public const SHOWROOM_SLOTS = ['phone', 'laptop', 'gaming', 'accessories'];
 
     #[Override]
     public function casts(): array

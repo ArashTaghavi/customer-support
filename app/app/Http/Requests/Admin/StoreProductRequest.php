@@ -27,6 +27,7 @@ class StoreProductRequest extends FormRequest
             'description' => ['nullable', 'string', 'max:16000'],
             'price' => ['required', 'integer', 'min:0', 'max:4294967295'],
             'stock' => ['required', 'integer', 'min:0', 'max:65535'],
+            'showroom_order' => ['nullable', 'integer', 'min:1', 'max:2147483647'],
             'product_category_id' => ['required', 'integer', Rule::exists('product_categories', 'id')->whereNull('deleted_at')],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             'model_file' => ['nullable', 'file', 'max:51200', new GlbFile],

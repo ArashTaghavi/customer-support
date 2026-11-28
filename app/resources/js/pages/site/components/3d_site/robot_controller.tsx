@@ -3,8 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import {
-    tableCenters,
-    tableZ,
+    tablePositions,
     userRoomEntrance,
     userRoomDeskZ,
     userRoomChairZ,
@@ -37,7 +36,7 @@ const robotRadius = 0.32;
 const up = new THREE.Vector3(0, 1, 0);
 const jointAxis = new THREE.Vector3(0, 1, 0);
 const obstacles = [
-    ...tableCenters.map((x) => ({ x, z: tableZ, halfX: 1.9, halfZ: 0.84 })),
+    ...tablePositions.map(([x, z]) => ({ x, z, halfX: 1.9, halfZ: 0.84 })),
     ...[-1, 1].flatMap((side) => [
         { x: side * 6.38, z: 3.95, halfX: 0.55, halfZ: 1.5 },
         { x: side * 4.98, z: 3.95, halfX: 0.36, halfZ: 0.915 },
@@ -59,12 +58,71 @@ function canStandAt(x: number, z: number) {
     });
 }
 
+export type RobotDestination = {
+    id: number;
+    x: number;
+    z: number;
+    yaw: number;
+};
+
+function findPath(x: number, z: number, destination: RobotDestination) {
+    const step = 0.2;
+    const start = [Math.round(x / step), Math.round(z / step)];
+    const key = (a: number, b: number) => `${a},${b}`;
+    const queue = [start];
+    const parents = new Map<string, number[] | null>([
+        [key(...(start as [number, number])), null],
+    ]);
+    for (let index = 0; index < queue.length; index++) {
+        const current = queue[index];
+        if (
+            Math.hypot(
+                current[0] * step - destination.x,
+                current[1] * step - destination.z,
+            ) < 0.22
+        ) {
+            const path: [number, number][] = [[destination.x, destination.z]];
+            let node: number[] | null = current;
+            while (node) {
+                path.unshift([node[0] * step, node[1] * step]);
+                node = parents.get(key(node[0], node[1])) ?? null;
+            }
+            return path;
+        }
+        for (const [dx, dz] of [
+            [1, 0],
+            [-1, 0],
+            [0, 1],
+            [0, -1],
+        ]) {
+            const next = [current[0] + dx, current[1] + dz];
+            const nextKey = key(next[0], next[1]);
+            if (
+                !parents.has(nextKey) &&
+                canStandAt(next[0] * step, next[1] * step)
+            ) {
+                parents.set(nextKey, current);
+                queue.push(next);
+            }
+        }
+    }
+    return [];
+}
+
 export default function RobotController({
+    destination,
+    onArrive,
+    onTableReach,
+    onTableProximityChange,
     enabled = true,
     onUserRoomEnter,
     panelEntering = false,
     onPanelSeated,
 }: {
+    destination?: RobotDestination | null;
+    onArrive?: (reached: boolean) => void;
+    onTableReach?: (index: number) => void;
+    onTableProximityChange?: (index: number | null) => void;
     enabled?: boolean;
     onUserRoomEnter?: () => void;
     panelEntering?: boolean;
@@ -81,6 +139,20 @@ export default function RobotController({
         waypoint: 0,
         notified: false,
     });
+    const route = useRef<[number, number][]>([]);
+    const arrived = useRef(false);
+    const nearbyTable = useRef<number | null>(null);
+    const paginationTable = useRef<number | null>(null);
+    useEffect(() => {
+        arrived.current = false;
+        if (root.current && destination) {
+            route.current = findPath(
+                root.current.position.x,
+                root.current.position.z,
+                destination,
+            );
+        } else route.current = [];
+    }, [destination]);
     const phase = useRef(0);
     const walking = useRef(0);
     const running = useRef(0);
@@ -245,7 +317,7 @@ export default function RobotController({
                     rig.direction.normalize();
                     robot.position.addScaledVector(
                         rig.direction,
-                        Math.min(remaining, 1.65 * dt),
+                        Math.min(remaining, 2.0 * dt),
                     );
                     rig.turn.setFromAxisAngle(
                         up,
@@ -282,6 +354,49 @@ export default function RobotController({
                     onPanelSeated?.();
                 }
             }
+        } else if (destination && !arrived.current && enabled) {
+            const target = route.current[0];
+            if (target) {
+                rig.direction.set(target[0] - oldX, 0, target[1] - oldZ);
+                const remaining = rig.direction.length();
+                if (remaining < 0.025) route.current.shift();
+                else {
+                    rig.direction.normalize();
+                    robot.position.addScaledVector(
+                        rig.direction,
+                        Math.min(remaining, 2.8 * dt),
+                    );
+                    rig.turn.setFromAxisAngle(
+                        up,
+                        Math.atan2(rig.direction.x, rig.direction.z),
+                    );
+                    robot.quaternion.slerp(rig.turn, 1 - Math.exp(-dt * 12));
+                }
+            } else {
+                rig.turn.setFromAxisAngle(up, destination.yaw);
+                robot.quaternion.slerp(rig.turn, 1 - Math.exp(-dt * 12));
+                if (robot.quaternion.angleTo(rig.turn) < 0.025) {
+                    arrived.current = true;
+                    if (
+                        Math.hypot(oldX - destination.x, oldZ - destination.z) <
+                        0.3
+                    ) {
+                        const tableIndex = tablePositions.findIndex(
+                            ([x, z]) =>
+                                Math.hypot(
+                                    destination.x - x,
+                                    destination.z - (z + 1.4),
+                                ) < 0.65,
+                        );
+                        nearbyTable.current =
+                            tableIndex >= 0 ? tableIndex : null;
+                    }
+                    onArrive?.(
+                        Math.hypot(oldX - destination.x, oldZ - destination.z) <
+                            0.3,
+                    );
+                }
+            }
         } else {
             const vertical =
                 Number(keys.has('ArrowUp') || keys.has('KeyW')) -
@@ -300,7 +415,7 @@ export default function RobotController({
                 .addScaledVector(rig.right, horizontal);
             if (rig.direction.lengthSq() > 0) rig.direction.normalize();
 
-            const step = 1.45 * (sprinting ? 2 : 1) * dt;
+            const step = 1.8 * (sprinting ? 2 : 1) * dt;
             const desiredX = oldX + rig.direction.x * step;
             const desiredZ = oldZ + rig.direction.z * step;
             const entrance = userRoomEntrance;
@@ -325,6 +440,27 @@ export default function RobotController({
             if (canStandAt(nextX, oldZ)) robot.position.x = nextX;
             const nextZ = oldZ + rig.direction.z * step;
             if (canStandAt(robot.position.x, nextZ)) robot.position.z = nextZ;
+        }
+        const tableIndex = panelEntering
+            ? -1
+            : tablePositions.findIndex(
+                  ([x, z]) =>
+                      Math.hypot(
+                          robot.position.x - x,
+                          robot.position.z - (z + 1.4),
+                      ) < 0.65,
+              );
+        const nextPaginationTable = tableIndex < 0 ? null : tableIndex;
+        if (paginationTable.current !== nextPaginationTable) {
+            paginationTable.current = nextPaginationTable;
+            onTableProximityChange?.(nextPaginationTable);
+        }
+        if (!panelEntering && enabled && (!destination || arrived.current)) {
+            if (tableIndex < 0) nearbyTable.current = null;
+            else if (nearbyTable.current !== tableIndex) {
+                nearbyTable.current = tableIndex;
+                onTableReach?.(tableIndex);
+            }
         }
         const dx = robot.position.x - oldX,
             dz = robot.position.z - oldZ;

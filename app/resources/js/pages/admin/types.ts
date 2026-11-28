@@ -2,7 +2,7 @@ export type Category = {
     id: number;
     title: string;
     product_count: number;
-    showroom_slot: 'phone' | 'laptop' | 'headphone' | null;
+    showroom_slot: 'phone' | 'laptop' | 'gaming' | 'accessories' | null;
     created_at: string | null;
 };
 export type Product = {
@@ -14,6 +14,7 @@ export type Product = {
     product_category_id: number;
     image_url: string | null;
     model_url: string | null;
+    showroom_order: number | null;
     product_category: Category | null;
     created_at: string | null;
 };

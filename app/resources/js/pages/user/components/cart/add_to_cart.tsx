@@ -8,9 +8,14 @@ import { add, remove } from '@/routes/cart';
 type AddToCartProps = {
     product: ProductData;
     quantity: number;
+    locale?: 'en' | 'fa';
 };
 
-export default function AddToCart({ product, quantity }: AddToCartProps) {
+export default function AddToCart({
+    product,
+    quantity,
+    locale = 'fa',
+}: AddToCartProps) {
     const { auth } = usePage<{ auth: { user: unknown | null } }>().props;
     const available = quantity < product.stock;
 
@@ -51,14 +56,22 @@ export default function AddToCart({ product, quantity }: AddToCartProps) {
             {quantity > 0 ? (
                 <div
                     role="group"
-                    aria-label={`تعداد ${product.title}`}
+                    aria-label={
+                        locale === 'en'
+                            ? `Quantity of ${product.title}`
+                            : `تعداد ${product.title}`
+                    }
                     className="inline-flex h-9 w-16 shrink-0 items-center justify-between rounded-lg border-0 bg-brand/10 text-foreground"
                 >
                     <button
                         type="button"
                         onClick={() => updateCart('add')}
                         disabled={processing || !available}
-                        aria-label={`افزایش تعداد ${product.title}`}
+                        aria-label={
+                            locale === 'en'
+                                ? `Increase quantity of ${product.title}`
+                                : `افزایش تعداد ${product.title}`
+                        }
                         className="flex h-9 w-5 shrink-0 cursor-pointer items-center justify-center rounded-md focus-visible:outline-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-40"
                     >
                         <Plus size={14} aria-hidden="true" />
@@ -68,13 +81,19 @@ export default function AddToCart({ product, quantity }: AddToCartProps) {
                         aria-atomic="true"
                         className="min-w-0 flex-1 truncate text-center text-xs font-semibold tabular-nums"
                     >
-                        {quantity.toLocaleString('fa-IR')}
+                        {quantity.toLocaleString(
+                            locale === 'en' ? 'en-US' : 'fa-IR',
+                        )}
                     </span>
                     <button
                         type="button"
                         onClick={() => updateCart('remove')}
                         disabled={processing}
-                        aria-label={`کاهش تعداد ${product.title}`}
+                        aria-label={
+                            locale === 'en'
+                                ? `Decrease quantity of ${product.title}`
+                                : `کاهش تعداد ${product.title}`
+                        }
                         className="flex h-9 w-5 shrink-0 cursor-pointer items-center justify-center rounded-md focus-visible:outline-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-40"
                     >
                         <Minus size={14} aria-hidden="true" />
@@ -85,8 +104,20 @@ export default function AddToCart({ product, quantity }: AddToCartProps) {
                     type="button"
                     onClick={() => updateCart('add')}
                     disabled={processing || !available}
-                    aria-label={`افزودن ${product.title} به سبد خرید`}
-                    title={available ? 'افزودن به سبد خرید' : 'ناموجود'}
+                    aria-label={
+                        locale === 'en'
+                            ? `Add ${product.title} to cart`
+                            : `افزودن ${product.title} به سبد خرید`
+                    }
+                    title={
+                        locale === 'en'
+                            ? available
+                                ? 'Add to cart'
+                                : 'Out of stock'
+                            : available
+                              ? 'افزودن به سبد خرید'
+                              : 'ناموجود'
+                    }
                     aria-busy={processing}
                     className="button-primary cart-add-button inline-flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-lg border-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-40"
                 >

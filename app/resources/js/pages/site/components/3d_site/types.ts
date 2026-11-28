@@ -1,11 +1,11 @@
-export type ShowroomSlot = 'phone' | 'laptop' | 'headphone';
+export type ShowroomSlot = 'phone' | 'laptop' | 'gaming' | 'accessories';
 export type ShowroomProduct = {
     id: number;
     title: string;
     description: string | null;
     price: number;
     stock: number;
-    model_url: string;
+    model_url: string | null;
     image_url: string | null;
 };
 export type ShowroomTable = {
@@ -17,4 +17,5 @@ export type ShowroomTable = {
         product_count: number;
     } | null;
     products: ShowroomProduct[];
+    catalog_products: ShowroomProduct[];
 };

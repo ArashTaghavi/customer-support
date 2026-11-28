@@ -8,61 +8,101 @@
   },
   {
     "file": "business-laptop.glb",
+    "title": "Business Laptop",
+    "category": "Laptop",
     "copyright": "\"Business Laptop\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/laptops",
+    "download_url": "https://vinish-models.pages.dev/laptops/business-laptop.glb",
     "license": "CC-BY-4.0",
     "sha256": "3be25fa98701cf7c8d98bc74f0e6ba60dc174741cd25d70e2f8b23a16c39794f"
   },
   {
     "file": "camera-phone.glb",
+    "title": "Camera Phone",
+    "category": "Phone",
     "copyright": "\"Camera Phone\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/phones-and-tablets",
+    "download_url": "https://vinish-models.pages.dev/phones/camera-phone.glb",
     "license": "CC-BY-4.0",
     "sha256": "bfb3fedc6e9da67e4602010876d085f343ffbfe02019a0a26e24e59f0dc0a338"
   },
   {
     "file": "foldable-phone.glb",
+    "title": "Foldable Phone",
+    "category": "Phone",
     "copyright": "\"Foldable Phone\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/phones-and-tablets",
+    "download_url": "https://vinish-models.pages.dev/phones/foldable-phone.glb",
     "license": "CC-BY-4.0",
     "sha256": "c671339267b499a247907a48849728b95ffbbf65ce8b07e8fedc4b4de7bd78d2"
   },
   {
     "file": "gaming-headset.glb",
+    "title": "Gaming Headset",
+    "category": "Gaming",
     "copyright": "\"Gaming Headset\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/headphones-and-speakers",
+    "download_url": "https://vinish-models.pages.dev/audio/gaming-headset.glb",
     "license": "CC-BY-4.0",
     "sha256": "af572ffbb91d1be528267969523111c042079f07ad82777c90366ea95df5480e"
   },
   {
     "file": "gaming-laptop.glb",
+    "title": "Gaming Laptop",
+    "category": "Laptop",
     "copyright": "\"Gaming Laptop\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/laptops",
+    "download_url": "https://vinish-models.pages.dev/laptops/gaming-laptop.glb",
     "license": "CC-BY-4.0",
     "sha256": "198db81713a46fba58710ddc88dc63cf476f93c65a404792067a99203b75bf22"
   },
   {
     "file": "over-ear-headphones.glb",
+    "title": "Over-Ear Headphones",
+    "category": "Accessories",
     "copyright": "\"Over-Ear Headphones\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/headphones-and-speakers",
+    "download_url": "https://vinish-models.pages.dev/audio/over-ear-headphones.glb",
     "license": "CC-BY-4.0",
     "sha256": "125ef84ec04797cd99c898539a6edfb38024faf557cb078b79e9b82c8cab297c"
   },
   {
     "file": "smartphone.glb",
+    "title": "Smartphone",
+    "category": "Phone",
     "copyright": "\"Smartphone\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/phones-and-tablets",
+    "download_url": "https://vinish-models.pages.dev/phones/smartphone.glb",
     "license": "CC-BY-4.0",
     "sha256": "4f5502ceeedb7adeb523a6b054a56616a1f3ad027033033f3a9e3feb70575561"
   },
   {
     "file": "studio-headphones.glb",
+    "title": "Studio Headphones",
+    "category": "Accessories",
     "copyright": "\"Studio Headphones\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/headphones-and-speakers",
+    "download_url": "https://vinish-models.pages.dev/audio/studio-headphones.glb",
     "license": "CC-BY-4.0",
     "sha256": "29346d0b92769c1ba7ebb47abab003e60a91155add185c7b3cc8a1b66b252cbe"
   },
   {
     "file": "thin-laptop.glb",
+    "title": "Thin Laptop",
+    "category": "Laptop",
     "copyright": "\"Thin Laptop\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/laptops",
+    "download_url": "https://vinish-models.pages.dev/laptops/thin-laptop.glb",
     "license": "CC-BY-4.0",
     "sha256": "646e48513a3dab2d5dc87e89a4eaa19a04f29896a98a6219ab65cb181ec55ba9"
   },
   {
     "file": "wireless-earbuds.glb",
+    "title": "Wireless Earbuds",
+    "category": "Accessories",
     "copyright": "\"Wireless Earbuds\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/headphones-and-speakers",
+    "download_url": "https://vinish-models.pages.dev/audio/wireless-earbuds.glb",
     "license": "CC-BY-4.0",
     "sha256": "d78fd797d03d4868a122044c7e90feeffcb516498115a1fa35f992399839914c"
   },
@@ -74,5 +114,565 @@
     "licenseFile": "unitree-g1-LICENSE.txt",
     "modifications": "Converted official G1 29-DOF hand-equipped URDF/STL to Y-up GLB; neutral standing pose; PBR materials; geometry optimized for web display. Added fitted opaque face visor and removed chest logo geometry.",
     "sha256": "d8bb71869611e2f583bf29adc5ea410aece78d81aa9d1116aab5e074d38ca724"
+  },
+  {
+    "file": "tower-console.glb",
+    "title": "Tower Console",
+    "category": "Gaming",
+    "copyright": "\"Tower Console\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/game-controllers-and-consoles",
+    "download_url": "https://vinish-models.pages.dev/game-controllers-and-consoles/tower-console.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "a56bc41400ec0666940ff36925fe222bfd04c9721bd1222dca7c24248bc1ab85"
+  },
+  {
+    "file": "wireless-gamepad.glb",
+    "title": "Wireless Gamepad",
+    "category": "Gaming",
+    "copyright": "\"Wireless Gamepad\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/game-controllers-and-consoles",
+    "download_url": "https://vinish-models.pages.dev/game-controllers-and-consoles/wireless-gamepad.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "92ef5af66dbdf50d3cf87572bbf08836d2f1b31102ac0321f2d4d36ed76a312d"
+  },
+  {
+    "file": "usb-wall-charger.glb",
+    "title": "USB Wall Charger",
+    "category": "Accessories",
+    "copyright": "\"USB Wall Charger\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/batteries-and-chargers",
+    "download_url": "https://vinish-models.pages.dev/batteries-and-chargers/usb-wall-charger.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "929c3ed4359102bfcb3c6d3dc395dce175363f2e79a248790fbd4f2e176a34df"
+  },
+  {
+    "file": "wireless-charging-pad.glb",
+    "title": "Wireless Charging Pad",
+    "category": "Accessories",
+    "copyright": "\"Wireless Charging Pad\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/batteries-and-chargers",
+    "download_url": "https://vinish-models.pages.dev/batteries-and-chargers/wireless-charging-pad.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "838a9523823450313c93b3a36810e4c8e34949a143ec6958d20a2ffdd641223d"
+  },
+  {
+    "file": "flip-phone.glb",
+    "title": "Flip Phone",
+    "category": "Phone",
+    "copyright": "\"Flip Phone\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/phones-and-tablets",
+    "download_url": "https://vinish-models.pages.dev/phones/flip-phone.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "bbc0ad82b0788e604fa3f60bb3b6e52f5e83c45634ae07c2bf2a88088e0ab73e"
+  },
+  {
+    "file": "button-phone.glb",
+    "title": "Button Phone",
+    "category": "Phone",
+    "copyright": "\"Button Phone\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/phones-and-tablets",
+    "download_url": "https://vinish-models.pages.dev/phones/button-phone.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "6c8267a51a3ef30c9f9f55865fb2cf7d9f40421f376d1717cdf68b640e66a8ff"
+  },
+  {
+    "file": "rugged-phone.glb",
+    "title": "Rugged Phone",
+    "category": "Phone",
+    "copyright": "\"Rugged Phone\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/phones-and-tablets",
+    "download_url": "https://vinish-models.pages.dev/phones/rugged-phone.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "52f5cba41bf8c84ba33369431251c79950c3a84c4dd91df6de6264b4fdd505da"
+  },
+  {
+    "file": "tablet-with-pen.glb",
+    "title": "Tablet with Pen",
+    "category": "Phone",
+    "copyright": "\"Tablet with Pen\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/phones-and-tablets",
+    "download_url": "https://vinish-models.pages.dev/phones/tablet-with-pen.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "72df6edb889bccc27c8ced4539adbb9116b113982573bbeb9391a2fa6e62ac51"
+  },
+  {
+    "file": "tablet-with-keyboard.glb",
+    "title": "Tablet with Keyboard",
+    "category": "Phone",
+    "copyright": "\"Tablet with Keyboard\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/phones-and-tablets",
+    "download_url": "https://vinish-models.pages.dev/phones/tablet-with-keyboard.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "93fd18c80f29fc6847f577669e6f3a69f77766e8a512f74745a5627ec7adbdb3"
+  },
+  {
+    "file": "kids-tablet.glb",
+    "title": "Kids Tablet",
+    "category": "Phone",
+    "copyright": "\"Kids Tablet\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/phones-and-tablets",
+    "download_url": "https://vinish-models.pages.dev/phones/kids-tablet.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "daab613728dfbbdd659ca515aef7dc14b9792ebb7da0852309ba282b0f1c2ab8"
+  },
+  {
+    "file": "e-reader.glb",
+    "title": "E-Reader",
+    "category": "Phone",
+    "copyright": "\"E-Reader\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/phones-and-tablets",
+    "download_url": "https://vinish-models.pages.dev/phones/e-reader.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "94265f58d988998c4ff6e2dccb32a56bc2654285cc1be7c2fc34c59fd76c6536"
+  },
+  {
+    "file": "desk-phone.glb",
+    "title": "Desk Phone",
+    "category": "Phone",
+    "copyright": "\"Desk Phone\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/phones-and-tablets",
+    "download_url": "https://vinish-models.pages.dev/phones/desk-phone.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "be0ab874cd782f0383a3bfe2afda228e69e77b3e44a75abbd76f2940af2aabaa"
+  },
+  {
+    "file": "phone-charging-stand.glb",
+    "title": "Phone Charging Stand",
+    "category": "Accessories",
+    "copyright": "\"Phone Charging Stand\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/phones-and-tablets",
+    "download_url": "https://vinish-models.pages.dev/phones/phone-charging-stand.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "61dc3444c94bb33190d4032ea2dfa260109b7e6ae91d8377d43bc7cd6da66f90"
+  },
+  {
+    "file": "cyberdeck.glb",
+    "title": "Cyberdeck",
+    "category": "Laptop",
+    "copyright": "\"Cyberdeck\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/laptops",
+    "download_url": "https://vinish-models.pages.dev/laptops/cyberdeck.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "de620af8020561a65d9d4c38d8bcd54df5745fb7a1aedfd538885d23594e8c0a"
+  },
+  {
+    "file": "rugged-laptop.glb",
+    "title": "Rugged Laptop",
+    "category": "Laptop",
+    "copyright": "\"Rugged Laptop\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/laptops",
+    "download_url": "https://vinish-models.pages.dev/laptops/rugged-laptop.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "2e64d57c3b601e57eeedc847b213563ee44bda9d120f6689ff96d5c4e009be26"
+  },
+  {
+    "file": "convertible-laptop.glb",
+    "title": "Convertible Laptop",
+    "category": "Laptop",
+    "copyright": "\"Convertible Laptop\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/laptops",
+    "download_url": "https://vinish-models.pages.dev/laptops/convertible-laptop.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "252dce9ad2b42fe81b0ea88cbda7c7b2d6bb9aff0291af927a4246dc96be6694"
+  },
+  {
+    "file": "tablet-laptop.glb",
+    "title": "Tablet Laptop",
+    "category": "Laptop",
+    "copyright": "\"Tablet Laptop\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/laptops",
+    "download_url": "https://vinish-models.pages.dev/laptops/tablet-laptop.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "a06fe98144c3806441ff88d6ada0e352f61326de119cdd4750695a2a1e9eef33"
+  },
+  {
+    "file": "dual-screen-laptop.glb",
+    "title": "Dual-Screen Laptop",
+    "category": "Laptop",
+    "copyright": "\"Dual-Screen Laptop\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/laptops",
+    "download_url": "https://vinish-models.pages.dev/laptops/dual-screen-laptop.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "3327c2074bab7f5aae0f95a2486bc69117dac7ac01f115cc162e12a45a9201d6"
+  },
+  {
+    "file": "school-laptop.glb",
+    "title": "School Laptop",
+    "category": "Laptop",
+    "copyright": "\"School Laptop\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/laptops",
+    "download_url": "https://vinish-models.pages.dev/laptops/school-laptop.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "1a71aad2ff165d1508cab71e3f652d95a6fee3c54edb4d6afddb4f8fa88d8e9d"
+  },
+  {
+    "file": "2000s-laptop.glb",
+    "title": "2000s Laptop",
+    "category": "Laptop",
+    "copyright": "\"2000s Laptop\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/laptops",
+    "download_url": "https://vinish-models.pages.dev/laptops/2000s-laptop.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "df6426da75f02da41b10e231e43214310770326e7bb01c3f4079c0963180f68a"
+  },
+  {
+    "file": "1990s-laptop.glb",
+    "title": "1990s Laptop",
+    "category": "Laptop",
+    "copyright": "\"1990s Laptop\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/laptops",
+    "download_url": "https://vinish-models.pages.dev/laptops/1990s-laptop.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "03b5cadb3af316da7aedef7fb01c08aad7081d1cbd31135c3456570abe7908d5"
+  },
+  {
+    "file": "1980s-portable-computer.glb",
+    "title": "1980s Portable Computer",
+    "category": "Laptop",
+    "copyright": "\"1980s Portable Computer\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/laptops",
+    "download_url": "https://vinish-models.pages.dev/laptops/1980s-portable-computer.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "2fc53c36fa872bb6ed599310c6f8cef24c1eccefff5402b4a2329a94de0b2420"
+  },
+  {
+    "file": "gaming-pc.glb",
+    "title": "Gaming PC",
+    "category": "Gaming",
+    "copyright": "\"Gaming PC\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/computers",
+    "download_url": "https://vinish-models.pages.dev/computers/gaming-pc.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "b81ea3206af5008ddf9578f414f8b28b36e4d55e4d96ed58b5ea1384d1506d31"
+  },
+  {
+    "file": "panoramic-gaming-pc.glb",
+    "title": "Panoramic Gaming PC",
+    "category": "Gaming",
+    "copyright": "\"Panoramic Gaming PC\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/computers",
+    "download_url": "https://vinish-models.pages.dev/computers/panoramic-gaming-pc.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "3a20a569b3c566b0ebe83c2380aaa8cdd915250f6eb496fd86e1965b7262203e"
+  },
+  {
+    "file": "desktop-computer-set.glb",
+    "title": "Desktop Computer Set",
+    "category": "Laptop",
+    "copyright": "\"Desktop Computer Set\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/computers",
+    "download_url": "https://vinish-models.pages.dev/computers/desktop-computer-set.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "a5b88c164d346e5aa99189368d892deeafadbee56734b49aceff1933aed005ea"
+  },
+  {
+    "file": "office-pc.glb",
+    "title": "Office PC",
+    "category": "Laptop",
+    "copyright": "\"Office PC\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/computers",
+    "download_url": "https://vinish-models.pages.dev/computers/office-pc.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "4709d1b32a5c22f145cde212fff729c20e5ce7fa3bd183cad602b33c8f65de5a"
+  },
+  {
+    "file": "workstation.glb",
+    "title": "Workstation",
+    "category": "Laptop",
+    "copyright": "\"Workstation\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/computers",
+    "download_url": "https://vinish-models.pages.dev/computers/workstation.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "8b00d422f7d4c45109916f2606e4dbe1d70715aefe0f4a1af8fbfa857c4fdab9"
+  },
+  {
+    "file": "all-in-one-computer.glb",
+    "title": "All-in-One Computer",
+    "category": "Laptop",
+    "copyright": "\"All-in-One Computer\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/computers",
+    "download_url": "https://vinish-models.pages.dev/computers/all-in-one-computer.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "5213a29bc13d3f9cedf09d84a0c4daccb1cfa003597a2468fd091434dfc6dbc2"
+  },
+  {
+    "file": "mini-pc.glb",
+    "title": "Mini PC",
+    "category": "Laptop",
+    "copyright": "\"Mini PC\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/computers",
+    "download_url": "https://vinish-models.pages.dev/computers/mini-pc.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "0e7e266a71a66444e97adf0fc39f7441997416fa5c15442a9f07092ae978b375"
+  },
+  {
+    "file": "cube-pc.glb",
+    "title": "Cube PC",
+    "category": "Laptop",
+    "copyright": "\"Cube PC\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/computers",
+    "download_url": "https://vinish-models.pages.dev/computers/cube-pc.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "a6e17880435f75d912dd59c3135203f96a473ecaf1cfd5a914fffa393ad9a508"
+  },
+  {
+    "file": "home-server.glb",
+    "title": "Home Server",
+    "category": "Laptop",
+    "copyright": "\"Home Server\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/computers",
+    "download_url": "https://vinish-models.pages.dev/computers/home-server.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "213212f52a3407de5012e3d3dbeb69531f9ac1f1e79acabea73011451448b738"
+  },
+  {
+    "file": "motherboard.glb",
+    "title": "Motherboard",
+    "category": "Accessories",
+    "copyright": "\"Motherboard\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/computers",
+    "download_url": "https://vinish-models.pages.dev/computers/motherboard.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "8b92a66eae1a3be83f3ac84f77bd50668444dc8307289202968841be298243ca"
+  },
+  {
+    "file": "graphics-card.glb",
+    "title": "Graphics Card",
+    "category": "Accessories",
+    "copyright": "\"Graphics Card\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/computers",
+    "download_url": "https://vinish-models.pages.dev/computers/graphics-card.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "7aadbab5ca6ef62bd0fabab4007e3915fef1887f918ade145ffc4c908fed34a4"
+  },
+  {
+    "file": "cpu-cooler.glb",
+    "title": "CPU Cooler",
+    "category": "Accessories",
+    "copyright": "\"CPU Cooler\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/computers",
+    "download_url": "https://vinish-models.pages.dev/computers/cpu-cooler.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "2ec6bd075d759bcd0965bf5e65a88992dac957dbee782d581c5e478104af10bf"
+  },
+  {
+    "file": "in-ear-monitors.glb",
+    "title": "In-Ear Monitors",
+    "category": "Accessories",
+    "copyright": "\"In-Ear Monitors\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/headphones-and-speakers",
+    "download_url": "https://vinish-models.pages.dev/audio/in-ear-monitors.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "29b6c98f90ca6db4bdbb4b083c488a5a30ba81131696a1be5a7ef2944225b78a"
+  },
+  {
+    "file": "bookshelf-speaker.glb",
+    "title": "Bookshelf Speaker",
+    "category": "Accessories",
+    "copyright": "\"Bookshelf Speaker\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/headphones-and-speakers",
+    "download_url": "https://vinish-models.pages.dev/audio/bookshelf-speaker.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "4a1b7879a2ba4fcdd540dc4244e283b1b6f695a47b3e8083c9f5e19dac73329c"
+  },
+  {
+    "file": "floor-speaker.glb",
+    "title": "Floor Speaker",
+    "category": "Accessories",
+    "copyright": "\"Floor Speaker\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/headphones-and-speakers",
+    "download_url": "https://vinish-models.pages.dev/audio/floor-speaker.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "60272beb63be0dd73feee736b5166a5ccfade9da558b9ba42e61a4dfb4c0d891"
+  },
+  {
+    "file": "soundbar-set.glb",
+    "title": "Soundbar Set",
+    "category": "Accessories",
+    "copyright": "\"Soundbar Set\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/headphones-and-speakers",
+    "download_url": "https://vinish-models.pages.dev/audio/soundbar-set.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "3dccfb0a2639db51253e5989d92ef3f6f439e1c2b28f3ba144fdb5828c5bb3c5"
+  },
+  {
+    "file": "smart-speaker.glb",
+    "title": "Smart Speaker",
+    "category": "Accessories",
+    "copyright": "\"Smart Speaker\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/headphones-and-speakers",
+    "download_url": "https://vinish-models.pages.dev/audio/smart-speaker.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "1cbce98f0c5aa02383411f39e9d5feb13be4cc0b771be570b93c69383363b686"
+  },
+  {
+    "file": "portable-speaker.glb",
+    "title": "Portable Speaker",
+    "category": "Accessories",
+    "copyright": "\"Portable Speaker\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/headphones-and-speakers",
+    "download_url": "https://vinish-models.pages.dev/audio/portable-speaker.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "673682c3ff401486ed97d93aae84e09a55a8a89497b310390faf575be1889f5b"
+  },
+  {
+    "file": "studio-monitor.glb",
+    "title": "Studio Monitor",
+    "category": "Accessories",
+    "copyright": "\"Studio Monitor\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/headphones-and-speakers",
+    "download_url": "https://vinish-models.pages.dev/audio/studio-monitor.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "5959e15c0d938507f7c1f7378199459b9c370e9f40dd955ea794b749af01655b"
+  },
+  {
+    "file": "stage-speaker.glb",
+    "title": "Stage Speaker",
+    "category": "Accessories",
+    "copyright": "\"Stage Speaker\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/headphones-and-speakers",
+    "download_url": "https://vinish-models.pages.dev/audio/stage-speaker.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "d92eb43217aaa74d2a5b2c0f78857754905326d290f56ac3a8888697761390ac"
+  },
+  {
+    "file": "retro-gamepad.glb",
+    "title": "Retro Gamepad",
+    "category": "Gaming",
+    "copyright": "\"Retro Gamepad\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/game-controllers-and-consoles",
+    "download_url": "https://vinish-models.pages.dev/game-controllers-and-consoles/retro-gamepad.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "1a94861338d0f641c7534b8242ab208b2f7618ebdada117d469566dfb9c85c6f"
+  },
+  {
+    "file": "arcade-fight-stick.glb",
+    "title": "Arcade Fight Stick",
+    "category": "Gaming",
+    "copyright": "\"Arcade Fight Stick\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/game-controllers-and-consoles",
+    "download_url": "https://vinish-models.pages.dev/game-controllers-and-consoles/arcade-fight-stick.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "9ad37697dee442aa774298b82295a87d02c92fc7b5bc738a0e741739851795f0"
+  },
+  {
+    "file": "flight-stick.glb",
+    "title": "Flight Stick",
+    "category": "Gaming",
+    "copyright": "\"Flight Stick\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/game-controllers-and-consoles",
+    "download_url": "https://vinish-models.pages.dev/game-controllers-and-consoles/flight-stick.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "e2e99e45a2a872fd07683cfabe1ddf46a011bcb70a8fe5b851c38ab88633ab9c"
+  },
+  {
+    "file": "racing-wheel.glb",
+    "title": "Racing Wheel",
+    "category": "Gaming",
+    "copyright": "\"Racing Wheel\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/game-controllers-and-consoles",
+    "download_url": "https://vinish-models.pages.dev/game-controllers-and-consoles/racing-wheel.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "4856d43c6741e4c5025115840a6592875df1a74867b4d42be56a11e6e9c33ee5"
+  },
+  {
+    "file": "racing-pedals.glb",
+    "title": "Racing Pedals",
+    "category": "Gaming",
+    "copyright": "\"Racing Pedals\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/game-controllers-and-consoles",
+    "download_url": "https://vinish-models.pages.dev/game-controllers-and-consoles/racing-pedals.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "b44b5f8d5c123565f5bfca4ea12e6318b9e6ca501b9f08e13d70e752515ba2bf"
+  },
+  {
+    "file": "handheld-console.glb",
+    "title": "Handheld Console",
+    "category": "Gaming",
+    "copyright": "\"Handheld Console\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/game-controllers-and-consoles",
+    "download_url": "https://vinish-models.pages.dev/game-controllers-and-consoles/handheld-console.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "42757723367c5ab061a3cfe267f088b13e7cd404baa8a0d64717fba379f30aa1"
+  },
+  {
+    "file": "handheld-gaming-pc.glb",
+    "title": "Handheld Gaming PC",
+    "category": "Gaming",
+    "copyright": "\"Handheld Gaming PC\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/game-controllers-and-consoles",
+    "download_url": "https://vinish-models.pages.dev/game-controllers-and-consoles/handheld-gaming-pc.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "d1e33bc79b1cc38e70a89f8fd2b12669b7888c1034a0051493edc048a25bc62b"
+  },
+  {
+    "file": "retro-cartridge-console.glb",
+    "title": "Retro Cartridge Console",
+    "category": "Gaming",
+    "copyright": "\"Retro Cartridge Console\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/game-controllers-and-consoles",
+    "download_url": "https://vinish-models.pages.dev/game-controllers-and-consoles/retro-cartridge-console.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "e77e6336bc99640582b54173f5d81b3074aaf6079c83649ef186e103193b193a"
+  },
+  {
+    "file": "vr-headset.glb",
+    "title": "VR Headset",
+    "category": "Gaming",
+    "copyright": "\"VR Headset\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/game-controllers-and-consoles",
+    "download_url": "https://vinish-models.pages.dev/game-controllers-and-consoles/vr-headset.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "5ad129c806a8dcb374cb4c500e8cc98d003f9aa74fc3ef8d8994a75ef0da7037"
+  },
+  {
+    "file": "vr-controllers.glb",
+    "title": "VR Controllers",
+    "category": "Gaming",
+    "copyright": "\"VR Controllers\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/game-controllers-and-consoles",
+    "download_url": "https://vinish-models.pages.dev/game-controllers-and-consoles/vr-controllers.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "7b9e0b1d0c02ff1e32ce571fbc061811a4ec3e38ec4da4d371c138b9baae1510"
+  },
+  {
+    "file": "power-bank.glb",
+    "title": "Power Bank",
+    "category": "Accessories",
+    "copyright": "\"Power Bank\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/batteries-and-chargers",
+    "download_url": "https://vinish-models.pages.dev/batteries-and-chargers/power-bank.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "a87d5bf1c80410f07def95005afe419cee29d3875e765a7efb0381b916b8a746"
+  },
+  {
+    "file": "battery-charger-dock.glb",
+    "title": "Battery Charger Dock",
+    "category": "Accessories",
+    "copyright": "\"Battery Charger Dock\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/batteries-and-chargers",
+    "download_url": "https://vinish-models.pages.dev/batteries-and-chargers/battery-charger-dock.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "ac8a53a717fc58a8032a1c7ad29eefd1911fc457caf6aa2d20195479f89c2731"
+  },
+  {
+    "file": "laptop-power-brick.glb",
+    "title": "Laptop Power Brick",
+    "category": "Accessories",
+    "copyright": "\"Laptop Power Brick\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/batteries-and-chargers",
+    "download_url": "https://vinish-models.pages.dev/batteries-and-chargers/laptop-power-brick.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "bd685e19b3046e8e0e487e8dfd60d5f7a396c71ad11ba62dd7501c1aa187fe3e"
+  },
+  {
+    "file": "portable-power-station.glb",
+    "title": "Portable Power Station",
+    "category": "Accessories",
+    "copyright": "\"Portable Power Station\" by vinish.dev (https://vinish.dev/free-3d-models/), CC BY 4.0",
+    "source": "https://vinish.dev/free-3d-models/batteries-and-chargers",
+    "download_url": "https://vinish-models.pages.dev/batteries-and-chargers/portable-power-station.glb",
+    "license": "CC-BY-4.0",
+    "sha256": "9f11bdda32cf42b45a3416ddf1da06c3b6514affcf6b05ea615b8ec3a9398318"
   }
 ]

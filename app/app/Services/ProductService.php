@@ -24,7 +24,7 @@ class ProductService
         $oldModel = $product->model_file;
         $newFiles = [];
         $oldCategory = $product->product_category_id;
-        $attributes = array_intersect_key($data, array_flip(['title', 'description', 'price', 'stock', 'product_category_id']));
+        $attributes = array_intersect_key($data, array_flip(['title', 'description', 'price', 'stock', 'showroom_order', 'product_category_id']));
         $attributes['image'] = ! empty($data['remove_image']) ? null : $oldImage;
         $attributes['model_file'] = ! empty($data['remove_model_file']) ? null : $oldModel;
         try {

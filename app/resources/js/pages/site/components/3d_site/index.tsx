@@ -26,12 +26,13 @@ import { Eye, EyeOff, Info, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import {
     ShowroomFloor,
     TableFinish,
-    tableCenters,
-    tableZ,
+    tablePositions,
+    tableViews,
     userRoomEntrance,
     userRoomDeskZ,
 } from './surfaces';
-import RobotController from './robot_controller';
+import RobotController, { type RobotDestination } from './robot_controller';
+import CategoryModal from './category_modal';
 import './showroom.css';
 import font from '../../../../../fonts/vazirmatn-400-normal-GKyMcI03.woff';
 type V = [number, number, number];
@@ -238,14 +239,15 @@ function Table({
     kind,
     products,
     onPick,
+    showPagination,
 }: {
     p: V;
     label: string;
     kind: number;
     products: ShowroomProduct[];
     onPick: (product: ShowroomProduct) => void;
+    showPagination: boolean;
 }) {
-    const visible = React.useContext(InterfaceVisible);
     const [page, setPage] = useState(0);
     const capacity = kind === 1 ? 3 : 4;
     const pages = Math.max(1, Math.ceil(products.length / capacity));
@@ -317,13 +319,23 @@ function Table({
                         >
                             <ProductModel
                                 name={product.title}
-                                url={product.model_url}
+                                url={product.model_url ?? undefined}
                                 p={[0, 0.07, 0]}
                                 height={
-                                    kind === 0 ? 0.42 : kind === 1 ? 0.4 : 0.34
+                                    kind === 0
+                                        ? 0.42
+                                        : kind === 1
+                                          ? 0.4
+                                          : kind === 3
+                                            ? 0.24
+                                            : 0.34
                                 }
-                                maxWidth={kind === 1 ? 1.03 : 0.65}
-                                maxDepth={kind === 1 ? 0.8 : 0.55}
+                                maxWidth={
+                                    kind === 1 ? 1.03 : kind === 3 ? 0.5 : 0.65
+                                }
+                                maxDepth={
+                                    kind === 1 ? 0.8 : kind === 3 ? 0.42 : 0.55
+                                }
                             />
                         </Suspense>
                     </ProductModelBoundary>
@@ -334,10 +346,12 @@ function Table({
                     </Sign>
                 </group>
             ))}
-            {visible && pages > 1 && (
-                <Html position={[0, 0.45, 0.7]} center distanceFactor={8}>
+            {showPagination && pages > 1 && (
+                <Html position={[0, 0.72, 0.91]} center distanceFactor={8}>
                     <div
                         className="table-pagination"
+                        role="group"
+                        aria-label={`${label} display pages`}
                         onPointerDown={(event) => event.stopPropagation()}
                     >
                         <button
@@ -348,7 +362,7 @@ function Table({
                         >
                             <ChevronLeft size={16} />
                         </button>
-                        <span>
+                        <span aria-live="polite" aria-atomic="true">
                             {current + 1} / {pages}
                         </span>
                         <button
@@ -780,6 +794,9 @@ function Architecture() {
     );
 }
 function Scene({
+    destination,
+    onArrive,
+    onTableReach,
     view,
     tables,
     onPick,
@@ -790,6 +807,9 @@ function Scene({
     panelSeated,
     onPanelSeated,
 }: {
+    destination: RobotDestination | null;
+    onArrive: (reached: boolean) => void;
+    onTableReach: (index: number) => void;
     view: string;
     tables: ShowroomTable[];
     onPick: (product: ShowroomProduct) => void;
@@ -807,6 +827,7 @@ function Scene({
             responsiveCamera.updateProjectionMatrix();
         }
     }, [responsiveCamera, size.width, size.height]);
+    const [nearbyTable, setNearbyTable] = useState<number | null>(null);
     const controls = useRef<any>(null);
     const target = useRef<V>([0, 0, 0]);
     const dest = useRef<V>([12, 10, 15]);
@@ -816,18 +837,18 @@ function Scene({
                 [12, 10, 15],
                 [0, 0, -1],
             ],
-            phones: [
-                [-6, 4, 7],
-                [-4, 1, 1],
-            ],
-            laptops: [
-                [0, 4, 7],
-                [0, 1, 1],
-            ],
-            audio: [
-                [6, 4, 7],
-                [4, 1, 1],
-            ],
+            ...Object.fromEntries(
+                tableViews.map((name, index) => {
+                    const [x, z] = tablePositions[index];
+                    return [
+                        name,
+                        [
+                            [x, 4, z + 6],
+                            [x, 1, z],
+                        ] as [V, V],
+                    ];
+                }),
+            ),
             management: [
                 [-4.6, 2.15, -0.4],
                 [-officeCenter, 0.95, deskZ],
@@ -849,6 +870,9 @@ function Scene({
         moving.current = !panelEntering;
     }, [panelEntering]);
     const moving = useRef(true);
+    useEffect(() => {
+        if (destination) moving.current = false;
+    }, [destination]);
     const waypoint = React.useMemo(() => new THREE.Vector3(), []);
     useFrame(({ camera }, dt) => {
         if (panelEntering && controls.current) {
@@ -869,6 +893,23 @@ function Scene({
                 1 - Math.exp(-dt * 4),
             );
             controls.current.update();
+            return;
+        }
+        if (destination && controls.current) {
+            actor.current ??= scene.getObjectByName('controlled-robot') ?? null;
+            const robot = actor.current;
+            if (robot) {
+                waypoint
+                    .set(0, 2.6, -4.2)
+                    .applyQuaternion(robot.quaternion)
+                    .add(robot.position);
+                camera.position.lerp(waypoint, 1 - Math.exp(-dt * 4));
+                controls.current.target.lerp(
+                    waypoint.set(robot.position.x, 1.1, robot.position.z),
+                    1 - Math.exp(-dt * 6),
+                );
+                controls.current.update();
+            }
             return;
         }
         if (moving.current && controls.current) {
@@ -929,21 +970,28 @@ function Scene({
                 label="USER PANEL"
                 entering={panelEntering}
             />
-            {tableCenters.map((x, i) => (
+            {tablePositions.map(([x, z], i) => (
                 <Table
-                    key={x}
-                    p={[x, 0, tableZ]}
+                    key={tables[i]?.slot ?? i}
+                    p={[x, 0, z]}
                     kind={i}
                     label={
                         tables[i]?.category?.title ??
-                        ['phone', 'laptop', 'headphone'][i]
+                        ['Phone', 'Laptop', 'Gaming', 'Accessories'][i]
                     }
                     products={tables[i]?.products ?? []}
+                    showPagination={
+                        nearbyTable === i && !destination && !panelEntering
+                    }
                     onPick={onPick}
                 />
             ))}
             <Suspense fallback={null}>
                 <RobotController
+                    destination={destination}
+                    onArrive={onArrive}
+                    onTableReach={onTableReach}
+                    onTableProximityChange={setNearbyTable}
                     enabled={robotEnabled}
                     onUserRoomEnter={onUserRoomEnter}
                     panelEntering={panelEntering}
@@ -964,7 +1012,7 @@ function Scene({
             <OrbitControls
                 ref={controls}
                 makeDefault
-                enabled={!panelEntering}
+                enabled={!panelEntering && !destination}
                 enableDamping
                 enablePan
                 screenSpacePanning
@@ -1015,6 +1063,32 @@ export default function ThreeDSite({
     const [interfaceVisible, setInterfaceVisible] = useState(false);
     const [quality, setQuality] = useState(true);
     const [view, setView] = useState('overview');
+    const [destination, setDestination] = useState<RobotDestination | null>(
+        null,
+    );
+    const [activeTable, setActiveTable] = useState<number | null>(null);
+    const navigationId = useRef(0);
+    function navigate(next: string) {
+        setView(next);
+        setSelected(null);
+        setActiveTable(null);
+        const index = tableViews.indexOf(next);
+        const positions: Record<string, [number, number, number]> = {
+            overview: [0, 2.5, Math.PI],
+            management: [-userRoomEntrance.x, -2.1, Math.PI],
+            user: [userRoomEntrance.x, -2.1, Math.PI],
+            lounge: [3.8, 3.95, Math.PI / 2],
+        };
+        const [x, z, yaw] =
+            index >= 0
+                ? [
+                      tablePositions[index][0],
+                      tablePositions[index][1] + 1.4,
+                      Math.PI,
+                  ]
+                : positions[next];
+        setDestination({ id: ++navigationId.current, x, z, yaw });
+    }
     const [selected, setSelected] = useState<ShowroomProduct | null>(null);
     return (
         <InterfaceVisible.Provider value={interfaceVisible}>
@@ -1073,10 +1147,21 @@ export default function ThreeDSite({
                     >
                         <Suspense fallback={null}>
                             <Scene
+                                destination={destination}
+                                onArrive={(reached) => {
+                                    setDestination(null);
+                                    if (!reached) return;
+                                    const index = tableViews.indexOf(view);
+                                    if (index >= 0) setActiveTable(index);
+                                    if (view === 'user') onUserRoomEnter?.();
+                                }}
+                                onTableReach={setActiveTable}
                                 view={view}
                                 tables={tables}
                                 quality={quality}
-                                robotEnabled={robotEnabled}
+                                robotEnabled={
+                                    robotEnabled && activeTable === null
+                                }
                                 panelEntering={panelEntering}
                                 panelSeated={panelSeated}
                                 onPanelSeated={onPanelSeated}
@@ -1120,9 +1205,11 @@ export default function ThreeDSite({
                 <nav>
                     {Object.entries({
                         overview: 'Overview',
-                        phones: tables[0]?.category?.title ?? 'phone',
-                        laptops: tables[1]?.category?.title ?? 'laptop',
-                        audio: tables[2]?.category?.title ?? 'headphone',
+                        phones: tables[0]?.category?.title ?? 'Phone',
+                        laptops: tables[1]?.category?.title ?? 'Laptop',
+                        gaming: tables[2]?.category?.title ?? 'Gaming',
+                        accessories:
+                            tables[3]?.category?.title ?? 'Accessories',
                         management: 'Management',
                         user: 'User panel',
                         lounge: 'Lounge',
@@ -1130,12 +1217,19 @@ export default function ThreeDSite({
                         <button
                             className={view === k ? 'active' : ''}
                             key={k}
-                            onClick={() => setView(k)}
+                            disabled={panelEntering}
+                            onClick={() => navigate(k)}
                         >
                             {v}
                         </button>
                     ))}
                 </nav>
+                {activeTable !== null && (
+                    <CategoryModal
+                        table={tables[activeTable]}
+                        onClose={() => setActiveTable(null)}
+                    />
+                )}
                 <footer>
                     <details className="asset-credits">
                         <summary

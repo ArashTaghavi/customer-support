@@ -22,6 +22,7 @@ use Override;
     'product_category_id',
     'image',
     'model_file',
+    'showroom_order',
 ])]
 class Product extends Model
 {
@@ -35,6 +36,7 @@ class Product extends Model
         return [
             'price' => 'integer',
             'stock' => 'integer',
+            'showroom_order' => 'integer',
             'product_category_id' => 'integer',
         ];
     }

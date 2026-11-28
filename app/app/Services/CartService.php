@@ -2,8 +2,11 @@
 
 namespace App\Services;
 
+use App\Models\Product\Product;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class CartService
 {
@@ -16,13 +19,22 @@ class CartService
 
     public function add(User $user, int $productId): void
     {
-        $user->cart()
-            ->firstOrCreate()
-            ->cartItems()
-            ->incrementOrCreate(
-                ['product_id' => $productId],
-                'quantity',
-            );
+        DB::transaction(function () use ($user, $productId): void {
+            $product = Product::query()->lockForUpdate()->findOrFail($productId);
+            $quantity = $user->cartItems()->where('product_id', $productId)->value('quantity') ?? 0;
+            if ($quantity >= $product->stock) {
+                throw ValidationException::withMessages([
+                    'cart' => 'The requested quantity exceeds available stock.',
+                ]);
+            }
+            $user->cart()
+                ->firstOrCreate()
+                ->cartItems()
+                ->incrementOrCreate(
+                    ['product_id' => $productId],
+                    'quantity',
+                );
+        });
     }
 
     public function remove(User $user, int $productId): void

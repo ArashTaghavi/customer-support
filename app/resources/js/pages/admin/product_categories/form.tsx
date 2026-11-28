@@ -78,7 +78,10 @@ export default function CategoryForm({
                             </option>
                             <option value="phone">Phone table</option>
                             <option value="laptop">Laptop table</option>
-                            <option value="headphone">Headphone table</option>
+                            <option value="gaming">Gaming table</option>
+                            <option value="accessories">
+                                Accessories table
+                            </option>
                         </select>
                         {errors.showroom_slot && (
                             <p role="alert" className="text-sm text-danger">
